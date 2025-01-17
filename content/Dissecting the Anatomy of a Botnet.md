@@ -106,7 +106,7 @@ graph TD
   Decision["Decision"]:::diamond
   Decision -->|"PING"| Respond["Respond with PONG"]
   Decision -->|"Record username"| Record["Parse and record the username<br>of the bot operator"]
-  Decision -->|"Issued commands"| Issue["Execute the\nissued commands"]
+  Decision -->|"Issued commands"| Issue["Execute the<br>issued commands"]
 
   classDef diamond shape:diamond, font-size:25px;
 
