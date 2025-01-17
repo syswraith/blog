@@ -1,0 +1,49 @@
+<svg width="548pt" height="139pt" viewBox="0.00 0.00 547.85 138.83" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 134.83)">
+<polygon fill="white" stroke="none" points="-4,4 -4,-134.83 543.85,-134.83 543.85,4 -4,4"/>
+<!-- Decision -->
+<g id="node1" class="node">
+<title>Decision</title>
+<polygon fill="none" stroke="black" points="276.71,-130.83 212.56,-112.83 276.71,-94.83 340.87,-112.83 276.71,-130.83"/>
+<text text-anchor="middle" x="276.71" y="-108.63" font-family="Times,serif" font-size="14.00">Decision</text>
+</g>
+<!-- Respond to PING\nwith PONG -->
+<g id="node2" class="node">
+<title>Respond to PING\nwith PONG</title>
+<ellipse fill="none" stroke="black" cx="81.71" cy="-29.42" rx="81.71" ry="29.42"/>
+<text text-anchor="middle" x="81.71" y="-33.62" font-family="Times,serif" font-size="14.00">Respond to PING</text>
+<text text-anchor="middle" x="81.71" y="-16.82" font-family="Times,serif" font-size="14.00">with PONG</text>
+</g>
+<!-- Decision&#45;&gt;Respond to PING\nwith PONG -->
+<g id="edge1" class="edge">
+<title>Decision-&gt;Respond to PING\nwith PONG</title>
+<path fill="none" stroke="black" d="M251.62,-101.35C224.75,-90.14 181.07,-71.9 144.73,-56.73"/>
+<polygon fill="black" stroke="black" points="146.18,-53.54 135.6,-52.92 143.48,-60 146.18,-53.54"/>
+</g>
+<!-- Record the username\nof the bot operator -->
+<g id="node3" class="node">
+<title>Record the username\nof the bot operator</title>
+<ellipse fill="none" stroke="black" cx="276.71" cy="-29.42" rx="94.87" ry="29.42"/>
+<text text-anchor="middle" x="276.71" y="-33.62" font-family="Times,serif" font-size="14.00">Record the username</text>
+<text text-anchor="middle" x="276.71" y="-16.82" font-family="Times,serif" font-size="14.00">of the bot operator</text>
+</g>
+<!-- Decision&#45;&gt;Record the username\nof the bot operator -->
+<g id="edge2" class="edge">
+<title>Decision-&gt;Record the username\nof the bot operator</title>
+<path fill="none" stroke="black" d="M276.71,-94.57C276.71,-87.51 276.71,-79.02 276.71,-70.56"/>
+<polygon fill="black" stroke="black" points="280.21,-70.7 276.71,-60.7 273.21,-70.7 280.21,-70.7"/>
+</g>
+<!-- Issue commands -->
+<g id="node4" class="node">
+<title>Issue commands</title>
+<ellipse fill="none" stroke="black" cx="464.71" cy="-29.42" rx="75.14" ry="18"/>
+<text text-anchor="middle" x="464.71" y="-25.22" font-family="Times,serif" font-size="14.00">Issue commands</text>
+</g>
+<!-- Decision&#45;&gt;Issue commands -->
+<g id="edge3" class="edge">
+<title>Decision-&gt;Issue commands</title>
+<path fill="none" stroke="black" d="M300.91,-101.35C330.73,-88.44 382.03,-66.22 419.29,-50.09"/>
+<polygon fill="black" stroke="black" points="420.22,-53.5 428.01,-46.31 417.44,-47.07 420.22,-53.5"/>
+</g>
+</g>
+</svg>
