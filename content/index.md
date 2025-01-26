@@ -12,6 +12,10 @@ Reading list => [[Reading.md]]
 <br/>
 Watching list => [[Watching.md]]
 
-# Index Of
-- [[Dissecting the Anatomy of a Botnet]]
+# What's new
+- [[Scraping an Insecure Instance of Moodle]]
+- [[OverTheWire Wargames]]
 
+# Blog entries 
+- [[Dissecting the Anatomy of a Botnet]]
+- [[Scraping an Insecure Instance of Moodle]]
