@@ -1,8 +1,10 @@
-# To be watched
+# To watch
 
 - Career Opportunities
 - The Shawshank Redemption
 - Dead Poet's Society
+- Turning Point: The Bomb And The Cold War
+- Revolution OS
 
 # Watched and liked
 
