@@ -3,7 +3,7 @@ Here's what I'm planning to read
 - Brave New World by Aldous Huxley
 - The Code Book by Simon Singh
 - Metamorphosis by Franz Kafka
-- Bhagwat Gita As It Is by by A. C. Bhaktivedanta Swami Prabhupada
+- Bhagwat Gita As It Is by A. C. Bhaktivedanta Swami Prabhupada
 
 Here's the stuff that I've read (and enjoyed reading)
 - [Vim koans](https://blog.sanctum.geek.nz/vim-koans/)
