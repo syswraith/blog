@@ -4,7 +4,6 @@
 - The Shawshank Redemption
 - Dead Poet's Society
 - Turning Point: The Bomb And The Cold War
-- Revolution OS
 - Get Lamp
 
 # Watched and liked
@@ -13,3 +12,4 @@
 - [Fight Club](https://www.imdb.com/title/tt0137523/)
 - [The Social Network](https://www.imdb.com/title/tt1285016/)
 - [Pump up the Volume](https://www.imdb.com/title/tt0100436/)
+- [Revolution OS](https://www.imdb.com/title/tt0308808/)

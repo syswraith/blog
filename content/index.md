@@ -13,9 +13,10 @@ Reading list => [[Reading]]
 Watching list => [[Watching]]
 
 # What's new
-- [[Scraping an Insecure Instance of Moodle]]
-- [[OverTheWire Wargames]]
+- [[Simplified alerts- Using Deepseek-r1 to summarize chats]]
+- [[Life Update 09022025]]
 
 # Blog entries 
 - [[Dissecting the Anatomy of a Botnet]]
 - [[Scraping an Insecure Instance of Moodle]]
+- [[Simplified alerts- Using Deepseek-r1 to summarize chats]]

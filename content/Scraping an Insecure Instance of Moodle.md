@@ -7,39 +7,28 @@ Please note that no data will be leaked in this quest, and any and all data show
 
 Moodle is an open-source learning platform written majorly in PHP and licensed under the GNU GPL 3.0 license. 
 
-<svg width="700" height="280" xmlns="http://www.w3.org/2000/svg">
-  <!-- Progress Bar without rounded corners -->
-  <rect x="0" y="20" width="500" height="30" fill="#4F5D95" />
-  <rect x="500" y="20" width="90" height="30" fill="#F7DF1E" />
-  <rect x="590" y="20" width="25" height="30" fill="#5BDF5B" />
-  <rect x="615" y="20" width="12" height="30" fill="#2965F1" />
-  <rect x="627" y="20" width="11" height="30" fill="#F37C00" />
-  <rect x="638" y="20" width="3" height="30" fill="#CF649A" />
-  <rect x="641" y="20" width="15" height="30" fill="#CCCCCC" /> <!-- Adjusted width for 'Other' -->
+<svg width="100%" height="auto" viewBox="0 0 700 400" preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="10" cy="70" r="6" fill="#4F5D95" />
+  <text x="25" y="75" font-size="14" fill="#FFF" font-family="Arial, sans-serif">PHP (78.7%)</text>
 
-  <!-- Legend with circles as bullet points -->
-  <circle cx="10" cy="70" r="5" fill="#4F5D95" />
-  <text x="20" y="75" font-size="16" fill="#FFF" text-rendering="optimizeLegibility" font-family="Arial, sans-serif">PHP (78.7%)</text>
+  <circle cx="10" cy="100" r="6" fill="#F7DF1E" />
+  <text x="25" y="105" font-size="14" fill="#FFF" font-family="Arial, sans-serif">JS (14.0%)</text>
 
-  <circle cx="10" cy="100" r="5" fill="#F7DF1E" />
-  <text x="20" y="105" font-size="16" fill="#FFF" text-rendering="optimizeLegibility" font-family="Arial, sans-serif">JS (14.0%)</text>
+  <circle cx="10" cy="130" r="6" fill="#5BDF5B" />
+  <text x="25" y="135" font-size="14" fill="#FFF" font-family="Arial, sans-serif">Gherkin (3.5%)</text>
 
-  <circle cx="10" cy="130" r="5" fill="#5BDF5B" />
-  <text x="20" y="135" font-size="16" fill="#FFF" text-rendering="optimizeLegibility" font-family="Arial, sans-serif">Gherkin (3.5%)</text>
+  <circle cx="10" cy="160" r="6" fill="#2965F1" />
+  <text x="25" y="165" font-size="14" fill="#FFF" font-family="Arial, sans-serif">CSS (1.7%)</text>
 
-  <circle cx="10" cy="160" r="5" fill="#2965F1" />
-  <text x="20" y="165" font-size="16" fill="#FFF" text-rendering="optimizeLegibility" font-family="Arial, sans-serif">CSS (1.7%)</text>
+  <circle cx="10" cy="190" r="6" fill="#F37C00" />
+  <text x="25" y="195" font-size="14" fill="#FFF" font-family="Arial, sans-serif">Mustache (1.6%)</text>
 
-  <circle cx="10" cy="190" r="5" fill="#F37C00" />
-  <text x="20" y="195" font-size="16" fill="#FFF" text-rendering="optimizeLegibility" font-family="Arial, sans-serif">Mustache (1.6%)</text>
+  <circle cx="10" cy="220" r="6" fill="#CF649A" />
+  <text x="25" y="225" font-size="14" fill="#FFF" font-family="Arial, sans-serif">SCSS (0.4%)</text>
 
-  <circle cx="10" cy="220" r="5" fill="#CF649A" />
-  <text x="20" y="225" font-size="16" fill="#FFF" text-rendering="optimizeLegibility" font-family="Arial, sans-serif">SCSS (0.4%)</text>
-
-  <circle cx="10" cy="250" r="5" fill="#CCCCCC" />
-  <text x="20" y="255" font-size="16" fill="#FFF" text-rendering="optimizeLegibility" font-family="Arial, sans-serif">Other (0.1%)</text>
+  <circle cx="10" cy="250" r="6" fill="#CCCCCC" />
+  <text x="25" y="255" font-size="14" fill="#FFF" font-family="Arial, sans-serif">Other (0.1%)</text>
 </svg>
-
 
 I'm going to try and do some reconnaissance first on how the site handles authentication and how it serves the data I'm interested in- by observing the requests made and the cookies set. Then I'm going to build a scraper to extract the data that I'm interested in.
 
@@ -60,7 +49,7 @@ Let's get started!
 First things that I notice right off the bat are:
 - The LMS is written in PHP meaning majority of the operations might be handled without having to execute any JavaScript code. That's good.
 - With the Cookie-Editor extension, I can see that a cookie named `MoodleSession` is being set to a random string of 26 alphanumeric characters. That's interesting.
-![[moodle_session_cookie.png]]
+![[./images/moodle_scraper/moodle_session_cookie.png]]
 
 Secondly, authenticating myself with a username and password makes the equivalent of the
 following cURL request:
@@ -90,7 +79,7 @@ word-url-encoded'
 - This tells us that there are two `MoodleSession` cookies, one before authentication and one after authentication.
 - Usernames and passwords are being URL-encoded and sent in plain-text over the HTTP POST request.
 - It took me a few tries but i finally found `logintoken` sneakily nested inside the page's source code in the following way:
-![[logintoken_nested.png]]
+![[./images/moodle_scraper/logintoken_nested.png]]
 
 
 # Writing the script
@@ -382,11 +371,11 @@ conn.close()
 
 Scraped data output from the console:
 
-![[scraped_data_console.png]]
+![[./images/moodle_scraper/scraped_data_console.png]]
 
 Scraped data from the database:
 
-![[scraped_data_db.jpg]]
+![[./images/moodle_scraper/scraped_data_db.jpg]]
 
 
 # Parting thoughts
