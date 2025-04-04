@@ -1,15 +1,19 @@
-# To watch
+# Watchlist
 
-- Career Opportunities
-- The Shawshank Redemption
-- Dead Poet's Society
-- Turning Point: The Bomb And The Cold War
-- Get Lamp
+# Movies
+- [x] Tron: Legacy
+- [x] The Social Network 
+- [x] Tenet
+- [x] Ready Player One
+- [x] Pump up the Volume
+- [x] Fight Club 
+- [x] Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb
+- [ ] The Shawshank Redemption
+- [ ] Dead Poet's Society
+- [ ] Career Opportunities
+- [ ] 1984
 
-# Watched and liked
-
-- [Tron: Legacy](https://www.imdb.com/title/tt1104001/)
-- [Fight Club](https://www.imdb.com/title/tt0137523/)
-- [The Social Network](https://www.imdb.com/title/tt1285016/)
-- [Pump up the Volume](https://www.imdb.com/title/tt0100436/)
-- [Revolution OS](https://www.imdb.com/title/tt0308808/)
+# Documentaries
+- [ ] Turning Point: The Bomb And The Cold War
+- [ ] Get Lamp
+- [x] Revolution OS
