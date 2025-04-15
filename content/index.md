@@ -12,6 +12,11 @@ Reading list => [[Reading]]
 <br/>
 Watching list => [[Watching]]
 
+# Todo
+- Reach OTW Vortex
+- Do LFS
+- HAM
+
 # What's new
 - [[Life Update 15042025]]
 - [[Simplified alerts- Using Deepseek-r1 to summarize chats]]
