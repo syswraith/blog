@@ -16,6 +16,7 @@ Watching list => [[Watching]]
 - Reach OTW Vortex
 - Do LFS
 - HAM
+- Live stream
 
 # What's new
 - [[Life Update 15042025]]
