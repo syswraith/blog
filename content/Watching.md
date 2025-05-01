@@ -27,12 +27,12 @@
 
 # Documentaries
 - [x] We Are Legion: The Story of the Hacktivists
+- [x] The Pirate Bay: Away from Keyboard
 - [x] Revolution OS
 - [x] Minimalism
+- [x] Citizenfour
 - [ ] We Steal Secrets: The Story of WikiLeaks
 - [ ] Turning Point: The Bomb And The Cold War <progress value="4" max="9"></progress>
 - [ ] The Social Dilemma
 - [ ] The Great Hack
 - [ ] Get Lamp
-- [ ] Citizenfour <progress value="4500" max="6805"></progress>
-
