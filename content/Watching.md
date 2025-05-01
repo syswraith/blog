@@ -29,8 +29,10 @@
 - [x] We Are Legion: The Story of the Hacktivists
 - [x] Revolution OS
 - [x] Minimalism
+- [ ] We Steal Secrets: The Story of WikiLeaks
 - [ ] Turning Point: The Bomb And The Cold War <progress value="4" max="9"></progress>
 - [ ] The Social Dilemma
 - [ ] The Great Hack
 - [ ] Get Lamp
-- [ ] Citizenfour
+- [ ] Citizenfour <progress value="4500" max="6805"></progress>
+
