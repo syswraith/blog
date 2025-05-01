@@ -32,6 +32,5 @@
 - [ ] Turning Point: The Bomb And The Cold War <progress value="4" max="9"></progress>
 - [ ] The Social Dilemma
 - [ ] The Great Hack
-- [ ] The Great Hack
 - [ ] Get Lamp
 - [ ] Citizenfour
