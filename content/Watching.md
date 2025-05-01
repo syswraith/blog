@@ -1,9 +1,12 @@
 # Movies
+- [x] V for Vendetta
 - [x] Tron: Legacy
 - [x] The Social Network 
 - [x] Tenet
+- [x] Snowden
 - [x] Ready Player One
 - [x] Pump up the Volume
+- [x] Hacksaw Ridge
 - [x] Fight Club 
 - [x] Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb
 - [ ] The Shawshank Redemption
@@ -12,17 +15,23 @@
 - [ ] 1984
 
 # Series
-- [x] Friends
-- [x] How I met your Mother
-- [x] Stranger Things
 - [x] The Last of Us
+- [x] Stranger Things
 - [x] Naruto
-- [ ] Neon Genesis Evangelion
+- [x] Mr. Robot
+- [x] How I met your Mother
+- [x] Friends
 - [ ] Serial Experiments Lain
+- [ ] Neon Genesis Evangelion
 - [ ] Ben 10
 
 # Documentaries
+- [x] We Are Legion: The Story of the Hacktivists
 - [x] Revolution OS
 - [x] Minimalism
 - [ ] Turning Point: The Bomb And The Cold War <progress value="4" max="9"></progress>
+- [ ] The Social Dilemma
+- [ ] The Great Hack
+- [ ] The Great Hack
 - [ ] Get Lamp
+- [ ] Citizenfour
