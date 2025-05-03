@@ -19,7 +19,7 @@ Watching list => [[Watching]]
 - Live stream
 
 # What's new
-- [[Life Update 15042025]]
+- [[Life Updates]]
 - [[Simplified alerts- Using Deepseek-r1 to summarize chats]]
 
 # Blog entries 
