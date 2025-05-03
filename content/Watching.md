@@ -32,7 +32,7 @@
 - [x] Minimalism
 - [x] Citizenfour
 - [ ] We Steal Secrets: The Story of WikiLeaks
-- [ ] Turning Point: The Bomb And The Cold War <progress value="4" max="9"></progress>
+- [ ] Turning Point: The Bomb And The Cold War <progress value="6" max="9"></progress>
 - [ ] The Social Dilemma
 - [ ] The Great Hack
 - [ ] Get Lamp
