@@ -13,7 +13,7 @@ Reading list => [[Reading]]
 Watching list => [[Watching]]
 
 # Todo
-- Reach OTW Vortex
+- Reach [[OverTheWire Wargames]] Vortex
 - Do LFS
 - HAM
 - Live stream
