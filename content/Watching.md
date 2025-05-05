@@ -25,14 +25,14 @@
 - [ ] The Shawshank Redemption
 - [ ] The Internet's Own Boy: The Story of Aaron Swartz
 - [ ] The Great Hack
-- [ ] Serial Experiments Lain
-- [ ] Neon Genesis Evangelion
+- [ ] Serial Experiments Lain <progress value="0" max="13"></progress>
+- [ ] Neon Genesis Evangelion <progress value="0" max="26"></progress>
 - [ ] Killswitch
 - [ ] Get Lamp
 - [ ] Dead Poet's Society
 - [ ] Career Opportunities
 - [ ] The Godfather
-- [ ] Silicon Valley
+- [ ] Silicon Valley <progress value="0" max="53"></progress>
 - [ ] Ben 10
 - [ ] 1984
 ---
