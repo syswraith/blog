@@ -23,11 +23,15 @@
 - [ ] Turning Point: The Bomb And The Cold War <progress value="6" max="9"></progress>
 - [ ] The Social Dilemma
 - [ ] The Shawshank Redemption
+- [ ] The Internet's Own Boy: The Story of Aaron Swartz
 - [ ] The Great Hack
 - [ ] Serial Experiments Lain
 - [ ] Neon Genesis Evangelion
+- [ ] Killswitch
 - [ ] Get Lamp
 - [ ] Dead Poet's Society
 - [ ] Career Opportunities
+- [ ] The Godfather
+- [ ] Silicon Valley
 - [ ] Ben 10
 - [ ] 1984
