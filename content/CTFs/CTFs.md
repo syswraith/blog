@@ -21,3 +21,8 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 - [x] Static ain't always noise
 - [x] Nice netcat...
 - [x] Obedient Cat
+- [x] runme.py
+- [x] PW Crack 1
+- [x] PW Crack 2
+- [x] Glitch Cat
+- [x] HashingJobApp
