@@ -4,5 +4,20 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 [[OverTheWire Wargames.md]]
 
 # PicoCTF
-- [x] picoCTF [[MatchTheRegex]]
-- [x] picoCTF [[hashcrack]]
+- [x] [[MatchTheRegex]]
+- [x] [[hashcrack]]
+- [x] [[DISKO 1]]
+- [x] Bases
+- [x] First Grep
+- [x] 2Warm
+- [x] Warmed Up
+- [x] strings it
+- [x] what's a net cat?
+- [x] Lets Warm Up
+- [x] Magikarp Ground Mission
+- [x] Tab, Tab, Attack
+- [x] Wave a flag
+- [x] Python Wrangling
+- [x] Static ain't always noise
+- [x] Nice netcat...
+- [x] Obedient Cat
