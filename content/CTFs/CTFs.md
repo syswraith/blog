@@ -26,3 +26,6 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 - [x] PW Crack 2
 - [x] Glitch Cat
 - [x] HashingJobApp
+- [x] fixme1.py
+- [x] fixme2.py
+- [x] convertme.py
