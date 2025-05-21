@@ -8,18 +8,19 @@ I'm a `vim` heretic and an `arch` (btw) user.
 
 This is a digital record of all of my conquests with computers, programming, movies, books, music, linguistics, cryptography, typography, et cetera. My musings are my own and may be wrong at times, for I am always looking to improve.
 
-Reading list => [[Reading]] 
-<br/>
-Watching list => [[Watching]]
+- Reading list => [[Reading]] 
+- Watching list => [[Watching]]
+- CTF => [[CTFs/CTFs]]
+- Life Updates => [[Life Updates]]
 
 # Todo
-- Reach [[OverTheWire Wargames]] Vortex
+- Solve CTFs
 - Do LFS
 - HAM
 - Live stream
 
 # What's new
-- [[Life Updates]]
+- Started solving ctfs! [[CTFs/CTFs]]
 - [[Simplified alerts- Using Deepseek-r1 to summarize chats]]
 
 # Blog entries 

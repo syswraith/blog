@@ -1,4 +1,2 @@
-# Life updates
-
 - [[Life Update 15042025.md]]
 - [[Life Update 09022025.md]]
