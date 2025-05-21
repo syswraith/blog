@@ -19,7 +19,7 @@
 - [x] Fight Club 
 - [x] Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb
 - [x] Citizenfour
-- [x] Turning Point: The Bomb And The Cold War <progress value="6" max="9"></progress>
+- [x] Turning Point: The Bomb And The Cold War
 - [ ] We Steal Secrets: The Story of WikiLeaks
 - [ ] The Social Dilemma
 - [ ] The Shawshank Redemption
