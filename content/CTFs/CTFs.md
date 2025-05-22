@@ -6,6 +6,8 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 # PicoCTF
 - [x] [[MatchTheRegex]]
 - [x] [[hashcrack]]
+- [x] [[Time Machine]]
+- [x] [[Commitment Issues]]
 - [x] [[DISKO 1]]
 - [x] Bases
 - [x] First Grep
@@ -31,7 +33,5 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 - [x] convertme.py
 - [x] codebook
 - [x] repetitions
-- [x] [[Time Machine]]
-- [x] [[Commitment Issues]]
 - [x] Collaborative Development
 - [x] FANTASY CTF
