@@ -22,7 +22,7 @@
 - [x] Turning Point: The Bomb And The Cold War
 - [ ] We Steal Secrets: The Story of WikiLeaks
 - [ ] The Social Dilemma
-- [ ] The Shawshank Redemption
+- [x] The Shawshank Redemption
 - [ ] The Internet's Own Boy: The Story of Aaron Swartz
 - [ ] The Great Hack
 - [ ] Serial Experiments Lain <progress value="0" max="13"></progress>
