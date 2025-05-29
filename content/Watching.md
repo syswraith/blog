@@ -20,20 +20,20 @@
 - [x] Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb
 - [x] Citizenfour
 - [x] Turning Point: The Bomb And The Cold War
-- [ ] We Steal Secrets: The Story of WikiLeaks
-- [ ] The Social Dilemma
 - [x] The Shawshank Redemption
-- [ ] The Internet's Own Boy: The Story of Aaron Swartz
-- [ ] The Great Hack
-- [ ] Serial Experiments Lain <progress value="0" max="13"></progress>
-- [ ] Neon Genesis Evangelion <progress value="0" max="26"></progress>
-- [ ] Killswitch
-- [ ] Get Lamp
 - [ ] Dead Poet's Society
 - [ ] Career Opportunities
+- [ ] We Steal Secrets: The Story of WikiLeaks
+- [ ] The Social Dilemma
+- [ ] The Internet's Own Boy: The Story of Aaron Swartz
+- [ ] The Great Hack
+- [ ] Killswitch
+- [ ] 1984
+- [ ] Get Lamp
 - [ ] The Godfather
+- [ ] Serial Experiments Lain <progress value="0" max="13"></progress>
+- [ ] Neon Genesis Evangelion <progress value="0" max="26"></progress>
 - [ ] Silicon Valley <progress value="0" max="53"></progress>
 - [ ] Ben 10 <progress value="17" max="49"></progress>
-- [ ] 1984
 ---
 - [ ] Darknet Diaries <progress value="53" max="157"></progress>
