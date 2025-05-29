@@ -9,7 +9,7 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 - [x] [[Time Machine]]
 - [x] [[Commitment Issues]]
 - [x] [[DISKO 1]]
-- [x] [[SST1]]
+- [x] [[SSTI1]]
 - [x] Bases
 - [x] First Grep
 - [x] 2Warm
