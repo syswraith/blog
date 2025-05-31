@@ -1,16 +1,16 @@
-![[./images/09022025/codeforces.png]]
+![[codeforces.png]]
 
-![[./images/09022025/codearena.jpg]]
+![[codearena.jpg]]
 
-![[./images/09022025/contribution_graph.png]]
+![[contribution_graph.png]]
 
-![[./images/09022025/sans.png]]
+![[sans.png]]
 
-![[./images/09022025/nicks.png]]
+![[nicks.png]]
 
-![[./images/09022025/36th_chamber.png]]
+![[36th_chamber.png]]
 
-![[./images/09022025/o_children.png]]
+![[o_children.png]]
 
-![[./images/09022025/pancard.png]]
+![[pancard.png]]
 
