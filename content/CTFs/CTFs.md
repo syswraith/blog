@@ -36,3 +36,5 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 - [x] repetitions
 - [x] Collaborative Development
 - [x] FANTASY CTF
+- [x] Big Zip
+- [x] First Find

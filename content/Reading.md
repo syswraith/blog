@@ -3,9 +3,8 @@ Here's what I'm planning to read
 | Book                                 | Author                               | Acquired? | Progress                                  |
 | ------------------------------------ | ------------------------------------ | --------- | ----------------------------------------- |
 | The Code Book                        | Simon Singh                          | Yes       | <progress value="1" max="8"></progress>   |
-| Steve Jobs                           | Walter Isaacson                      | Yes       | <progress value="31" max="42"></progress> |
 | Brave New World                      | Aldous Huxley                        | Yes       | <progress value="0" max="1"></progress>   |
-| Metamorphosis                        | Franz Kafka                          | Yes       | <progress value="0" max="1"></progress>   |
+| Metamorphosis                        | Franz Kafka                          | Yes       | <progress value="1" max="3"></progress>   |
 | The Labyrinth of Spirits             | Carlos Ruiz Zafon                    | Yes       | <progress value="0" max="1"></progress>   |
 | The Hitchhiker's Guide to the Galaxy | Douglas Adams                        | Yes       | <progress value="0" max="1"></progress>   |
 | Bhagwat Gita As It Is                | A. C. Bhaktivedanta Swami Prabhupada | Yes       | <progress value="9" max="18"></progress>  |
@@ -32,3 +31,8 @@ Here's the stuff that I've read (and enjoyed reading)
 - [Vim koans](https://blog.sanctum.geek.nz/vim-koans/)
 - [Searching for Susy Thunder](https://www.theverge.com/c/22889425/susy-thunder-headley-hackers-phone-phreakers-claire-evans)
 
+---
+
+50 books before 20 progress
+
+1. Steve Jobs

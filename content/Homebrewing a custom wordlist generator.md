@@ -7,7 +7,7 @@ There are around 70 typeable keys on a standard QWERTY keyboard. Let's try to ma
 
 That gives us a compact notation to represent the entire keyspace in which the password might exist. To put it in numerical figures, it comes out to be somewhere around _337145672445227527877100000000_. 
 
-There are more passwords in that keyspace than there are atoms in the known universe. And thats just if we limit ourselves to the range of 8 to 16 character long passwords. Major services provide the range of 8 to 100 characters.
+That’s over a hundred octillion possibilities — more than the estimated number of sand grains on all the beaches of Earth, stars in the Milky Way, and Google searches ever made — combined. And thats just if we limit ourselves to the range of 8 to 16 character long passwords. Major services provide the range of 8 to 100 characters.
 
 So how do we- as mortals- make sense of this seemingly gigantic number? 
 
