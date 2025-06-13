@@ -1,4 +1,9 @@
-#Easy #Cryptography #picoCTF2025
+---
+tags:
+  - Easy 
+  - Cryptography 
+  - picoCTF2025
+---
 
 1. Problem statement
 ![[Pasted image 20250521112630.png]]

@@ -4,7 +4,6 @@ Here's what I'm planning to read
 | ------------------------------------ | ------------------------------------ | --------- | ----------------------------------------- |
 | The Code Book                        | Simon Singh                          | Yes       | <progress value="1" max="8"></progress>   |
 | Brave New World                      | Aldous Huxley                        | Yes       | <progress value="0" max="1"></progress>   |
-| Metamorphosis                        | Franz Kafka                          | Yes       | <progress value="1" max="3"></progress>   |
 | The Labyrinth of Spirits             | Carlos Ruiz Zafon                    | Yes       | <progress value="0" max="1"></progress>   |
 | The Hitchhiker's Guide to the Galaxy | Douglas Adams                        | Yes       | <progress value="0" max="1"></progress>   |
 | Bhagwat Gita As It Is                | A. C. Bhaktivedanta Swami Prabhupada | Yes       | <progress value="9" max="18"></progress>  |
@@ -16,7 +15,7 @@ Here's the stuff that I've read (and enjoyed reading)
 
 | Book                            | Author            | Type   |
 | ------------------------------- | ----------------- | ------ |
-| 1984                            | George Orwell     | Solo   |
+| Ready Player One                | Ernest Cline      | Solo   |
 | Fight Club                      | Chuck Palahniuk   | Solo   |
 | The Perks of Being a Wallflower | Stephen Chbosky   | Solo   |
 | Divergent                       | Veronica Roth     | Series |
@@ -36,3 +35,4 @@ Here's the stuff that I've read (and enjoyed reading)
 50 books before 20 progress
 
 1. Steve Jobs
+2. Metamorphosis

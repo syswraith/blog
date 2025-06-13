@@ -1,4 +1,9 @@
-#Easy #Forensics #picoGymExclusive
+---
+tags:
+  - Easy
+  - Forensics
+  - picoGymExclusive
+---
 
 1. Download the compressed image
 2. Extract the image with the following command

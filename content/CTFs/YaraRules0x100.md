@@ -1,4 +1,8 @@
-#Easy #GeneralSkills
+---
+Tags:
+  - Easy
+  - GeneralSkills
+---
 
 I've done this before (manually) and its no fun.
 Instead, here's a stackoverflow answer that helps to unzip files recursively :)

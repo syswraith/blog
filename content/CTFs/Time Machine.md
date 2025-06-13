@@ -1,4 +1,9 @@
-#Easy #picoCTF2024 #git
+---
+Tags:
+  - Easy 
+  - picoCTF2024 
+  - git
+---
 
 1. Download the file and unzip it
 ![[Pasted image 20250522125548.png]]

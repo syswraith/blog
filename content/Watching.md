@@ -22,8 +22,8 @@
 - [x] Citizenfour
 - [x] Turning Point: The Bomb And The Cold War
 - [x] The Shawshank Redemption
+- [x] Chernobyl
 - [ ] Dead Poet's Society
-- [ ] Career Opportunities
 - [ ] Good Will Hunting
 - [ ] A Beautiful Mind
 - [ ] We Steal Secrets: The Story of WikiLeaks
@@ -31,14 +31,11 @@
 - [ ] The Internet's Own Boy: The Story of Aaron Swartz
 - [ ] The Great Hack
 - [ ] Killswitch
-- [ ] 1984
-- [ ] Get Lamp
 - [ ] The Godfather
 - [ ] Serial Experiments Lain <progress value="0" max="13"></progress>
 - [ ] Neon Genesis Evangelion <progress value="0" max="26"></progress>
 - [ ] Silicon Valley <progress value="0" max="53"></progress>
-- [ ] Ben 10 <progress value="17" max="49"></progress>
-- [x] Chernobyl <progress value="4" max="5"></process>
+- [ ] Ben 10 <progress value="22" max="49"></progress>
 ---
 - [x] [Joe Rogan Experience #1368 - Edward Snowden](https://youtu.be/efs3QRr8LWw)
-- [ ] Darknet Diaries <progress value="53" max="157"></progress>
+- [ ] Darknet Diaries <progress value="54" max="157"></progress>

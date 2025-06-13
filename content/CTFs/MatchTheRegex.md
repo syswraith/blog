@@ -1,5 +1,9 @@
-
-Tags: #Medium #WebExploitation #picoCTF2023
+---
+Tags: 
+  - Medium 
+  - WebExploitation 
+  - picoCTF2023
+---
 
 1. Launch the instance
 ![[Pasted image 20250521111621.png]]

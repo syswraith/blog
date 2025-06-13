@@ -1,5 +1,9 @@
-#Easy #WebExploitation #picoCTF2025 
-
+---
+tags:
+  - Easy 
+  - WebExploitation 
+  - picoCTF2025 
+---
 
 1. Start the Challenge
 

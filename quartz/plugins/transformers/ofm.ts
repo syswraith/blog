@@ -46,7 +46,7 @@ const defaultOptions: Options = {
   wikilinks: true,
   callouts: true,
   mermaid: true,
-  parseTags: true,
+  parseTags: false,
   parseArrows: true,
   parseBlockReferences: true,
   enableInHtmlEmbed: false,
