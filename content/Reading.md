@@ -4,7 +4,7 @@ Here's what I'm planning to read
 | ------------------------------------ | ------------------------------------ | --------- | ----------------------------------------- |
 | The Code Book                        | Simon Singh                          | Yes       | <progress value="1" max="8"></progress>   |
 | Brave New World                      | Aldous Huxley                        | Yes       | <progress value="0" max="1"></progress>   |
-| The Labyrinth of Spirits             | Carlos Ruiz Zafon                    | Yes       | <progress value="0" max="1"></progress>   |
+| The Labyrinth of Spirits             | Carlos Ruiz Zafon                    | Yes       | <progress value="3" max="5"></progress>   |
 | The Hitchhiker's Guide to the Galaxy | Douglas Adams                        | Yes       | <progress value="0" max="1"></progress>   |
 | Bhagwat Gita As It Is                | A. C. Bhaktivedanta Swami Prabhupada | Yes       | <progress value="9" max="18"></progress>  |
 - [So you want to build a generator](https://www.tumblr.com/galaxykate0/139774965871/so-you-want-to-build-a-generator)

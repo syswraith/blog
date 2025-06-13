@@ -27,3 +27,4 @@ This is a digital record of all of my conquests with computers, programming, mov
 - [[Dissecting the Anatomy of a Botnet]]
 - [[Scraping an Insecure Instance of Moodle]]
 - [[Simplified alerts- Using Deepseek-r1 to summarize chats]]
+- [[Homebrewing a custom wordlist generator]]
