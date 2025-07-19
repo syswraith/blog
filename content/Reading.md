@@ -37,4 +37,3 @@ Here's the stuff that I've read (and enjoyed reading)
 2. Metamorphosis
 3. The Labyrinth of Spirits
 4. A B C Murders
-5. Murder on the Orient Express
