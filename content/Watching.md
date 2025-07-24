@@ -14,7 +14,7 @@
 - [x] Naruto
 - [x] Mr. Robot
 - [x] Minimalism
-- [x] How I met your Mother
+- [x] How I Met Your Mother
 - [x] Hacksaw Ridge
 - [x] Friends
 - [x] Fight Club 
@@ -23,6 +23,9 @@
 - [x] Turning Point: The Bomb And The Cold War
 - [x] The Shawshank Redemption
 - [x] Chernobyl
+- [x] Ben 10 Originals
+- [x] Ben 10 Alien Force
+- [x] The Godfather Trilogy
 - [ ] Dead Poet's Society
 - [ ] Good Will Hunting
 - [ ] A Beautiful Mind
@@ -31,11 +34,9 @@
 - [ ] The Internet's Own Boy: The Story of Aaron Swartz
 - [ ] The Great Hack
 - [ ] Killswitch
-- [ ] The Godfather
 - [ ] Serial Experiments Lain <progress value="0" max="13"></progress>
 - [ ] Neon Genesis Evangelion <progress value="0" max="26"></progress>
-- [ ] Silicon Valley <progress value="0" max="53"></progress>
-- [ ] Ben 10 <progress value="33" max="49"></progress>
+- [ ] Ben 10 Ultimate Alien
 ---
 - [x] [Joe Rogan Experience #1368 - Edward Snowden](https://youtu.be/efs3QRr8LWw)
 - [ ] Darknet Diaries <progress value="54" max="157"></progress>
