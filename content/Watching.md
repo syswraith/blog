@@ -18,6 +18,7 @@
 - [x] Hacksaw Ridge
 - [x] Friends
 - [x] Fight Club 
+- [x] Ford vs Ferrari
 - [x] Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb
 - [x] Citizenfour
 - [x] Turning Point: The Bomb And The Cold War
