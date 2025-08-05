@@ -1,6 +1,7 @@
 - [x] We Are Legion: The Story of the Hacktivists
 - [x] V for Vendetta
 - [x] Tron: Legacy
+- [x] Troy
 - [x] The Social Network 
 - [x] The Pirate Bay: Away from Keyboard
 - [x] The Last of Us (game series)
