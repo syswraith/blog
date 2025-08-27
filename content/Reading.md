@@ -32,9 +32,10 @@ Here's the stuff that I've read (and enjoyed reading)
 
 50 books before 20 progress
 
-1. Steve Jobs
-2. Metamorphosis
-3. The Labyrinth of Spirits
-4. A B C Murders
-5. Murder on the Orient Express
-6. Brave New World
+1. Steve Jobs by Walter Isaacson  
+2. Metamorphosis by Franz Kafka  
+3. The Labyrinth of Spirits by Carlos Ruiz Zafón  
+4. The A B C Murders by Agatha Christie  
+5. Murder on the Orient Express by Agatha Christie  
+6. Brave New World by Aldous Huxley  
+7. Appointment with Death by Agatha Christie
