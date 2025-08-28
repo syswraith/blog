@@ -11,6 +11,7 @@ find / -cmin -60 # find files changed within the last hour (60 minutes)
 find / -amin -60 # find files accesses within the last hour (60 minutes)
 find / -size 50M # find files with a 50 MB size
 find / -type f -perm -04000 -ls 2>/dev/null # finds files with SUID set
+find . -type f ! -executable -size 1033c # finds non-executables with size 1033 bytes
 ```
 
 ```bash
