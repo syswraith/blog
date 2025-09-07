@@ -12,8 +12,7 @@ And it worked out pretty well. Too sad I had to submit the assignment in *Times 
 
 For this one, I chickened out and switched to Python. Needless to say, it isn't completely thought out.
 But it works regardless. And the logic was hell to get right.
-<script src="https://asciinema.org/a/738607.js" id="asciicast-738607" async="true"></script>
-
+<script src="https://asciinema.org/a/738609.js" id="asciicast-738609" async="true"></script>
 
 # Drunken Bishop
 [source](https://github.com/syswraith/c-projects/tree/main/drunken_bishop)
