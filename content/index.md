@@ -21,7 +21,7 @@ This is a digital record of all of my conquests with computers, programming, mov
 
 # What's new
 - Started solving ctfs! [[CTFs/CTFs]]
-- [[Life on the Board]]
+- [[Life on the Command-line]]
 - [[Homebrewing a custom wordlist generator]]
 
 # Blog entries 
@@ -29,4 +29,4 @@ This is a digital record of all of my conquests with computers, programming, mov
 - [[Scraping an Insecure Instance of Moodle]]
 - [[Simplified alerts- Using Deepseek-r1 to summarize chats]]
 - [[Homebrewing a custom wordlist generator]]
-- [[Life on the Board]]
+- [[Life on the Command-line]]
