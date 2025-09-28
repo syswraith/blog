@@ -28,7 +28,7 @@
 - [x] Ben 10 Originals
 - [x] Ben 10 Alien Force
 - [x] The Godfather Trilogy
-- [ ] Dead Poet's Society
+- [x] Dead Poet's Society
 - [ ] Good Will Hunting
 - [ ] A Beautiful Mind
 - [ ] We Steal Secrets: The Story of WikiLeaks
