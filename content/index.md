@@ -17,12 +17,11 @@ This is a digital record of all of my conquests with computers, programming, mov
 - Solve CTFs
 - Do LFS
 - HAM
-- Live stream
 
 # What's new
-- Started solving ctfs! [[CTFs/CTFs]]
+- [[Breaking a Substitution Cipher with Cryptanalysis]]
 - [[Life on the Command-line]]
-- [[Homebrewing a custom wordlist generator]]
+- Started solving ctfs! [[CTFs/CTFs]]
 
 # Blog entries 
 - [[Dissecting the Anatomy of a Botnet]]
@@ -30,3 +29,4 @@ This is a digital record of all of my conquests with computers, programming, mov
 - [[Simplified alerts- Using Deepseek-r1 to summarize chats]]
 - [[Homebrewing a custom wordlist generator]]
 - [[Life on the Command-line]]
+- [[Breaking a Substitution Cipher with Cryptanalysis]]
