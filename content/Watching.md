@@ -1,44 +1,50 @@
-- [x] We Are Legion: The Story of the Hacktivists
-- [x] V for Vendetta
-- [x] Tron: Legacy
-- [x] Troy
-- [x] The Social Network 
-- [x] The Pirate Bay: Away from Keyboard
-- [x] The Last of Us (game series)
-- [x] Tenet
-- [x] Tolkien
-- [x] Stranger Things
-- [x] Snowden
-- [x] Revolution OS
-- [x] Ready Player One
-- [x] Pump up the Volume
-- [x] Naruto
-- [x] Mr. Robot
-- [x] Minimalism
-- [x] How I Met Your Mother
-- [x] Hacksaw Ridge
-- [x] Friends
-- [x] Fight Club 
-- [x] Ford vs Ferrari
-- [x] Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb
-- [x] Citizenfour
-- [x] Turning Point: The Bomb And The Cold War
-- [x] The Shawshank Redemption
-- [x] Chernobyl
-- [x] Ben 10 Originals
-- [x] Ben 10 Alien Force
-- [x] The Godfather Trilogy
-- [x] Dead Poet's Society
-- [ ] Good Will Hunting
-- [ ] A Beautiful Mind
-- [ ] We Steal Secrets: The Story of WikiLeaks
-- [ ] The Social Dilemma
-- [ ] The Internet's Own Boy: The Story of Aaron Swartz
-- [ ] The Great Hack
-- [ ] Killswitch
-- [ ] Serial Experiments Lain <progress value="0" max="13"></progress>
-- [ ] Neon Genesis Evangelion <progress value="0" max="26"></progress>
-- [ ] Ben 10 Ultimate Alien
+- [x] We Are Legion: The Story of the Hacktivists (2012)
+- [x] V for Vendetta (2005)
+- [x] Tron: Legacy (2010)
+- [x] Tron: Ares (2025)
+- [x] Troy (2004)
+- [x] The Social Network (2010)
+- [x] The Pirate Bay: Away from Keyboard (2013)
+- [x] The Last of Us (game series) (2013, 2023)
+- [x] Tenet (2020)
+- [x] Tolkien (2019)
+- [x] Stranger Things (2016–2022)
+- [x] Snowden (2016)
+- [x] Revolution OS (2001)
+- [x] Ready Player One (2018)
+- [x] Pump up the Volume (1990)
+- [x] Naruto (2002–2017)
+- [x] Mr. Robot (2015–2019)
+- [x] Minimalism (2016)
+- [x] How I Met Your Mother (2005–2014)
+- [x] Hacksaw Ridge (2016)
+- [x] Friends (1994–2004)
+- [x] Fight Club (1999)
+- [x] Ford v Ferrari (2019)
+- [x] Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb (1964)
+- [x] Citizenfour (2014)
+- [x] Turning Point: The Bomb And The Cold War (2024)
+- [x] The Shawshank Redemption (1994)
+- [x] Chernobyl (2019)
+- [x] Ben 10 Originals (2005–2008)
+- [x] Ben 10 Alien Force (2008–2010)
+- [x] The Godfather Trilogy (1972–1990)
+- [x] Dead Poets Society (1989)
+- [x] Batman: Year One (2011)
+- [x] Batman: Gotham Knight (2008)
+- [x] Wonder Woman (2009)
+- [ ] Good Will Hunting (1997)
+- [ ] A Beautiful Mind (2001)
+- [ ] We Steal Secrets: The Story of WikiLeaks (2013)
+- [ ] The Social Dilemma (2020)
+- [ ] The Internet's Own Boy: The Story of Aaron Swartz (2014)
+- [ ] The Great Hack (2019)
+- [ ] Killswitch (2014)
+- [ ] Serial Experiments Lain <progress value="0" max="13"></progress> (1998)
+- [ ] Neon Genesis Evangelion <progress value="0" max="26"></progress> (1995–1996)
+- [ ] Ben 10 Ultimate Alien <progress value="0" max="26"></progress> (2010–2012)
+
 ---
-- [x] [Joe Rogan Experience #1368 - Edward Snowden](https://youtu.be/efs3QRr8LWw)
-- [ ] Darknet Diaries <progress value="54" max="157"></progress>
+
+- [x] [Joe Rogan Experience #1368 - Edward Snowden](https://youtu.be/efs3QRr8LWw) (2019)
+- [ ] Darknet Diaries <progress value="54" max="157"></progress> (2017–present)

@@ -1,10 +1,11 @@
 Here's what I'm planning to read
 
-| Book                                 | Author                               | Acquired? | Progress                                  |
-| ------------------------------------ | ------------------------------------ | --------- | ----------------------------------------- |
-| The Code Book                        | Simon Singh                          | Yes       | <progress value="1" max="8"></progress>   |
-| The Hitchhiker's Guide to the Galaxy | Douglas Adams                        | Yes       | <progress value="0" max="1"></progress>   |
-| Bhagwat Gita As It Is                | A. C. Bhaktivedanta Swami Prabhupada | Yes       | <progress value="9" max="18"></progress>  |
+| Book                                 | Author         | Acquired? | Progress                                |
+| ------------------------------------ | -------------- | --------- | --------------------------------------- |
+| The Code Book                        | Simon Singh    | Yes       | <progress value="1" max="8"></progress> |
+| The Hitchhiker's Guide to the Galaxy | Douglas Adams  | Yes       | <progress value="0" max="1"></progress> |
+| Neuromancer                          | William Gibson | Yes       | <progress value="0" max="1"></progress> |
+
 - [So you want to build a generator](https://www.tumblr.com/galaxykate0/139774965871/so-you-want-to-build-a-generator)
 
 ---
@@ -25,6 +26,7 @@ Here's the stuff that I've read (and enjoyed reading)
 | The Cemetery of Forgotten Books | Carlos Ruiz Zafón | Series |
 | The Hunger Games                | Suzanne Collins   | Series |
 | The Lord of the Rings           | J.R.R. Tolkien    | Series |
+
 - [Vim koans](https://blog.sanctum.geek.nz/vim-koans/)
 - [Searching for Susy Thunder](https://www.theverge.com/c/22889425/susy-thunder-headley-hackers-phone-phreakers-claire-evans)
 
@@ -32,10 +34,10 @@ Here's the stuff that I've read (and enjoyed reading)
 
 50 books before 20 progress
 
-1. Steve Jobs by Walter Isaacson  
-2. Metamorphosis by Franz Kafka  
-3. The Labyrinth of Spirits by Carlos Ruiz Zafón  
-4. The A B C Murders by Agatha Christie  
-5. Murder on the Orient Express by Agatha Christie  
-6. Brave New World by Aldous Huxley  
+1. Steve Jobs by Walter Isaacson
+2. Metamorphosis by Franz Kafka
+3. The Labyrinth of Spirits by Carlos Ruiz Zafón
+4. The A B C Murders by Agatha Christie
+5. Murder on the Orient Express by Agatha Christie
+6. Brave New World by Aldous Huxley
 7. Appointment with Death by Agatha Christie
