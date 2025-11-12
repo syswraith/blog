@@ -42,7 +42,7 @@
 - [ ] Killswitch (2014)
 - [ ] Serial Experiments Lain <progress value="0" max="13"></progress> (1998)
 - [ ] Neon Genesis Evangelion <progress value="0" max="26"></progress> (1995–1996)
-- [ ] Ben 10 Ultimate Alien <progress value="0" max="26"></progress> (2010–2012)
+- [ ] Ben 10 Ultimate Alien <progress value="26" max="52"></progress> (2010–2012)
 
 ---
 
