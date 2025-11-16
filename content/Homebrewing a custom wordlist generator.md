@@ -77,12 +77,12 @@ Ideal assumption is that a target's closeness to himself is `1.0`. That is the *
 - Clone the repositories locally.
 - There are various make commands in the `Makefile`. The order they should be executed in is as follows:
 
-1. `make connections` to define your target and connections
-2. `make passwords` to start generating the passwords
-3. `make filter` to filter out passwords according to the filters
-4. `make clear_cache` to clear the generated cache
-5. `make clear_profiles` to clear the generated profiles
-6. `make clear_wordlists` to clear the generated wordlists
+1. `python3 main.py connections` to define your target and connections
+2. `python3 main.py passwords` to start generating the passwords
+3. `python3 main.py filter` to filter out passwords according to the filters
+4. `python3 main.py clear_cache` to clear the generated cache
+5. `python3 main.py clear_profiles` to clear the generated profiles
+6. `python3 main.py clear_wordlists` to clear the generated wordlists
 
 # Miscellaneous
 
