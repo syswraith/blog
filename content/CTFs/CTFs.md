@@ -1,9 +1,15 @@
 I feel like a wizard trying to solve this solving this stuff. I guess this is how players felt when they cleared a dungeon in RPGs. Not gonna lie, this stuff is fun :)
 
 # OverTheWire progress
+
 [[OverTheWire Wargames.md]]
 
+# TryHackMe
+
+- [x] [[0x41haz.md]]
+
 # PicoCTF
+
 - [x] [[MatchTheRegex]]
 - [x] [[hashcrack]]
 - [x] [[Time Machine]]
