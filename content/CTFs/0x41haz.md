@@ -1,3 +1,7 @@
+---
+- Easy
+---
+
 1. Download the files from <https://tryhackme.com/room/0x41haz>
 
 2. Running the file command and the checksec command with the following options, it's clear that the file is a binary ELF file, but not being detected as one.
