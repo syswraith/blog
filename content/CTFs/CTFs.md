@@ -1,12 +1,25 @@
 I feel like a wizard trying to solve this solving this stuff. I guess this is how players felt when they cleared a dungeon in RPGs. Not gonna lie, this stuff is fun :)
 
-# OverTheWire progress
-
-[[OverTheWire Wargames.md]]
-
 # TryHackMe
 
 - [x] [[0x41haz.md]]
+- [x] basicmalwarere
+- [ ] reverselfiles
+
+# OverTheWire progress
+
+- [x] Bandit 0
+- [x] Bandit 1
+- [x] Bandit 2
+- [x] Bandit 3
+- [x] Bandit 4
+- [x] Bandit 5
+- [x] Bandit 6
+- [x] Bandit 7
+- [x] Bandit 8
+- [x] Bandit 9
+- [x] Bandit 10
+- [x] Bandit 11
 
 # PicoCTF
 
