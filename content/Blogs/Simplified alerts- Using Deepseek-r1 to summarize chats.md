@@ -1,4 +1,4 @@
-![[./images/chat-summarizer/thumbnail.png]]
+![[thumbnail.png]]
 
 I'm going to be honest. I don't like JavaScript. Not one bit. _It's coarse and rough and irritating and it gets everywhere._ It was my first programming language, and my language of choice for web-scraping and other automation tasks for a long time. I came to realize the pros and cons of utilizing it in my workflow, and decided that it no longer aligned with the goals I had in mind. That's why I shifted towards more zen-like languages like Python and C.
 
@@ -11,15 +11,15 @@ So naturally, it's going to be a long one :)
 
 Apple's latest iOS 18.3 update introduced Apple Intelligence, bringing long-awaited AI integration to the ecosystem. I don't use, nor encourage using Apple devices to anyone but creators, but what caught my attention were the funny tweets on X/Twitter that ultimately made Apple rollback their newly-released AI features. One of those features was a notification summariser that used AI. Here are some examples for your entertainment: 
 
-![[./images/chat-summarizer/hiking.png]]
-![[./images/chat-summarizer/pregwife.png]]
-![[./images/chat-summarizer/divorced.png]]
+![[hiking.png]]
+![[pregwife.png]]
+![[divorced.png]]
 
 After seeing this fiasco play out, I wanted to implement something similar for Android. Of course, not every notification needs to be summarized (and we're not dealing with reading phone notifications **at all** right now); but we're going to summarize individual WhatsApp chats, since that's where I think this feature will truly shine.
 
 # The Model
 
-What I can gather from these snippets is that the model being used is not able to pick up the tone of the conversation. This can be improved upon by using a chain-of-thought model, along with a custom-designed [system prompt](). The "artificial misinformation" might still persevere if we take this approach, but their error margins will be reduced significantly. 
+What I can gather from these snippets is that the model being used is not able to pick up the tone of the conversation. This can be improved upon by using a chain-of-thought model, along with a custom-designed [system prompt](https://csrc.nist.gov/glossary/term/system_prompt). The "artificial misinformation" might still persevere if we take this approach, but their error margins will be reduced significantly. 
 
 Here's a simple explanation of how chain-of-thought processing works:
 
@@ -34,7 +34,7 @@ flowchart TD
 ```
 
 
-Anyone who's been keeping up with the tech news is probably aware that the [new kind on the block]() has all of Silicon Valley in a frenzy and most of the US-based Fortune 500 companies panicking. It's not every day that a small Chinese AI startup pokes a [billion-dollar hole]() in the valuation of the largest [chipmaker]() in the world. This raised many eyebrows and invited many comments. One such is listed below.
+Anyone who's been keeping up with the tech news is probably aware that the [new kid on the block](https://youtu.be/Nl7aCUsWykg) has all of Silicon Valley in a frenzy and most of the US-based Fortune 500 companies panicking. It's not every day that a small Chinese AI startup pokes a [billion-dollar hole](https://timesofindia.indiatimes.com/technology/tech-news/the-american-company-that-lost-more-than-500-billion-to-deepseek-has-these-words-for-the-chinese-startup/articleshow/117652155.cms) in the valuation of the largest [chipmaker](https://www.bbc.com/news/articles/cp8e970vn5vo) in the world. This raised many eyebrows and invited many comments. One such is listed below.
 
 > _"China’s progress in algorithmic efficiency hasn't come out of nothing. When it comes to producing outstanding performers in math and science, China's secondary education system is superior to that of the West. It fosters fierce competition among students, a principle borrowed from the highly efficient Soviet model."_
 > 
@@ -45,7 +45,7 @@ In addition to Deepseek outperforming its competitors at the time of release, it
 
 The model was released on Ollama, which allows independent researchers/experimentalists (like me!) to download, run and interact with it locally. Here's a demo of it running on my machine.
 
-![[./images/chat-summarizer/terminal.png]]
+![[terminal.png]]
 # The Script
 
 Now that we have `Deepseek-r1:7b` set up locally, let's get to the more interesting part. The purpose of this script is simple- 
@@ -135,9 +135,9 @@ const ai_response = await ollama.generate({
 
 This code is pretty straightforward, but there is one thing that needs to be pointed out. At this point, we are going to need certain guidelines that will tell the model what kind of output we're expecting. We don't want it going on forever and ever, and we won't get good-quality results if we just say *"Summarise this thing in 3 lines!"*.
 
-So we will use a [system prompt]() to direct how the response will be generated.
+So we will use a [system prompt](https://csrc.nist.gov/glossary/term/system_prompt) to direct how the response will be generated.
 
-Writing this was a bit tricky because keeping the summary limited to a few lines and asking it NOT to output Markdown (like it's used to) is a bit difficult. I took inspiration from many of the patterns listed in [Daniel Meissler's Fabric Framework](). Go check those out, they're really good prompts!
+Writing this was a bit tricky because keeping the summary limited to a few lines and asking it NOT to output Markdown (like it's used to) is a bit difficult. I took inspiration from many of the patterns listed in [Daniel Meissler's Fabric Framework](https://github.com/danielmiessler/Fabric). Go check those out, they're really good prompts!
 
 ```system_prompt.txt
 # IDENTITY and PURPOSE
@@ -237,12 +237,12 @@ In my testing, I can encounter mainly two types of conversations:
 Below are the examples of both of them, and their results. They're not real conversations (obviously) but rather simulated with regards to being as real as possible.
 ## 1. Fact-rich conversation
 
-![[./images/chat-summarizer/cjs-vs-es6-chat.png]]
-![[./images/chat-summarizer/cjs-vs-es6-notif.png]]
+![[cjs-vs-es6-chat.png]]
+![[cjs-vs-es6-notif.png]]
 ## 2. Emotion-heavy conversation
 
-![[./images/chat-summarizer/bsf-chat.png]]
-![[./images/chat-summarizer/bsf-notif.png]]
+![[bsf-chat.png]]
+![[bsf-notif.png]]
 
 
 # Parting thoughts

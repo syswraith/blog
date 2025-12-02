@@ -8,20 +8,17 @@ I'm a `vim` heretic and an `arch` (btw) user.
 
 This is a digital record of all of my conquests with computers, programming, movies, books, music, linguistics, cryptography, typography, et cetera. My musings are my own and may be wrong at times, for I am always looking to improve.
 
-- Reading list => [[Reading]] 
-- Watching list => [[Watching]]
-- CTF => [[CTFs/CTFs]]
-- Life Updates => [[Life Updates]]
-
-# Todo
-- Solve CTFs
-- Do LFS
-- HAM
+What I'm up to currently is
+- improve at competitive programming
+- improve at capture the flags - [[CTFs/CTFs]]
+- watching more stuff - [[Watching]]
+- reading more stuff - [[Reading]]
 
 # What's new
+- [[Writing a LOGO REPL, Part 1 - Thoughts, Tokenizer and Parser]]
+- [[0x41haz]]
 - [[Breaking a Substitution Cipher with Cryptanalysis]]
 - [[Life on the Command-line]]
-- Started solving ctfs! [[CTFs/CTFs]]
 
 # Blog entries 
 - [[Dissecting the Anatomy of a Botnet]]
@@ -30,3 +27,5 @@ This is a digital record of all of my conquests with computers, programming, mov
 - [[Homebrewing a custom wordlist generator]]
 - [[Life on the Command-line]]
 - [[Breaking a Substitution Cipher with Cryptanalysis]]
+- [[Writing a LOGO REPL, Part 1 - Thoughts, Tokenizer and Parser]]
+

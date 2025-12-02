@@ -33,8 +33,6 @@
 - [x] Batman: Year One (2011)
 - [x] Batman: Gotham Knight (2008)
 - [x] Wonder Woman (2009)
-- [ ] Good Will Hunting (1997)
-- [ ] A Beautiful Mind (2001)
 - [ ] We Steal Secrets: The Story of WikiLeaks (2013)
 - [ ] The Social Dilemma (2020)
 - [ ] The Internet's Own Boy: The Story of Aaron Swartz (2014)
