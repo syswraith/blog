@@ -35,6 +35,7 @@
 - [x] Wonder Woman (2009)
 - [x] Justice League: The Flashpoint Paradox (2013)
 - [x] Justice League: War (2014)
+- [x] Son of Batman (2014)
 - [ ] We Steal Secrets: The Story of WikiLeaks (2013)
 - [ ] The Social Dilemma (2020)
 - [ ] The Internet's Own Boy: The Story of Aaron Swartz (2014)
