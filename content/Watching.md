@@ -36,6 +36,9 @@
 - [x] Justice League: The Flashpoint Paradox (2013)
 - [x] Justice League: War (2014)
 - [x] Son of Batman (2014)
+- [x] Justice League: Throne of Atlantis
+- [x] Batman vs Robin
+- [x] Batman: Bad Blood
 - [ ] We Steal Secrets: The Story of WikiLeaks (2013)
 - [ ] The Social Dilemma (2020)
 - [ ] The Internet's Own Boy: The Story of Aaron Swartz (2014)
