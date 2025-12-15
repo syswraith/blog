@@ -1,7 +1,6 @@
 ---
 title: "Implementing a Logo Interpreter - Part 1"
 description: "Part 1 of building a Logo interpreter: a tokenizer, parser, AST design, and nested REPEAT handling using TypeScript and HTML5 Canvas."
-permalink: "https://syswraith.com/blog/Blogs/Writing-a-LOGO-REPL,-Part-1---Thoughts,-Tokenizer-and-Parser"
 comments: true
 lang: "en"
 publish: true
