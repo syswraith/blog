@@ -1,14 +1,52 @@
+---
+title: "Breaking a Substitution Cipher with Cryptanalysis"
+description: "A step-by-step walkthrough of breaking a substitution cipher using frequency analysis, pattern recognition, and contextual guessing."
+permalink: "/Blogs/Breaking-a-Substitution-Cipher-with-Cryptanalysis"
+comments: true
+lang: "en"
+publish: true
+draft: false
+enableToc: true
 
-A **cipher** is an algorithm for encoding or decoding text in such a way that only the intended recipient can understand it.  
+tags:
+  - cryptography
+  - substitution-cipher
+  - cryptanalysis
+  - frequency-analysis
+  - classical-ciphers
+  - security
+
+alias:
+  - "Breaking-a-Substitution-Cipher-with-Cryptanalysis"
+
+cssclasses: []
+
+socialDescription: "Learn how to break a substitution cipher using classic cryptanalysis techniques like frequency analysis, repeating patterns, and contextual deduction."
+socialImage: "substitution_cipher.png"
+
+image: "substitution_cipher.png"
+cover: "substitution_cipher_cover.png"
+
+created: 2025-10-27
+date: 2025-10-27
+modified: 2025-10-27
+lastmod: 2025-10-27
+updated: 2025-10-27
+last-modified: 2025-10-27
+published: 2025-10-27
+publishDate: 2025-10-27
+---
+
+A **cipher** is an algorithm for encoding or decoding text in such a way that only the intended recipient can understand it.
 
 ![[images/substitution_cipher/input_output_map.png]]
 
 At a high level, all cryptographic algorithms work as follows:
 
-1. The unencrypted message is called **plaintext**.  
-2. Plaintext is passed to an **encryption function**, which is a set of rules for transforming the message.  
-3. The function also takes a **key**, known only to the sender and receiver.  
-4. Using the key, the function produces the **ciphertext** (encrypted message).  
+1. The unencrypted message is called **plaintext**.
+2. Plaintext is passed to an **encryption function**, which is a set of rules for transforming the message.
+3. The function also takes a **key**, known only to the sender and receiver.
+4. Using the key, the function produces the **ciphertext** (encrypted message).
 
 It is crucial that the key and encryption method remain secret; otherwise, anyone can decrypt the message.
 
@@ -22,15 +60,16 @@ We are given the following ciphertext
 psili nli cg bgli onllailm pg flgmm. nkk a snvi ac fgbbgc waps psi qcfgcplgkknoki ncr psi acmnci, psi vafagqm ncr psi ivak, nkk psi bnysib a snvi fnqmir ncr by qppil acraeeilicfi pgwnlr ap a snvi cgw mqlhnmmir. by hnac am fgcmpncp ncr msnlh ncr a rg cgp sghi egl n oippil wglkr egl ncygci, ac enfp a wncp by hnac pg oi acekafpir gc gpsilm. a wncp cg gci pg imfnhi, oqp ivic nepil nrbappacd psam psili am cg fnpsnlmam, by hqcamsbicp fgcpacqim pg ikqri bi ncr a dnac cg riihil ucgwkirdi ge bymike; cg ciw ucgwkirdi fnc oi ixplnfpir elgb by pikkacd. psam fgceimmagc snm bincp cgpsacd.
 ```
 
-Uppercase letters denote letters that are decrypted and lowercase letters denote letters that are not. 
+Uppercase letters denote letters that are decrypted and lowercase letters denote letters that are not.
 
 ---
+
 ## Step 1: Initial Guesses
 
 ![[images/substitution_cipher/word_frequency.png]]
 
-Observing the text, we notice **frequent repetitions** such as `psi` and `ncr` 
-. We can guess 2 common 3-letter words:  
+Observing the text, we notice **frequent repetitions** such as `psi` and `ncr`
+. We can guess 2 common 3-letter words:
 
 | Cipher | Likely Plaintext |
 | ------ | ---------------- |
@@ -47,17 +86,20 @@ n => A
 c => N
 r => D
 ```
+
 ![[images/substitution_cipher/cipher_1.png]]
 In the first word, if we change `l` => `R`, we get the word `THERE`.  
-In the second word, if we change `n` => `A`, we get the word `ARE`.  
+In the second word, if we change `n` => `A`, we get the word `ARE`.
 
 ```
 l => R
 n => A
 ```
+
 ![[images/substitution_cipher/cipher_2.png]]
 
 ---
+
 ## Step 2: Single-character Words
 
 The character `a` comes by itself. There are two possibilities — `A` and `I`. Since `A` is already used, we replace it with:
@@ -65,9 +107,11 @@ The character `a` comes by itself. There are two possibilities — `A` and `I`. 
 ```
 a => I
 ```
+
 ![[images/substitution_cipher/cipher_3.png]]
 
 ---
+
 ## Step 3: Recognizing Common Words
 
 The phrase `AND` appears in context; we assign:
@@ -78,6 +122,7 @@ w => W
 c => N
 r => D
 ```
+
 ![[images/substitution_cipher/cipher_4.png]]
 We can assume that since since v, w have their usual meanings, the letters coming after them follow this property as well.
 
@@ -88,13 +133,15 @@ z => Z
 ```
 
 ---
+
 ## Step 4: Repeating Letters
 
-- Repeated ciphertext `kk` likely is likely `ll` because ALL fits more in this context than ASS.  
+- Repeated ciphertext `kk` likely is likely `ll` because ALL fits more in this context than ASS.
 - `m` → `S` to form the word `INSANE`.  
-![[images/substitution_cipher/cipher_5.png]]
+  ![[images/substitution_cipher/cipher_5.png]]
 
 ---
+
 ## Step 5: Completing the Key
 
 Based on context, we fill remaining letters:
@@ -113,24 +160,28 @@ e => F
 ![[images/substitution_cipher/cipher_6.png]]
 
 ---
+
 ## Final Key
 
 | Letter  | a   | b   | c   | d   | e   | f   | g   | h   | i   | j   | k   | l   | m   | n   | o   | p   | q   | r   | s   | t   | u   | v   | w   | x   | y   | z   |
 | ------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Mapping | I   | M   | N   | G   | F   | C   | O   | P   | E   | _   | _   | R   | S   | A   | B   | T   | U   | D   | H   | _   | _   | V   | W   | X   | Y   | Z   |
-
+| Mapping | I   | M   | N   | G   | F   | C   | O   | P   | E   | \_  | \_  | R   | S   | A   | B   | T   | U   | D   | H   | \_  | \_  | V   | W   | X   | Y   | Z   |
 
 ---
+
 ## Step 6: Frequency Analysis & Observations
 
-- Observing repeating letters and common patterns (`THE`, `ARE`, `AND`) helped identify substitutions.  
-- Double letters (`ll`, `ss`) give clues about word structure.  
+- Observing repeating letters and common patterns (`THE`, `ARE`, `AND`) helped identify substitutions.
+- Double letters (`ll`, `ss`) give clues about word structure.
 - Context is key: guessing likely words makes solving faster.
+
 ---
+
 ## Tips for Solving Substitution Ciphers
 
-1. **Start with short, common words** (`the`, `and`, `are`, `is`).  
-2. **Look for repeating patterns** — double letters, common suffixes (`-ing`, `-ed`).  
+1. **Start with short, common words** (`the`, `and`, `are`, `is`).
+2. **Look for repeating patterns** — double letters, common suffixes (`-ing`, `-ed`).
 3. **Track mappings in a table.** Sometimes one may be able to bruteforce the key used to encrypt the message, and then break the cipher that way.
 4. **Analyze the frequency of letters.** For example, letters like `E`, `T`, `A` appear often in English.
 5. A good resource for more information on cryptography is **The Code Book by Simon Singh**.
+
