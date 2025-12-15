@@ -1,7 +1,7 @@
 ---
 title: "Breaking a Substitution Cipher with Cryptanalysis"
 description: "A step-by-step walkthrough of breaking a substitution cipher using frequency analysis, pattern recognition, and contextual guessing."
-permalink: "/Blogs/Breaking-a-Substitution-Cipher-with-Cryptanalysis"
+permalink: "https://syswraith.com/blog/Blogs/Breaking-a-Substitution-Cipher-with-Cryptanalysis"
 comments: true
 lang: "en"
 publish: true
@@ -184,4 +184,3 @@ e => F
 3. **Track mappings in a table.** Sometimes one may be able to bruteforce the key used to encrypt the message, and then break the cipher that way.
 4. **Analyze the frequency of letters.** For example, letters like `E`, `T`, `A` appear often in English.
 5. A good resource for more information on cryptography is **The Code Book by Simon Singh**.
-

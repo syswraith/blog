@@ -1,7 +1,7 @@
 ---
 title: "Implementing a Logo Interpreter - Part 1"
 description: "Part 1 of building a Logo interpreter: a tokenizer, parser, AST design, and nested REPEAT handling using TypeScript and HTML5 Canvas."
-permalink: "/posts/logo-interpreter-typescript/part-1/"
+permalink: "https://syswraith.com/blog/Blogs/Writing-a-LOGO-REPL,-Part-1---Thoughts,-Tokenizer-and-Parser"
 comments: true
 lang: "en"
 publish: true
@@ -17,10 +17,9 @@ tags:
   - compilers
   - canvas
 
-aliases:
-  - "/logo-typescript/"
-  - "/microsoft-logo-parser/"
-  - "/posts/logo-interpreter-typescript/"
+alias:
+  - "logo"
+
 cssclasses: []
 
 socialDescription: "Part 1 of building a custom Microsoft Logo tokenizer and parser in TypeScript — AST construction, tokenization design, and nested REPEAT implementation."
@@ -144,4 +143,3 @@ Now this becomes a pain to implement since it doesn't fit the normal command des
 The actual implementation has comments which go into much deeper detail. Check out the [source for the parser](https://github.com/syswraith/logo/blob/main/src/components/Parser.ts) if you want to understand how it works.
 
 Stay tuned for part 2!
-
