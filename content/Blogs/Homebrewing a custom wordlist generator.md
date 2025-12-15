@@ -24,8 +24,6 @@ cssclasses: []
 socialDescription: "Exploring password math and human behavior through Ryukendo—a context-aware password wordlist generator built around social proximity and probability."
 socialImage: "ryukendo.png"
 
-image: "ryukendo.png"
-cover: "password_math.png"
 
 created: 2025-06-06
 date: 2025-06-06

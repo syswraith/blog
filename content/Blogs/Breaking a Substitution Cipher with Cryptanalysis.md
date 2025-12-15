@@ -23,8 +23,6 @@ cssclasses: []
 socialDescription: "Learn how to break a substitution cipher using classic cryptanalysis techniques like frequency analysis, repeating patterns, and contextual deduction."
 socialImage: "substitution_cipher.png"
 
-image: "images/substitution_cipher/input_output_map.png"
-cover: "images/substitution_cipher/input_output_map.png"
 
 created: 2025-10-27
 date: 2025-10-27

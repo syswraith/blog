@@ -24,8 +24,6 @@ cssclasses: []
 socialDescription: "Using Deepseek-r1 and Ollama to generate concise WhatsApp chat summaries and deliver them as phone notifications."
 socialImage: "thumbnail.png"
 
-image: "thumbnail.png"
-cover: "thumbnail.png"
 
 created: 2025-02-09
 date: 2025-02-09

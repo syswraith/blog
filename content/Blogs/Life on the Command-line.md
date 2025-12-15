@@ -1,5 +1,5 @@
 ---
-title: "life on the command line"
+title: "Life on the command line"
 description: "A collection of small terminal-based projects in C and Python, exploring low-level programming, algorithms, and classic computer science exercises."
 comments: true
 lang: "en"

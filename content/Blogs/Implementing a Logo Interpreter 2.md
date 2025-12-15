@@ -28,8 +28,6 @@ cssclasses: []
 socialDescription: "Part 2 of building a Microsoft Logo interpreter in TypeScript — implementing the drawing engine using Canvas, Cartesian updates, and turtle direction handling."
 socialImage: "displace_turtle.png"
 
-image: "displace_turtle.png"
-cover: "displace_turtle.png"
 
 created: 2025-12-02
 date: 2025-12-02
