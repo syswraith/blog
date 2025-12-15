@@ -1,12 +1,11 @@
 ---
-title: "Breaking a Substitution Cipher with Cryptanalysis"
-description: "A step-by-step walkthrough of breaking a substitution cipher using frequency analysis, pattern recognition, and contextual guessing."
+title: Breaking a Substitution Cipher with Cryptanalysis
+description: A step-by-step walkthrough of breaking a substitution cipher using frequency analysis, pattern recognition, and contextual guessing.
 comments: true
-lang: "en"
+lang: en
 publish: true
 draft: false
 enableToc: true
-
 tags:
   - cryptography
   - substitution-cipher
@@ -14,16 +13,12 @@ tags:
   - frequency-analysis
   - classical-ciphers
   - security
-
+  - reverse-engineering
 alias:
-  - "Breaking-a-Substitution-Cipher-with-Cryptanalysis"
-
+  - Breaking-a-Substitution-Cipher-with-Cryptanalysis
 cssclasses: []
-
-socialDescription: "Learn how to break a substitution cipher using classic cryptanalysis techniques like frequency analysis, repeating patterns, and contextual deduction."
-socialImage: "substitution_cipher.png"
-
-
+socialDescription: Learn how to break a substitution cipher using classic cryptanalysis techniques like frequency analysis, repeating patterns, and contextual deduction.
+socialImage: substitution_cipher.png
 created: 2025-10-27
 date: 2025-10-27
 modified: 2025-10-27

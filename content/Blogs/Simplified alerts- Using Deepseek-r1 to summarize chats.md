@@ -1,12 +1,11 @@
 ---
-title: "Simplified alerts — Using Deepseek-r1 to summarize chats"
-description: "Building a WhatsApp chat summariser using Deepseek-r1, Ollama, and whatsapp-web.js to generate concise, notification-friendly summaries."
+title: Simplified alerts — Using Deepseek-r1 to summarize chats
+description: Building a WhatsApp chat summariser using Deepseek-r1, Ollama, and whatsapp-web.js to generate concise, notification-friendly summaries.
 comments: true
-lang: "en"
+lang: en
 publish: true
 draft: false
 enableToc: true
-
 tags:
   - llm
   - deepseek
@@ -15,16 +14,12 @@ tags:
   - notifications
   - javascript
   - ai
-
+  - automation
 alias:
-  - "simplified-alerts-deepseek"
-
+  - simplified-alerts-deepseek
 cssclasses: []
-
-socialDescription: "Using Deepseek-r1 and Ollama to generate concise WhatsApp chat summaries and deliver them as phone notifications."
-socialImage: "thumbnail.png"
-
-
+socialDescription: Using Deepseek-r1 and Ollama to generate concise WhatsApp chat summaries and deliver them as phone notifications.
+socialImage: thumbnail.png
 created: 2025-02-09
 date: 2025-02-09
 modified: 2025-02-09

@@ -1,12 +1,11 @@
 ---
-title: "Dissecting the Anatomy of a Botnet"
-description: "A walkthrough of a Python-based IRC botnet prototype, covering the IRC protocol, command handling, and bot–operator communication."
+title: Dissecting the Anatomy of a Botnet
+description: A walkthrough of a Python-based IRC botnet prototype, covering the IRC protocol, command handling, and bot–operator communication.
 comments: true
-lang: "en"
+lang: en
 publish: true
 draft: false
 enableToc: true
-
 tags:
   - irc
   - botnet
@@ -15,16 +14,12 @@ tags:
   - sockets
   - security
   - malware-analysis
-
+  - automation
 alias:
-  - "ngzl"
-
+  - ngzl
 cssclasses: []
-
-socialDescription: "A deep dive into building a Python IRC botnet prototype—exploring IRC internals, command execution, and bot control mechanics."
-socialImage: "irc_botnet.png"
-
-
+socialDescription: A deep dive into building a Python IRC botnet prototype—exploring IRC internals, command execution, and bot control mechanics.
+socialImage: irc_botnet.png
 created: 2025-01-17
 date: 2025-01-17
 modified: 2025-01-17

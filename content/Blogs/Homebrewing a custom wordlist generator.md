@@ -1,12 +1,11 @@
 ---
-title: "Homebrewing a Custom Wordlist Generator"
-description: "A probabilistic password wordlist generator that models human behavior, social proximity, and contextual data to prioritize high-likelihood passwords."
+title: Homebrewing a Custom Wordlist Generator
+description: A probabilistic password wordlist generator that models human behavior, social proximity, and contextual data to prioritize high-likelihood passwords.
 comments: true
-lang: "en"
+lang: en
 publish: true
 draft: false
 enableToc: true
-
 tags:
   - passwords
   - security
@@ -15,16 +14,12 @@ tags:
   - cryptography
   - python
   - osint
-
+  - automation
 alias:
-  - "ryukendo"
-
+  - ryukendo
 cssclasses: []
-
-socialDescription: "Exploring password math and human behavior through Ryukendo—a context-aware password wordlist generator built around social proximity and probability."
-socialImage: "ryukendo.png"
-
-
+socialDescription: Exploring password math and human behavior through Ryukendo—a context-aware password wordlist generator built around social proximity and probability.
+socialImage: ryukendo.png
 created: 2025-06-06
 date: 2025-06-06
 modified: 2025-06-06

@@ -1,12 +1,11 @@
 ---
-title: "Life on the command line"
-description: "A collection of small terminal-based projects in C and Python, exploring low-level programming, algorithms, and classic computer science exercises."
+title: Life on the command line
+description: A collection of small terminal-based projects in C and Python, exploring low-level programming, algorithms, and classic computer science exercises.
 comments: true
-lang: "en"
+lang: en
 publish: true
 draft: false
 enableToc: true
-
 tags:
   - c
   - python
@@ -14,15 +13,10 @@ tags:
   - systems-programming
   - algorithms
   - ascii
-  - projects
-
 alias:
-  - "command-line-projects"
-
+  - command-line-projects
 cssclasses: []
-
-socialDescription: "Exploring life on the command line through small C and Python projects, from games to algorithms and system-level experiments."
-
+socialDescription: Exploring life on the command line through small C and Python projects, from games to algorithms and system-level experiments.
 created: 2025-10-21
 date: 2025-10-21
 modified: 2025-10-21
