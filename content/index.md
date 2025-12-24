@@ -30,4 +30,4 @@ What I'm up to currently is
 - [[Homebrewing a custom wordlist generator]]
 - [[Life on the Command-line]]
 - [[Breaking a Substitution Cipher with Cryptanalysis]]
-- [[Writing a LOGO REPL, Part 1 - Thoughts, Tokenizer and Parser]]
+- [[Implementing a Logo Interpreter 1]]
