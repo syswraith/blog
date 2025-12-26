@@ -8,7 +8,7 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "syswraith's workbench",
+    pageTitle: "syswraith's holocron",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
@@ -26,7 +26,7 @@ const config: QuartzConfig = {
       typography: {
         header: "Schibsted Grotesk",
         body: "Source Sans Pro",
-        code: "IBM Plex Mono",
+        code: "JetBrains Mono",
       },
       colors: {
         lightMode: {
