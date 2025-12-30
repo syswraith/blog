@@ -24,7 +24,6 @@ cssclasses: []
 socialDescription: "Part 1 of building a custom Microsoft Logo tokenizer and parser in TypeScript — AST construction, tokenization design, and nested REPEAT implementation."
 socialImage: "msw_logo.png"
 
-
 created: 2025-12-02
 date: 2025-12-02
 modified: 2025-12-02
@@ -130,8 +129,6 @@ Why I settled on this format despite its _torturous_ implementation is because i
 These are some of the command definitions. What was interesting to me is that Typescript natively supports `Infinity`, because if it didn't I'd have to rework the whole parser to support `SETPOS`.
 
 ## REPEATs and Nested REPEATs
-
-![](https://x.com/syswraith/status/1978361432870690854)
 
 <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">One problem I&#39;ve encountered while writing the LOGO parser is when implementing the REPEAT command. Constructing the AST is messy because you can call REPEAT inside another REPEAT. This means that I&#39;ll have to keep track of how deeply the REPEAT is nested. <a href="https://t.co/iXYEH5H1jL">pic.twitter.com/iXYEH5H1jL</a></p>&mdash; syswraith (@syswraith) <a href="https://twitter.com/syswraith/status/1978361432870690854?ref_src=twsrc%5Etfw">October 15, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
