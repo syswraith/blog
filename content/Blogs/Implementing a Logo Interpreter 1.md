@@ -131,6 +131,8 @@ These are some of the command definitions. What was interesting to me is that Ty
 
 ## REPEATs and Nested REPEATs
 
+![](https://x.com/syswraith/status/1978361432870690854)
+
 <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">One problem I&#39;ve encountered while writing the LOGO parser is when implementing the REPEAT command. Constructing the AST is messy because you can call REPEAT inside another REPEAT. This means that I&#39;ll have to keep track of how deeply the REPEAT is nested. <a href="https://t.co/iXYEH5H1jL">pic.twitter.com/iXYEH5H1jL</a></p>&mdash; syswraith (@syswraith) <a href="https://twitter.com/syswraith/status/1978361432870690854?ref_src=twsrc%5Etfw">October 15, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 Now this becomes a pain to implement since it doesn't fit the normal command description that I implemented above. I had to manually add an edge case that would check if the token is a `REPEAT` and if yes, then increment the depth counter. Not as simple as it sounds since there's a ton of places where I had to check for and throw errors, and a recursive function call that almost gave me cancer while implementing. Below is how it works on the surface.
