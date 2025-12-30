@@ -42,13 +42,14 @@
 - [x] Justice League: Throne of Atlantis
 - [x] Batman vs Robin
 - [x] Batman: Bad Blood
+- [ ] [[Neon Genesis Evangelion]] <progress value="2" max="26"></progress> (1995–1996)
 - [ ] We Steal Secrets: The Story of WikiLeaks (2013)
 - [ ] The Social Dilemma (2020)
 - [ ] The Internet's Own Boy: The Story of Aaron Swartz (2014)
 - [ ] The Great Hack (2019)
 - [ ] Killswitch (2014)
 - [ ] Serial Experiments Lain <progress value="0" max="13"></progress> (1998)
-- [ ] Neon Genesis Evangelion <progress value="0" max="26"></progress> (1995–1996)
+
 
 ---
 
