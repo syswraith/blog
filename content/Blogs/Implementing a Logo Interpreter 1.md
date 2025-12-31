@@ -1,12 +1,11 @@
 ---
-title: "Implementing a Logo Interpreter - Part 1"
+title: Implementing a Logo Interpreter - Part 1
 description: "Part 1 of building a Logo interpreter: a tokenizer, parser, AST design, and nested REPEAT handling using TypeScript and HTML5 Canvas."
 comments: true
-lang: "en"
+lang: en
 publish: true
 draft: false
 enableToc: true
-
 tags:
   - typescript
   - parsing
@@ -15,15 +14,11 @@ tags:
   - abstract-syntax-tree
   - compilers
   - canvas
-
 alias:
-  - "logo"
-
+  - logo1
 cssclasses: []
-
-socialDescription: "Part 1 of building a custom Microsoft Logo tokenizer and parser in TypeScript — AST construction, tokenization design, and nested REPEAT implementation."
-socialImage: "msw_logo.png"
-
+socialDescription: Part 1 of building a custom Microsoft Logo tokenizer and parser in TypeScript — AST construction, tokenization design, and nested REPEAT implementation.
+socialImage:
 created: 2025-12-02
 date: 2025-12-02
 modified: 2025-12-02

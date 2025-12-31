@@ -19,7 +19,7 @@ alias:
   - ryukendo
 cssclasses: []
 socialDescription: Exploring password math and human behavior through Ryukendo—a context-aware password wordlist generator built around social proximity and probability.
-socialImage: ryukendo.png
+socialImage:
 created: 2025-06-06
 date: 2025-06-06
 modified: 2025-06-06

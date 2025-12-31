@@ -15,10 +15,10 @@ tags:
   - security
   - reverse-engineering
 alias:
-  - Breaking-a-Substitution-Cipher-with-Cryptanalysis
+  - cryptanalysis
 cssclasses: []
 socialDescription: Learn how to break a substitution cipher using classic cryptanalysis techniques like frequency analysis, repeating patterns, and contextual deduction.
-socialImage: substitution_cipher.png
+socialImage: ./cryptanalysis.png
 created: 2025-10-27
 date: 2025-10-27
 modified: 2025-10-27
