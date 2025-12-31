@@ -36,7 +36,7 @@ What I'm up to currently is
 
 # Some cool people I know
 
-<span style="display:inline-flex; gap:8px; align-items:center; padding:5px; flex-wrap:wrap;">
+<span style="display:inline-flex; gap:8px; align-items:center; padding-left:5px; padding-right: 5px; flex-wrap:wrap;">
   <a href="https://tervicke.github.io" target="_blank" rel="noopener">
     <img src="https://github.com/tervicke.png" height="50" alt="@tervicke">
   </a>
