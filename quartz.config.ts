@@ -1,11 +1,6 @@
 import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
 
-/**
- * Quartz 4.0 Configuration
- *
- * See https://quartz.jzhao.xyz/configuration for more information.
- */
 const config: QuartzConfig = {
   configuration: {
     pageTitle: "syswraith's holocron",
@@ -19,7 +14,6 @@ const config: QuartzConfig = {
     baseUrl: "syswraith.com/blog",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "created",
-    generateSocialImages: false,
     theme: {
       fontOrigin: "googleFonts",
       cdnCaching: true,
@@ -54,12 +48,15 @@ const config: QuartzConfig = {
       },
     },
   },
+
   plugins: {
     transformers: [
       Plugin.FrontMatter(),
+
       Plugin.CreatedModifiedDate({
-        priority: ["frontmatter", "filesystem"],
+        priority: ["frontmatter", "git", "filesystem"],
       }),
+
       Plugin.SyntaxHighlighting({
         theme: {
           light: "github-light",
@@ -67,28 +64,41 @@ const config: QuartzConfig = {
         },
         keepBackground: false,
       }),
-      Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: false, mermaid: true }),
+
+      Plugin.ObsidianFlavoredMarkdown({
+        enableInHtmlEmbed: false,
+        mermaid: true,
+      }),
+
       Plugin.GitHubFlavoredMarkdown(),
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
       Plugin.Latex({ renderEngine: "katex" }),
     ],
-    filters: [Plugin.RemoveDrafts()],
+
+    filters: [
+      Plugin.RemoveDrafts(),
+    ],
+
     emitters: [
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
       Plugin.ContentPage(),
       Plugin.FolderPage(),
       Plugin.TagPage(),
+
       Plugin.ContentIndex({
         enableSiteMap: true,
         enableRSS: true,
         rssFullHtml: true,
       }),
+
       Plugin.Assets(),
       Plugin.Static(),
+      Plugin.Favicon(),
       Plugin.NotFoundPage(),
+      Plugin.CustomOgImages(),
     ],
   },
 }
