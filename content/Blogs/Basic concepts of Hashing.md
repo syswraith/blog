@@ -64,7 +64,7 @@ To resolve a collision, we use different collision resolution techniques. Four o
 
 ### C code
 
-```x
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
