@@ -67,7 +67,6 @@ const config: QuartzConfig = {
 
       Plugin.ObsidianFlavoredMarkdown({
         enableInHtmlEmbed: true,
-        disableBrokenWikilinks: true,
         enableCheckbox: true
       }),
 
