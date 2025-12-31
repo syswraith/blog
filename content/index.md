@@ -33,3 +33,12 @@ What I'm up to currently is
 - [[Breaking a Substitution Cipher with Cryptanalysis]]
 - [[Implementing a Logo Interpreter 1]]
 - [[Basic concepts of Hashing]]
+
+# Some cool people I know
+
+<span style="display:inline-flex;gap:8px;align-items:center">
+  <a href="https://tervicke.github.io" target="_blank" rel="noopener"><img src="https://github.com/tervicke.png" style="height:50px;border-radius:0" alt="@tervicke" /></a>
+  <a href="https://ferroflux.github.io" target="_blank" rel="noopener"><img src="https://github.com/ferroflux.png" style="height:50px;border-radius:0" alt="@ferroflux" /></a>
+  <a href="https://faizanfirdousi.vercel.app" target="_blank" rel="noopener"><img src="https://github.com/faizanfirdousi.png" style="height:50px;border-radius:0" alt="@faizanfirdousi" /></a>
+  <a href="https://dhruvmarulkar.github.io" target="_blank" rel="noopener"><img src="https://github.com/dhruvmarulkar.png" style="height:50px;border-radius:0" alt="@dhruvmarulkar" /></a>
+</span>
