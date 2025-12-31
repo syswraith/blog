@@ -17,6 +17,7 @@ What I'm up to currently is
 
 # What's new
 
+- [[Basic concepts of Hashing]]
 - [[Implementing a Logo Interpreter 1]]
 - [[0x41haz]]
 - [[Breaking a Substitution Cipher with Cryptanalysis]]

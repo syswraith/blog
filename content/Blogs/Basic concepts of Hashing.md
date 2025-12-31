@@ -26,8 +26,6 @@ published: 2025-12-31
 publishDate: 2025-12-31
 ---
 
-
-
 In my data structures and algorithms course, I had a topic which gave me a general overview on how hashing helps to store and retrieve data efficiently. Some of the concepts fascinated me and I decided to implement them for recreation.
 
 Some basic terms that I'll be using in my explanation are:
@@ -42,7 +40,9 @@ Some basic terms that I'll be using in my explanation are:
 | Bucket index  | An index or a reference to where the key is stored; or simply put, the address of the bucket in the hash table.                  |
 | Collision     | When one or more keys (input) produce the same bucket index (output), a collision is said to occur.                              |
 | Overflow      | When a hash table has reached the limit of how many keys it can store, adding any more elements will cause an overflow to occur. |
+
 To resolve a collision, we use different collision resolution techniques. Four of them are:
+
 - [[#Chaining]]
 - Linear probing
 - Quadratic probing
@@ -50,8 +50,9 @@ To resolve a collision, we use different collision resolution techniques. Four o
 
 # Chaining
 
-### Important points to note:
-- This type of technique uses linked lists to store keys. 
+### Important points to note
+
+- This type of technique uses linked lists to store keys.
 - When a collision occurs, one can simply add the incoming key to the linked list.
 - This solution is able to dynamically store incoming keys without requiring us to manually resizing it.
 - Each index of the hash table points to the head of the linked list that stores the most recent element of the bucket.
@@ -156,7 +157,7 @@ Since the hash function is `k % 10`, the index for 0 and 10 are the same, thus t
 
 # Linear Probing and Quadratic probing
 
-- Both Linear and Quadratic probing use a simple index table structure. 
+- Both Linear and Quadratic probing use a simple index table structure.
 - The hash table may be defined as a simple array that can hold the value and the probe number.
 - The probe number is the number of tries/probes taken to search for an empty bucket.
 - Since the table size is fixed, an overflow can occur.
@@ -296,6 +297,7 @@ int main(void) {
   return 0;
 }
 ```
+
 #### 2. Quadratic Probing
 
 ```C
@@ -420,3 +422,4 @@ int main(void) {
 ## Output
 
 ![[lq probing.png]]
+
