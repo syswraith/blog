@@ -18,7 +18,6 @@ alias:
   - logo1
 cssclasses: []
 socialDescription: Part 1 of building a custom Microsoft Logo tokenizer and parser in TypeScript — AST construction, tokenization design, and nested REPEAT implementation.
-socialImage:
 created: 2025-12-02
 date: 2025-12-02
 modified: 2025-12-02

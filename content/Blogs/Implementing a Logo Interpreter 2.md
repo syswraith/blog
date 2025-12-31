@@ -20,7 +20,6 @@ aliases:
   - logo2
 cssclasses: []
 socialDescription: Part 2 of building a Microsoft Logo interpreter in TypeScript — implementing the drawing engine using Canvas, Cartesian updates, and turtle direction handling.
-socialImage:
 created: 2025-12-02
 date: 2025-12-02
 modified: 2025-12-02

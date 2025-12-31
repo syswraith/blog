@@ -18,7 +18,6 @@ alias:
   - cryptanalysis
 cssclasses: []
 socialDescription: Learn how to break a substitution cipher using classic cryptanalysis techniques like frequency analysis, repeating patterns, and contextual deduction.
-socialImage: cryptanalysis.png
 created: 2025-10-27
 date: 2025-10-27
 modified: 2025-10-27

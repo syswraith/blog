@@ -3,7 +3,7 @@ title: Breaking a Substitution Cipher with Cryptanalysis
 description: A step-by-step walkthrough of breaking a substitution cipher using frequency analysis, pattern recognition, and contextual guessing.
 comments: true
 lang: en
-publish: false
+publish: true
 draft: true
 enableToc: true
 tags:
@@ -16,15 +16,14 @@ alias:
   - basic_hashing
 cssclasses: []
 socialDescription: The basic concepts of hashing, explained along with memory-safe C code and output.
-socialImage:
-created: 2025-10-27
-date: 2025-10-27
-modified: 2025-10-27
-lastmod: 2025-10-27
-updated: 2025-10-27
-last-modified: 2025-10-27
-published: 2025-10-27
-publishDate: 2025-10-27
+created: 2025-12-31
+date: 2025-12-31
+modified: 2025-12-31
+lastmod: 2025-12-31
+updated: 2025-12-31
+last-modified: 2025-12-31
+published: 2025-12-31
+publishDate: 2025-12-31
 ---
 
 

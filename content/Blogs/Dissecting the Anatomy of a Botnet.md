@@ -19,7 +19,6 @@ alias:
   - ngzl
 cssclasses: []
 socialDescription: A deep dive into building a Python IRC botnet prototype—exploring IRC internals, command execution, and bot control mechanics.
-socialImage:
 created: 2025-01-17
 date: 2025-01-17
 modified: 2025-01-17
