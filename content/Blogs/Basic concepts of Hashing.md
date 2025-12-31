@@ -1,6 +1,6 @@
 ---
-title: Breaking a Substitution Cipher with Cryptanalysis
-description: A step-by-step walkthrough of breaking a substitution cipher using frequency analysis, pattern recognition, and contextual guessing.
+title: Basic concepts of Hashing
+description: Basic concepts of hashing such as chaining, linear probing and quadratic probing implemented in memory-safe C code.
 comments: true
 lang: en
 publish: true
