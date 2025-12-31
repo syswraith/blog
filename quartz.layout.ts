@@ -11,7 +11,7 @@ export const sharedPageComponents: SharedLayout = {
       "github": "https://github.com/syswraith/",
       "twitter": "https://x.com/syswraith",
       "telegram": "https://t.me/syswraith",
-      "ctrl-c.club": "https://ctrl-c.club/~fey",
+      "youtube": "https://youtube.com/@syswraith",
       "mail": "mailto:syswraith@proton.me",
     },
   }),
