@@ -41,12 +41,10 @@ Some basic terms that I'll be using in my explanation are:
 | Collision     | When one or more keys (input) produce the same bucket index (output), a collision is said to occur.                              |
 | Overflow      | When a hash table has reached the limit of how many keys it can store, adding any more elements will cause an overflow to occur. |
 
-To resolve a collision, we use different collision resolution techniques. Four of them are:
+To resolve a collision, we use different collision resolution techniques. Three of them are:
 
 - [[#Chaining]]
-- Linear probing
-- Quadratic probing
-- Extendable hashing
+- [[#Linear Probing and Quadratic probing]]
 
 # Chaining
 
