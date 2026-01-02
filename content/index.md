@@ -10,10 +10,9 @@ This is a digital record of all of my conquests with computers, programming, mov
 
 What I'm up to currently is
 
-- improve at competitive programming
-- improve at capture the flags - [[CTFs/CTFs]]
-- watching more stuff - [[Watching]]
-- reading more stuff - [[Reading]]
+- [[CTFs/CTFs]]
+- [[Watching]]
+- [[Reading]]
 
 # What's new
 
