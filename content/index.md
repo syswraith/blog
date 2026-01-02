@@ -17,6 +17,8 @@ What I'm up to currently is
 
 # What's new
 
+![2025 unwrapped](https://youtu.be/0FjNKip48O0)
+
 - [[Basic concepts of Hashing]]
 - [[Implementing a Logo Interpreter 1]]
 - [[0x41haz]]
