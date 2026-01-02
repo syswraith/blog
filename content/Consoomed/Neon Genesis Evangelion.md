@@ -7,3 +7,5 @@
 > Peak new year
 
 ![[hny.png]]
+
+> What I didn't notice initially was that some of the episodes' animation style differs from the others in a subtle way. According to a Reddit post, development on most episodes were led by [Gainax](https://en.wikipedia.org/wiki/Gainax) and [Tatsunoko Production](https://en.wikipedia.org/wiki/Tatsunoko_Production), whereas multiple studios were outsourced some of the work, such as [Production I.G](https://en.wikipedia.org/wiki/Production_I.G), [Studio Deen](https://en.wikipedia.org/wiki/Studio_Deen) and Studio Cockpit. Episode 11 was animated by artists from [Studio Ghibli](https://en.wikipedia.org/wiki/Studio_Ghibli), hence why the animation looks similar to their style.
