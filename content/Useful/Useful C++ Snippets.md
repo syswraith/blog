@@ -18,14 +18,9 @@
 - all methods of vectors
 - `void .push_front(type element)`
 
-# List (linked list)
+# List (DLL)
 
 - same as Deque
 - `itr .find(cont.begin(), cont.end(), type value)`
 - `void .insert(itr, type value)` insert element before itr element (for after itr probably do ++itr)
-
-# Doubly linked list
-
-- all methods of linked list
-- `void .splice(itr_to_insert_before, existing_list, itr_1_of_existing, itr_2_of_existing)`
-  inserts elements of existing list in range of the iterators into the doubly linked list that its called from
+- `void .splice(itr_to_insert_before, existing_list, itr_1_of_existing, itr_2_of_existing)` inserts elements of existing list in range of the iterators into the doubly linked list that its called from
