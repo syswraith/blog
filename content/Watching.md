@@ -1,4 +1,4 @@
-- [ ] [[Neon Genesis Evangelion]] <progress value="7" max="26"></progress> (1995–1996)
+- [ ] [[Neon Genesis Evangelion]] <progress value="13" max="26"></progress> (1995–1996)
 - [ ] Killswitch (2014)
 - [ ] Serial Experiments Lain <progress value="0" max="13"></progress> (1998)
 - [ ] The Great Hack (2019)
