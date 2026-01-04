@@ -9,3 +9,30 @@
 ![[hny.png]]
 
 > What I didn't notice initially was that some of the episodes' animation style differs from the others in a subtle way. According to a Reddit post, development on most episodes were led by [Gainax](https://en.wikipedia.org/wiki/Gainax) and [Tatsunoko Production](https://en.wikipedia.org/wiki/Tatsunoko_Production), whereas multiple studios were outsourced some of the work, such as [Production I.G](https://en.wikipedia.org/wiki/Production_I.G), [Studio Deen](https://en.wikipedia.org/wiki/Studio_Deen) and Studio Cockpit. Episode 11 was animated by artists from [Studio Ghibli](https://en.wikipedia.org/wiki/Studio_Ghibli), hence why the animation looks similar to their style.
+
+![[good_advice.png]]
+
+> Some genuinely good advice right away.
+
+![[unit 01.png]]
+
+> Sick.
+
+![[shinji.png]]
+
+![[asuka.png]]
+
+> CUTEEEEEEEEEE
+
+![[asuka and shinji.png]]
+
+> Me and my girl when :?
+
+![[pilots_1.png]]
+![[pilots_2.png]]
+
+> Woah. WOAH. This show's taking a real dark turn. 
+
+![[kaworu.png]]
+
+
