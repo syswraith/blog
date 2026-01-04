@@ -1,10 +1,11 @@
-- [x] [[Neon Genesis Evangelion]] (1995–1996)
 - [ ] Killswitch (2014)
 - [ ] Serial Experiments Lain <progress value="0" max="13"></progress> (1998)
 - [ ] The Great Hack (2019)
 - [ ] The Internet's Own Boy: The Story of Aaron Swartz (2014)
 - [ ] The Social Dilemma (2020)
 - [ ] We Steal Secrets: The Story of WikiLeaks (2013)
+- [x] [[Neon Genesis Evangelion]] (1995–1996)
+- [x] [End of Evangelion] (1997)
 - [x] Arrival (2016)
 - [x] Batman vs Robin
 - [x] Batman: Bad Blood
