@@ -5,7 +5,11 @@
 - [ ] The Social Dilemma (2020)
 - [ ] We Steal Secrets: The Story of WikiLeaks (2013)
 - [x] [[Neon Genesis Evangelion]] (1995–1996)
-- [x] [End of Evangelion] (1997)
+- [x] End of Evangelion (1997)
+- [x] Evangelion: 1.0 You Are (Not) Alone
+- [x] Evangelion: 2.0 You Can (Not) Advance
+- [x] Evangelion: 3.0 You Can (Not) Redo
+- [x] Evangelion: 3.0+1.0 Thrice Upon a Time
 - [x] Arrival (2016)
 - [x] Batman vs Robin
 - [x] Batman: Bad Blood
