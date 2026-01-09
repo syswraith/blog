@@ -41,3 +41,4 @@ Here's the stuff that I've read (and enjoyed reading)
 5. Murder on the Orient Express by Agatha Christie
 6. Brave New World by Aldous Huxley
 7. Appointment with Death by Agatha Christie
+8. Neon Genesis Evangelion Anima Volume 1
