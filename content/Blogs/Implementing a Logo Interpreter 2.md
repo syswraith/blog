@@ -1,5 +1,5 @@
 ---
-title: Implementing a Logo Interpreter in TypeScript — Part 2
+title: Implementing a Logo Interpreter — Part 2
 description: "Part 2: Building the drawing engine for a Microsoft Logo interpreter using the HTML5 Canvas API, angle-based turtle movement, and coordinate transformations."
 permalink: /posts/logo-interpreter-typescript/part-2/
 comments: true
@@ -17,7 +17,7 @@ tags:
 aliases:
   - logo2
 cssclasses: []
-socialDescription: Part 2 of building a Logo interpreter in TypeScript — implementing the drawing engine using Canvas, Cartesian updates, and turtle direction handling.
+socialDescription: Part 2 of building a Logo interpreter — implementing the drawing engine using Canvas, Cartesian updates, and turtle direction handling.
 created: 2025-12-02
 date: 2025-12-02
 modified: 2025-12-02
