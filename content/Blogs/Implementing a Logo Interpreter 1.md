@@ -132,4 +132,4 @@ Now this becomes a pain to implement since it doesn't fit the normal command des
 
 The actual implementation has comments which go into much deeper detail. Check out the [source for the parser](https://github.com/syswraith/logo/blob/main/src/components/Parser.ts) if you want to understand how it works.
 
-Stay tuned for part 2!
+Part 2 is available here [[Implementing a Logo Interpreter 2]].
