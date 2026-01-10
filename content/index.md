@@ -21,8 +21,6 @@ What I'm up to currently is
 - [[Implementing a Logo Interpreter 2]]
 - [[Basic concepts of Hashing]]
 - [[Implementing a Logo Interpreter 1]]
-- [[0x41haz]]
-- [[Breaking a Substitution Cipher with Cryptanalysis]]
 
 # Blog entries
 
