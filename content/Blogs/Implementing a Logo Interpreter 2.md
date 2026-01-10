@@ -8,14 +8,12 @@ publish: true
 draft: false
 enableToc: true
 tags:
-  - typescript
   - canvas
   - drawing-engine
   - graphics
-  - compilers
   - logo
-  - parser
-  - tokenizer
+  - javascript
+  - editor
 aliases:
   - logo2
 cssclasses: []
@@ -29,6 +27,7 @@ last-modified: 2025-12-02
 published: 2025-12-02
 publishDate: 2025-12-02
 ---
+
 This is part 2 of **Implementing a Logo Interpreter**. Refer to [[Implementing a Logo Interpreter 1]] for the first part.
 
 The drawing part is the most interesting part, you get to see the results of your work. Pat yourselves on the back to those of you who made it till here (not you @tervicke).

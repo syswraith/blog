@@ -8,12 +8,15 @@ draft: false
 enableToc: true
 tags:
   - typescript
+  - logo
   - parsing
   - tokenizer
   - parser
   - abstract-syntax-tree
-  - compilers
-  - canvas
+  - AST
+  - compiler
+  - interpreter
+  - repl
 alias:
   - logo1
 cssclasses: []
@@ -133,3 +136,4 @@ Now this becomes a pain to implement since it doesn't fit the normal command des
 The actual implementation has comments which go into much deeper detail. Check out the [source for the parser](https://github.com/syswraith/logo/blob/main/src/components/Parser.ts) if you want to understand how it works.
 
 Part 2 is available here [[Implementing a Logo Interpreter 2]].
+
