@@ -30,38 +30,36 @@ published: 2025-12-02
 publishDate: 2025-12-02
 ---
 
-
-The drawing part is the most interesting part, you get to see the results of your work. Pat yourselves on the back to those of you who made it till here (not you @tervicke). 
+The drawing part is the most interesting part, you get to see the results of your work. Pat yourselves on the back to those of you who made it till here (not you @tervicke).
 
 # Editor
 
-- The editor is a simple `<textarea>` element, with two buttons- the `exportBtn` and the `runBtn`. 
+- The editor is a simple `<textarea>` element, with two buttons- the `exportBtn` and the `runBtn`.
 - The `exportBtn` exports the graphics drawn on the canvas as a PNG file.
 
 ```js
 exportBtn.addEventListener("click", () => {
-    const img = canvas.toDataURL("image/png");
-    const downloadLink = document.createElement("a");
-    downloadLink.href = img;
-    downloadLink.download = "canvas.png";
-    downloadLink.click();
-});
+  const img = canvas.toDataURL("image/png")
+  const downloadLink = document.createElement("a")
+  downloadLink.href = img
+  downloadLink.download = "canvas.png"
+  downloadLink.click()
+})
 ```
 
 - The `runBtn` is responsible for running the Tokenizer and the Parser for the Logo code inside the `<textarea>`, and to draw the graphics on the screen.
 
 ```js
-runBtn.addEventListener("click", ()=>{
-	let editor_content = editor.value;
-    editor.value = '';
-    const t = new Tokenizer(editor_content);
-    const p = new Parser(t.tokens);
-    clearscreen(ctx, canvas)
-    home(turtle, canvas)
-    draw(p.getAST());
+runBtn.addEventListener("click", () => {
+  let editor_content = editor.value
+  editor.value = ""
+  const t = new Tokenizer(editor_content)
+  const p = new Parser(t.tokens)
+  clearscreen(ctx, canvas)
+  home(turtle, canvas)
+  draw(p.getAST())
 })
 ```
-
 
 # Canvas
 
@@ -93,10 +91,12 @@ r &= \sqrt{x^2 + y^2} \\
 
 \end{aligned}
 $$
-However only one of these was needed. This is because (X, Y) remain constant throughout and the direction may or may not change. And the Canvas primarily works on Cartesian coordinates.  
 
+However only one of these was needed. This is because (X, Y) remain constant throughout and the direction may or may not change. And the Canvas primarily works on Cartesian coordinates.
 
+<center>
 <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">I think I might have the drawing part figured out for simple commands. Thought of storing the coordinates in polar form first but since I&#39;ll have to recalculate them each time, decided to go with cartesian instead. <br><br>This is fun! <a href="https://t.co/uxZcx2itmY">pic.twitter.com/uxZcx2itmY</a></p>&mdash; syswraith (@syswraith) <a href="https://twitter.com/syswraith/status/1978749007724748813?ref_src=twsrc%5Etfw">October 16, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</center>
 
 ## Functions and their explanation
 
@@ -114,13 +114,14 @@ However only one of these was needed. This is because (X, Y) remain constant thr
 | `setxy(xcoor, ycoor)`            | Assigns an absolute position to the turtle using the provided coordinates.                         |
 
 ### How REPEAT is implemented
+
 - `case 'REPEAT':`  
-	Selects the handler for a parsed `REPEAT` command.
-- `const [count, ...body] = node[1];` 
-	Destructures the instruction arguments:
-	- `count` is the number of iterations.
+  Selects the handler for a parsed `REPEAT` command.
+- `const [count, ...body] = node[1];`
+  Destructures the instruction arguments:
+  - `count` is the number of iterations.
     - `body` is an array of commands to be executed repeatedly.
 - `for (let i = 0; i < count; i++) draw(body);`  
-	Executes the instruction body exactly `count` times by passing it to `draw`.
+  Executes the instruction body exactly `count` times by passing it to `draw`.
 - `break;`  
-    Exits the switch statement after the loop completes.
+   Exits the switch statement after the loop completes.
