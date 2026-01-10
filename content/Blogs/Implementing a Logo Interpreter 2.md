@@ -120,7 +120,7 @@ However only one of these was needed. This is because (X, Y) remain constant thr
 - `const [count, ...body] = node[1];`
   Destructures the instruction arguments:
   - `count` is the number of iterations.
-    - `body` is an array of commands to be executed repeatedly.
+  - `body` is an array of commands to be executed repeatedly.
 - `for (let i = 0; i < count; i++) draw(body);`  
   Executes the instruction body exactly `count` times by passing it to `draw`.
 - `break;`  
