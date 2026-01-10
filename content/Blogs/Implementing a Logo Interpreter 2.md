@@ -4,8 +4,8 @@ description: "Part 2: Building the drawing engine for a Microsoft Logo interpret
 permalink: /posts/logo-interpreter-typescript/part-2/
 comments: true
 lang: en
-publish: false
-draft: true
+publish: true
+draft: false
 enableToc: true
 tags:
   - typescript
@@ -35,6 +35,34 @@ The drawing part is the most interesting part, you get to see the results of you
 
 # Editor
 
+- The editor is a simple `<textarea>` element, with two buttons- the `exportBtn` and the `runBtn`. 
+- The `exportBtn` exports the graphics drawn on the canvas as a PNG file.
+
+```js
+exportBtn.addEventListener("click", () => {
+    const img = canvas.toDataURL("image/png");
+    const downloadLink = document.createElement("a");
+    downloadLink.href = img;
+    downloadLink.download = "canvas.png";
+    downloadLink.click();
+});
+```
+
+- The `runBtn` is responsible for running the Tokenizer and the Parser for the Logo code inside the `<textarea>`, and to draw the graphics on the screen.
+
+```js
+runBtn.addEventListener("click", ()=>{
+	let editor_content = editor.value;
+    editor.value = '';
+    const t = new Tokenizer(editor_content);
+    const p = new Parser(t.tokens);
+    clearscreen(ctx, canvas)
+    home(turtle, canvas)
+    draw(p.getAST());
+})
+```
+
+
 # Canvas
 
 Below are the **Canvas API** methods that we'll need to draw stuff on the screen.
@@ -46,13 +74,6 @@ Below are the **Canvas API** methods that we'll need to draw stuff on the screen
 | `lineTo(x, y)`              | Sets the end-point of the line in the canvas      |
 | `stroke()`                  | Draws the line. The default stroke color is black |
 | `clearRect(x1, y1, x2, y2)` | Clears specified pixels on the canvas.            |
-
-
-
-
-
-
-
 
 As we can see, we need the (X, Y) coordinates for the lines. We also need an angle because commands like `RIGHT` and `LEFT` shift the turtle's position by `n` amount.
 
@@ -76,3 +97,30 @@ However only one of these was needed. This is because (X, Y) remain constant thr
 
 
 <blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">I think I might have the drawing part figured out for simple commands. Thought of storing the coordinates in polar form first but since I&#39;ll have to recalculate them each time, decided to go with cartesian instead. <br><br>This is fun! <a href="https://t.co/uxZcx2itmY">pic.twitter.com/uxZcx2itmY</a></p>&mdash; syswraith (@syswraith) <a href="https://twitter.com/syswraith/status/1978749007724748813?ref_src=twsrc%5Etfw">October 16, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+## Functions and their explanation
+
+| Function or parameters           | Description                                                                                        |
+| -------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `toRadians(angle)`               | Converts an angle measured in degrees to its equivalent value in radians.                          |
+| `computeVector(angle, distance)` | Calculates a directional displacement vector based on the given angle and distance.                |
+| `moveTurtle(turtle, dx, dy)`     | Updates the turtle’s position by applying the specified horizontal and vertical offsets.           |
+| `drawLine(x1, y1, x2, y2)`       | Renders a line segment between two coordinate points when the pen state is enabled.                |
+| `forward(turtle, distance)`      | Advances the turtle by a specified distance and draws the corresponding line if the pen is active. |
+| `penup(turtle)`                  | Sets the turtle’s pen state to disabled, preventing drawing operations.                            |
+| `pendown(turtle)`                | Sets the turtle’s pen state to enabled, allowing drawing operations.                               |
+| `clearscreen(ctx, canvas)`       | Clears all rendered content from the canvas surface.                                               |
+| `home(turtle, canvas)`           | Resets the turtle’s position to the center of the canvas and its orientation to the default angle. |
+| `setxy(xcoor, ycoor)`            | Assigns an absolute position to the turtle using the provided coordinates.                         |
+
+### How REPEAT is implemented
+- `case 'REPEAT':`  
+	Selects the handler for a parsed `REPEAT` command.
+- `const [count, ...body] = node[1];` 
+	Destructures the instruction arguments:
+	- `count` is the number of iterations.
+    - `body` is an array of commands to be executed repeatedly.
+- `for (let i = 0; i < count; i++) draw(body);`  
+	Executes the instruction body exactly `count` times by passing it to `draw`.
+- `break;`  
+    Exits the switch statement after the loop completes.
