@@ -1,5 +1,0 @@
-- [[Life Update 13122025]]
-- [[Life Update 28102025]]
-- [[Life Update 21062025]]
-- [[Life Update 15042025]]
-- [[Life Update 09022025]]
