@@ -71,6 +71,9 @@ The first file date on this is `20160210224602` which is our required flag.
 
 # 3. Mysterious Landmark
 
+### Challenge description:
+Find the landmark from the image of the famous monument.
+
 ![[landmark-1763035881792.jpg]]
 
 Doing a quick image search on this reveals it to be the **Spire of Dublin** (also known as the **Millennium Spire**). We can inspect this by checking the images and the street view.
@@ -80,6 +83,9 @@ Doing a quick image search on this reveals it to be the **Spire of Dublin** (als
 The General Post Office is what we're looking for.
 
 # 4. Internal Documents
+
+### Challenge description:
+Find the flag from the ODT file.
 
 My only experience with ODT files is when I'm desperate enough to use LibreOffice Writer. When I opened the file with that, I get the following text:
 
