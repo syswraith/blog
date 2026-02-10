@@ -1,4 +1,35 @@
+---
+title: "Digital Footprint - TryHackMe Write-up"
+description: "Write-up for the TryHackMe Digital Footprint room."
+
+permalink: "/writeups/digital-footprint/"
+lang: "en"
+
+publish: true
+draft: false
+enableToc: true
+
+tags:
+  - tryhackme
+  - writeup
+  - osint
+  - exif
+  - wayback
+  - maps
+
+aliases:
+  - "/digital-footprint/"
+
+created: 2026-02-10
+date: 2026-02-10
+published: 2026-02-10
+modified: 2026-02-10
+lastmod: 2026-02-10
+---
+
+
 This is a write-up for the room **[Digital Footprint](https://tryhackme.com/room/osintchallengeiv)** on [TryHackMe](https://tryhackme.com/)
+
 # 1. The Leaked Photo
 ### Challenge description: 
 Find the name of the city where the photo was taken in.
