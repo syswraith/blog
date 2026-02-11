@@ -28,9 +28,13 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 
 # TryHackMe
 
-- [x] [[0x41haz.md]]
+- [x] [[Digital Footprint]]
+- [x] [[0x41haz]]
 - [x] basicmalwarere
-- [ ] reverselfiles
+- [x] reverselfiles
+- [x] ohsint
+- [x] sakura
+- [x] rrootme
 
 # OverTheWire progress
 
@@ -47,6 +51,11 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 - [x] Bandit 10
 - [x] Bandit 11
 
+- [x] Leviathan 0
+- [x] Leviathan 1
+- [x] Leviathan 2
+- [x] Leviathan 3
+
 # PicoCTF
 
 - [x] [[MatchTheRegex]]
@@ -55,6 +64,7 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 - [x] [[Commitment Issues]]
 - [x] [[DISKO 1]]
 - [x] [[SSTI1]]
+- [x] [[Big Zip]]
 - [x] Bases
 - [x] First Grep
 - [x] 2Warm
