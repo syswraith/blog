@@ -1,8 +1,29 @@
 ---
-Tags:
+title: "Time Machine - picoCTF Write-up"
+description: "Write-up for the picoCTF Time Machine challenge, using git history and a bit of grep to recover the flag from the past."
+
+permalink: "/writeups/time-machine/"
+lang: "en"
+
+publish: true
+draft: false
+enableToc: true
+
+tags:
   - Easy 
   - picoCTF2024 
   - git
+  - picoctf
+  - writeup
+
+aliases:
+  - "/time-machine/"
+
+created: 2026-02-11
+date: 2026-02-11
+published: 2026-02-11
+modified: 2026-02-11
+lastmod: 2026-02-11
 ---
 
 1. Download the file and unzip it

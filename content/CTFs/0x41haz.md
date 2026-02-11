@@ -1,5 +1,29 @@
 ---
-- Easy
+title: "0x41haz - TryHackMe Write-up"
+description: "Write-up for the TryHackMe 0x41haz reversing challenge where we fix a broken ELF header and poke around in Ghidra."
+
+permalink: "/writeups/0x41haz/"
+lang: "en"
+
+publish: true
+draft: false
+enableToc: true
+
+tags:
+  - Easy
+  - tryhackme
+  - writeup
+  - reversing
+  - binary
+
+aliases:
+  - "/0x41haz/"
+
+created: 2026-02-11
+date: 2026-02-11
+published: 2026-02-11
+modified: 2026-02-11
+lastmod: 2026-02-11
 ---
 
 1. Download the files from <https://tryhackme.com/room/0x41haz>

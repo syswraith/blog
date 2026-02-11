@@ -1,8 +1,29 @@
 ---
+title: "hashcrack - picoCTF Write-up"
+description: "Write-up for the picoCTF hashcrack challenge, stepping through a few different hash types until the flag finally drops."
+
+permalink: "/writeups/hashcrack/"
+lang: "en"
+
+publish: true
+draft: false
+enableToc: true
+
 tags:
   - Easy 
   - Cryptography 
   - picoCTF2025
+  - picoctf
+  - writeup
+
+aliases:
+  - "/hashcrack/"
+
+created: 2026-02-11
+date: 2026-02-11
+published: 2026-02-11
+modified: 2026-02-11
+lastmod: 2026-02-11
 ---
 
 1. Problem statement

@@ -1,7 +1,28 @@
 ---
+title: "Big Zip - picoCTF Write-up"
+description: "Write-up for the picoCTF Big Zip challenge, unzipping a pile of archives and grepping for the flag."
+
+permalink: "/writeups/big-zip/"
+lang: "en"
+
+publish: true
+draft: false
+enableToc: true
+
 tags:
   - Easy
   - GeneralSkills
+  - picoctf
+  - writeup
+
+aliases:
+  - "/big-zip/"
+
+created: 2026-02-11
+date: 2026-02-11
+published: 2026-02-11
+modified: 2026-02-11
+lastmod: 2026-02-11
 ---
 
 I've done this before (manually) and its no fun.

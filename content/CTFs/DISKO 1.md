@@ -1,8 +1,29 @@
 ---
+title: "DISKO 1 - picoCTF Write-up"
+description: "Write-up for the picoCTF DISKO 1 forensics image, using strings and a bit of patience to pull out the flag."
+
+permalink: "/writeups/disko-1/"
+lang: "en"
+
+publish: true
+draft: false
+enableToc: true
+
 tags:
   - Easy
   - Forensics
   - picoGymExclusive
+  - picoctf
+  - writeup
+
+aliases:
+  - "/disko-1/"
+
+created: 2026-02-11
+date: 2026-02-11
+published: 2026-02-11
+modified: 2026-02-11
+lastmod: 2026-02-11
 ---
 
 1. Download the compressed image

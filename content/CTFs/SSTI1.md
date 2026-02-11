@@ -1,8 +1,29 @@
 ---
+title: "SSTI1 - picoCTF Write-up"
+description: "Write-up for the picoCTF SSTI1 challenge, starting with a bit of XSS and ending with full-on Jinja2 server-side template injection and RCE."
+
+permalink: "/writeups/ssti1/"
+lang: "en"
+
+publish: true
+draft: false
+enableToc: true
+
 tags:
   - Easy 
   - WebExploitation 
   - picoCTF2025 
+  - picoctf
+  - writeup
+
+aliases:
+  - "/ssti1/"
+
+created: 2026-02-11
+date: 2026-02-11
+published: 2026-02-11
+modified: 2026-02-11
+lastmod: 2026-02-11
 ---
 
 1. Start the Challenge

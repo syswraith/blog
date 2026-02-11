@@ -1,3 +1,29 @@
+---
+title: "CTFs Progress Log"
+description: "Casual running log of CTF rooms and challenges I’ve worked through across different platforms."
+
+permalink: "/writeups/ctfs/"
+lang: "en"
+
+publish: true
+draft: false
+enableToc: true
+
+tags:
+  - ctfs
+  - writeup
+  - progress
+
+aliases:
+  - "/ctfs/"
+
+created: 2026-02-11
+date: 2026-02-11
+published: 2026-02-11
+modified: 2026-02-11
+lastmod: 2026-02-11
+---
+
 I feel like a wizard trying to solve this solving this stuff. I guess this is how players felt when they cleared a dungeon in RPGs. Not gonna lie, this stuff is fun :)
 
 # TryHackMe

@@ -1,8 +1,29 @@
 ---
-Tags: 
+title: "MatchTheRegex - picoCTF Write-up"
+description: "Write-up for the picoCTF MatchTheRegex web challenge, poking at the input check just enough to squeeze the flag out."
+
+permalink: "/writeups/match-the-regex/"
+lang: "en"
+
+publish: true
+draft: false
+enableToc: true
+
+tags:
   - Medium 
   - WebExploitation 
   - picoCTF2023
+  - picoctf
+  - writeup
+
+aliases:
+  - "/match-the-regex/"
+
+created: 2026-02-11
+date: 2026-02-11
+published: 2026-02-11
+modified: 2026-02-11
+lastmod: 2026-02-11
 ---
 
 1. Launch the instance
