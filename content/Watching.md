@@ -1,10 +1,11 @@
+- 28 Days Later (2002)
 - [[Cowboy Bebop]] (1998–1999)
 - [[Neon Genesis Evangelion]] (1995–1996)
 - End of Evangelion (1997)
-- Evangelion: 1.0 You Are (Not) Alone
-- Evangelion: 2.0 You Can (Not) Advance
-- Evangelion: 3.0 You Can (Not) Redo
-- Evangelion: 3.0+1.0 Thrice Upon a Time
+- Evangelion: 1.0 You Are (Not) Alone (2007)
+- Evangelion: 2.0 You Can (Not) Advance (2009)
+- Evangelion: 3.0 You Can (Not) Redo (2012)
+- Evangelion: 3.0+1.0 Thrice Upon a Time (2021)
 - Arrival (2016)
 - Batman vs Robin
 - Batman: Bad Blood
@@ -53,4 +54,8 @@
 ---
 
 - [Joe Rogan Experience #1368 - Edward Snowden](https://youtu.be/efs3QRr8LWw) (2019)
+- [Joe Rogan Experience #1158 - Chuck Palahniuk](https://youtu.be/v8ZCX0eywXw) (2018)
+- [Joe Rogan Experience #919 - Neil deGrasse Tyson](https://youtu.be/5XP-DQW_1gI) (2017)
+- [Joe Rogan Experience #1159 - Neil deGrasse Tyson](https://youtu.be/vGc4mg5pul4) (2018)
 - Darknet Diaries <progress value="54" max="157"></progress> (2017–present)
+- The World at War <progress value="6" max="26"></progress> (1973–1974)
