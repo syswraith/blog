@@ -4,7 +4,6 @@ Here's what I'm planning to read
 | ------------------------------------ | -------------- | --------- | --------------------------------------- |
 | The Code Book                        | Simon Singh    | Yes       | <progress value="1" max="8"></progress> |
 | The Hitchhiker's Guide to the Galaxy | Douglas Adams  | Yes       | <progress value="0" max="1"></progress> |
-| Neuromancer                          | William Gibson | Yes       | <progress value="0" max="1"></progress> |
 
 - [So you want to build a generator](https://www.tumblr.com/galaxykate0/139774965871/so-you-want-to-build-a-generator)
 
@@ -42,3 +41,4 @@ Here's the stuff that I've read (and enjoyed reading)
 6. Brave New World by Aldous Huxley
 7. Appointment with Death by Agatha Christie
 8. Neon Genesis Evangelion Anima Volume 1
+9. Neuromancer by William Gibson
