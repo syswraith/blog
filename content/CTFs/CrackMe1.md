@@ -1,24 +1,19 @@
 ---
-title: "CrackMe1 - Crackmes.one Write-up"
-description: "Write-up for the Crackmes.one CrackMe1 challenge."
-
-permalink: "/writeups/crackme1/"
-lang: "en"
-
+title: CrackMe1 - Crackmes.one Write-up
+description: Write-up for the Crackmes.one CrackMe1 challenge.
+permalink: /writeups/crackme1/
+lang: en
 publish: true
 draft: false
 enableToc: true
-
 tags:
   - Easy
-  - crackmes.one
+  - crackmesone
   - writeup
   - reversing
   - binary
-
 aliases:
-  - "/crackme1/"
-
+  - /crackme1/
 created: 2026-03-08
 date: 2026-03-08
 published: 2026-03-08
