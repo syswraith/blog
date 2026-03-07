@@ -10,7 +10,7 @@ This is a digital record of all of my conquests with computers, programming, mov
 
 What I'm up to currently is
 
-- [[CTFs/CTFs]]
+- [[Index of CTFs]]
 - [[Watching]]
 - [[Reading]]
 
