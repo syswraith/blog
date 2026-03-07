@@ -1,4 +1,4 @@
-https://crackmes.one/crackme/60318a0a33c5d42c3d016b5d---
+---
 title: "CrackMe1 - Crackmes.one Write-up"
 description: "Write-up for the Crackmes.one CrackMe1 challenge."
 
@@ -25,6 +25,8 @@ published: 2026-03-08
 modified: 2026-03-08
 lastmod: 2026-03-08
 ---
+
+https://crackmes.one/crackme/60318a0a33c5d42c3d016b5d
 
 Trying [Rizing](https://rizin.re/) and [Cutter](http://cutter.re/) with this one. I know this challenge can be solved without the help of either (just run `strings`, duh).
 
