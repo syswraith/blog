@@ -11,5 +11,5 @@
 - [[SSTI1]]
 - [[Time Machine]]
 
-# Others
+# Crackmes.one
 - [[CrackMe1]]
