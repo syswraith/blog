@@ -29,7 +29,7 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 # TryHackMe
 
 - [x] [[Digital Footprint]]
-- [x] [[0x41haz]]
+- [x] [[CTFs/0x41haz|0x41haz]]
 - [x] basicmalwarere
 - [x] reverselfiles
 - [x] ohsint
@@ -59,7 +59,7 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 # PicoCTF
 
 - [x] [[MatchTheRegex]]
-- [x] [[hashcrack]]
+- [x] [[CTFs/hashcrack|hashcrack]]
 - [x] [[Time Machine]]
 - [x] [[Commitment Issues]]
 - [x] [[DISKO 1]]
@@ -91,7 +91,6 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 - [x] repetitions
 - [x] Collaborative Development
 - [x] FANTASY CTF
-- [x] Big Zip
 - [x] First Find
 
 # Crackmes.one
