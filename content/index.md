@@ -13,7 +13,8 @@ What I'm up to currently is
 - [[CTFs/CTFs]]
 - [[Watching]]
 - [[Reading]]
-- [[Braindev]]
+- [[Braindev/Braindev]]
+- [[Useful/Useful]]
 
 # What's new
 
