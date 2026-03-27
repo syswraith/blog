@@ -1,3 +1,15 @@
+- Attack on Titan
+- Death Note
+- The Hobbit: An Unexpected Journey (2012)
+- The Hobbit: The Desolation of Smaug (2013)
+- The Hobbit: The Battle of the Five Armies (2014)
+- The Lord of the Rings: The Fellowship of the Ring (2001)
+- The Lord of the Rings: The Two Towers (2002)
+- The Lord of the Rings: The Return of the King (2003)
+- The Lord of the Rings: The War of the Rohirrim (2024)
+- First Man
+- A Haunting in Venice
+- Cowboy Bebop: The Movie ()
 - 28 Days Later (2002)
 - [[Cowboy Bebop]] (1998–1999)
 - [[Neon Genesis Evangelion]] (1995–1996)
