@@ -7,9 +7,9 @@
 - The Lord of the Rings: The Two Towers (2002)
 - The Lord of the Rings: The Return of the King (2003)
 - The Lord of the Rings: The War of the Rohirrim (2024)
-- First Man
-- A Haunting in Venice
-- Cowboy Bebop: The Movie ()
+- First Man (2018)
+- A Haunting in Venice (2023)
+- Cowboy Bebop: The Movie (2001)
 - 28 Days Later (2002)
 - [[Cowboy Bebop]] (1998–1999)
 - [[Neon Genesis Evangelion]] (1995–1996)
