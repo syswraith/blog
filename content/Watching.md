@@ -1,5 +1,6 @@
-- Attack on Titan
-- Death Note
+- Nuremberg (2025)
+- Attack on Titan (2013-2023)
+- Death Note (2006-2007)
 - The Hobbit: An Unexpected Journey (2012)
 - The Hobbit: The Desolation of Smaug (2013)
 - The Hobbit: The Battle of the Five Armies (2014)
