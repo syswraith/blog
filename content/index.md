@@ -53,10 +53,6 @@ What I'm up to currently is
   <a href="https://dhruvmarulkar.github.io" target="_blank" rel="noopener">
     <img src="https://github.com/dhruvmarulkar.png" height="50" alt="@dhruvmarulkar">
   </a>
-  <a href="https://github.com/call-0f-code" target="_blank" rel="noopener">
-    <img src="https://github.com/call-0f-code.png" height="50" alt="@call-0f-code">
-  </a>
-
   <a href="https://github.com/shrutiiiyet" target="_blank" rel="noopener">
     <img src="https://github.com/shrutiiiyet.png" height="50" alt="@shrutiiiyet">
   </a>
@@ -78,21 +74,8 @@ What I'm up to currently is
   <a href="https://github.com/Harish-Naruto" target="_blank" rel="noopener">
     <img src="https://github.com/Harish-Naruto.png" height="50" alt="@Harish-Naruto">
   </a>
-  <a href="https://niharikapaygude.github.io" target="_blank" rel="noopener">
-    <img src="https://github.com/niharikapaygude.png" height="50" alt="@niharikapaygude">
-  </a>
-
-  <a href="https://github.com/UwUzumi" target="_blank" rel="noopener">
-    <img src="https://github.com/UwUzumi.png" height="50" alt="@UwUzumi">
-  </a>
-  <a href="https://vidhitalele.github.io" target="_blank" rel="noopener">
-    <img src="https://github.com/VidhiTalele.png" height="50" alt="@VidhiTalele">
-  </a>
   <a href="https://mortysome.github.io" target="_blank" rel="noopener">
     <img src="https://github.com/mortySome.png" height="50" alt="@mortySome">
-  </a>
-  <a href="https://atharvadixit987-crypto.github.io" target="_blank" rel="noopener">
-    <img src="https://github.com/atharvadixit987-crypto.png" height="50" alt="@atharvadixit987-crypto">
   </a>
   <a href="https://c0nfr1ngo.github.io" target="_blank" rel="noopener">
     <img src="https://github.com/C0NFR1NGO.png" height="50" alt="@C0NFR1NGO">
