@@ -1,74 +1,239 @@
-- Nuremberg (2025)
-- Attack on Titan (2013-2023)
-- Death Note (2006-2007)
-- The Hobbit: An Unexpected Journey (2012)
-- The Hobbit: The Desolation of Smaug (2013)
-- The Hobbit: The Battle of the Five Armies (2014)
-- The Lord of the Rings: The Fellowship of the Ring (2001)
-- The Lord of the Rings: The Two Towers (2002)
-- The Lord of the Rings: The Return of the King (2003)
-- The Lord of the Rings: The War of the Rohirrim (2024)
-- First Man (2018)
-- A Haunting in Venice (2023)
-- Cowboy Bebop: The Movie (2001)
-- 28 Days Later (2002)
-- [[Cowboy Bebop]] (1998–1999)
-- [[Neon Genesis Evangelion]] (1995–1996)
-- End of Evangelion (1997)
-- Evangelion: 1.0 You Are (Not) Alone (2007)
-- Evangelion: 2.0 You Can (Not) Advance (2009)
-- Evangelion: 3.0 You Can (Not) Redo (2012)
-- Evangelion: 3.0+1.0 Thrice Upon a Time (2021)
-- Arrival (2016)
-- Batman vs Robin
-- Batman: Bad Blood
-- Batman: Gotham Knight (2008)
-- Batman: Year One (2011)
-- Ben 10 Alien Force (2008–2010)
-- Ben 10 Originals (2005–2008)
-- Ben 10 Ultimate Alien
-- Chernobyl (2019)
-- Citizenfour (2014)
-- Dead Poets Society (1989)
-- Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb (1964)
-- Fight Club (1999)
-- Ford v Ferrari (2019)
-- Friends (1994–2004)
-- Hacksaw Ridge (2016)
-- How I Met Your Mother (2005–2014)
-- Justice League: The Flashpoint Paradox (2013)
-- Justice League: Throne of Atlantis
-- Justice League: War (2014)
-- Looper (2012)
-- Minimalism (2016)
-- Mr. Robot (2015–2019)
-- Naruto (2002–2017)
-- Pump up the Volume (1990)
-- Ready Player One (2018)
-- Revolution OS (2001)
-- Snowden (2016)
-- Son of Batman (2014)
-- Stranger Things (2016–2022)
-- Tenet (2020)
-- The Godfather Trilogy (1972–1990)
-- The Last of Us (game series) (2013, 2023)
-- The Pirate Bay: Away from Keyboard (2013)
-- The Shawshank Redemption (1994)
-- The Social Network (2010)
-- Tolkien (2019)
-- Tron: Ares (2025)
-- Tron: Legacy (2010)
-- Troy (2004)
-- Turning Point: The Bomb And The Cold War (2024)
-- V for Vendetta (2005)
-- We Are Legion: The Story of the Hacktivists (2012)
-- Wonder Woman (2009)
+## Movies
+
+(1968) 2001: A Space Odyssey
+(2008) Kung Fu Panda
+(2020) Extraction
+(2013) World War Z
+(2025) Nuremberg
+(2008) Batman: Gotham Knight
+(2009) Wonder Woman
+(2011) Batman: Year One
+(2013) Justice League: The Flashpoint Paradox
+(2014) Justice League: War
+(2014) Son of Batman
+(2015) Justice League: Throne of Atlantis
+(2015) Batman vs. Robin
+(2016) Batman: Bad Blood
+(2019) Tolkien
+(2018) First Man
+(1988) Akira
+(2024) The Lord of the Rings: The War of the Rohirrim
+(2023) Anyone But You
+(2018) Little Italy
+(2023) A Haunting in Venice
+(2001) Cowboy Bebop: The Movie
+(2022) Death on the Nile
+(2017) Murder on the Orient Express
+(2010) Tangled
+(1997) Anastasia
+(2019) Once Upon a Time... in Hollywood
+(2013) We Steal Secrets: The Story of WikiLeaks
+(2022) Enola Holmes 2
+(2020) Enola Holmes
+(2015) The Man from U.N.C.L.E.
+(2018) Bird Box
+(2017) It
+(2018) Spider-Man: Into the Spider-Verse
+(1995) Se7en
+(1999) 10 Things I Hate About You
+(2002) 28 Days Later
+(2012) Django Unchained
+(1995) Hackers
+(2012) Evangelion: 3.0 You Can (Not) Redo
+(2021) Evangelion: 3.0+1.0 Thrice Upon a Time
+(2009) Evangelion: 2.0 You Can (Not) Advance
+(2007) Evangelion: 1.0 You Are (Not) Alone
+(2012) The Perks of Being a Wallflower
+(1997) Neon Genesis Evangelion: The End of Evangelion
+(1995) Neon Genesis Evangelion
+(2016) Arrival
+(1980) Return to the 36th Chamber
+(1978) The 36th Chamber of Shaolin
+(2012) Looper
+(2008) Jumper
+(2008) The Chronicles of Narnia: Prince Caspian
+(2005) Kingdom of Heaven
+(2007) Pirates of the Caribbean: At World's End
+(2005) The Chronicles of Narnia: The Lion, the Witch and the Wardrobe
+(2006) Pirates of the Caribbean: Dead Man's Chest
+(2003) Pirates of the Caribbean: The Curse of the Black Pearl
+(2019) Chernobyl
+(2024) Turning Point: The Bomb and the Cold War
+(2018) Ready Player One
+(2013) TPB AFK: The Pirate Bay - Away from Keyboard
+(2005) V for Vendetta
+(2012) We Are Legion: The Story of the Hacktivists
+(1990) Pump Up the Volume
+(2015) Minimalism: A Documentary About the Important Things
+(2014) Citizenfour
+(1964) Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb
+(2016) Batman: Bad Blood
+(2015) Batman vs. Robin
+(2015) Justice League: Throne of Atlantis
+(2014) Son of Batman
+(2014) Justice League: War
+(2013) Justice League: The Flashpoint Paradox
+(2019) Knives Out
+(2022) Avatar: The Way of Water
+(2009) Avatar
+(2016) Now You See Me 2
+(2013) Now You See Me
+(2023) John Wick: Chapter 4
+(2017) John Wick: Chapter 2
+(2014) John Wick
+(2009) Inglourious Basterds
+(2018) Solo: A Star Wars Story
+(1990) The Godfather Part III
+(1974) The Godfather Part II
+(1972) The Godfather
+(2016) Rogue One: A Star Wars Story
+(2018) A Quiet Place
+(2019) Ford v Ferrari
+(2019) Joker
+(2019) It Chapter Two
+(2020) A Quiet Place Part II
+(2023) Ant-Man and the Wasp: Quantumania
+(2023) Spider-Man: Across the Spider-Verse
+(2024) Dune: Part Two
+(2021) Dune
+(2020) Tenet
+(2010) Inception
+(2023) Oppenheimer
+(2014) Interstellar
+(2001) Revolution OS
+(2016) Snowden
+(2021) Free Guy
+(1983) WarGames
+(2004) The Girl Next Door
+(1994) Pulp Fiction
+(1994) The Shawshank Redemption
+(2010) The Social Network
+(2025) F1
+(1989) Dead Poets Society
+(2020) The Courier
+(2014) The Imitation Game
+(2014) Fury
+(2016) Hacksaw Ridge
+(2017) Dunkirk
+(2004) Alexander
+(2011) Immortals
+(2012) Wrath of the Titans
+(2010) Clash of the Titans
+(2004) Troy
+(2017) King Arthur: Legend of the Sword
+(2024) The Ministry of Ungentlemanly Warfare
+(2011) Sherlock Holmes: A Game of Shadows
+(2009) Sherlock Holmes
+(2000) American Psycho
+(1999) Fight Club
+(2022) Black Panther: Wakanda Forever
+(2022) Thor: Love and Thunder
+(2022) Doctor Strange in the Multiverse of Madness
+(2022) Moon Knight
+(2021) Spider-Man: No Way Home
+(2021) Hawkeye
+(2021) Eternals
+(2021) Shang-Chi and the Legend of the Ten Rings
+(2021) Black Widow
+(2021) Loki
+(2021) The Falcon and the Winter Soldier
+(2021) WandaVision
+(2019) Spider-Man: Far From Home
+(2019) Avengers: Endgame
+(2019) Captain Marvel
+(2018) Ant-Man and the Wasp
+(2018) Avengers: Infinity War
+(2018) Black Panther
+(2017) Thor: Ragnarok
+(2017) Spider-Man: Homecoming
+(2017) Guardians of the Galaxy Vol. 2
+(2016) Doctor Strange
+(2015) Ant-Man
+(2015) Avengers: Age of Ultron
+(2014) Guardians of the Galaxy
+(2014) Captain America: The Winter Soldier
+(2013) Thor: The Dark World
+(2013) Iron Man 3
+(2012) The Avengers
+(2011) Captain America: The First Avenger
+(2011) Thor
+(2010) Iron Man 2
+(2008) The Incredible Hulk
+(2008) Iron Man
+(2023) The Flash
+(2022) Black Adam
+(2021) Zack Snyder's Justice League
+(2020) Wonder Woman 1984
+(2020) Birds of Prey (and the Fantabulous Emancipation of One Harley Quinn)
+(2019) Shazam!
+(2018) Aquaman
+(2017) Justice League
+(2017) Wonder Woman
+(2016) Suicide Squad
+(2016) Batman v Superman: Dawn of Justice
+(2013) Man of Steel
+(2012) The Dark Knight Rises
+(2008) The Dark Knight
+(2005) Batman Begins
+(2022) The Batman
+(2024) The Fall Guy
+(2011) Drive
+(2017) Blade Runner 2049
+(2016) La La Land
+(2015) The Hunger Games: Mockingjay – Part 2
+(2013) The Hunger Games: Catching Fire
+(2012) The Hunger Games
+(2025) TRON: Ares
+(2010) TRON: Legacy
+(1982) Tron
+(2018) Maze Runner: The Death Cure
+(2015) Maze Runner: The Scorch Trials
+(2014) The Maze Runner
+(2022) Fantastic Beasts: The Secrets of Dumbledore
+(2018) Fantastic Beasts: The Crimes of Grindelwald
+(2016) Fantastic Beasts and Where to Find Them
+(2011) Harry Potter and the Deathly Hallows: Part 2
+(2010) Harry Potter and the Deathly Hallows: Part 1
+(2009) Harry Potter and the Half-Blood Prince
+(2007) Harry Potter and the Order of the Phoenix
+(2005) Harry Potter and the Goblet of Fire
+(2004) Harry Potter and the Prisoner of Azkaban
+(2002) Harry Potter and the Chamber of Secrets
+(2001) Harry Potter and the Philosopher's Stone
+(2014) The Hobbit: The Battle of the Five Armies
+(2013) The Hobbit: The Desolation of Smaug
+(2012) The Hobbit: An Unexpected Journey
+(2003) The Lord of the Rings: The Return of the King
+(2002) The Lord of the Rings: The Two Towers
+(2001) The Lord of the Rings: The Fellowship of the Ring
+(2019) Star Wars: The Rise of Skywalker
+(2017) Star Wars: The Last Jedi
+(2015) Star Wars: The Force Awakens
+(2005) Star Wars: Episode III – Revenge of the Sith
+(2002) Star Wars: Episode II – Attack of the Clones
+(1999) Star Wars: Episode I – The Phantom Menace
+(1983) Return of the Jedi
+(1980) The Empire Strikes Back
+(1977) Star Wars
 
 ---
 
-- [Joe Rogan Experience #1368 - Edward Snowden](https://youtu.be/efs3QRr8LWw) (2019)
-- [Joe Rogan Experience #1158 - Chuck Palahniuk](https://youtu.be/v8ZCX0eywXw) (2018)
-- [Joe Rogan Experience #919 - Neil deGrasse Tyson](https://youtu.be/5XP-DQW_1gI) (2017)
-- [Joe Rogan Experience #1159 - Neil deGrasse Tyson](https://youtu.be/vGc4mg5pul4) (2018)
+# Series
+
+(2013–2023) Attack on Titan
+(2006–2007) Death Note
+(1998–1999) Cowboy Bebop
+(2008–2010) Ben 10: Alien Force
+(2005–2008) Ben 10
+(2010–2012) Ben 10: Ultimate Alien
+
+---
+
+# Other stuff
+
+- The World at War <progress value="7" max="26"></progress> (1973–1974)
+- [Joe Rogan Experience #1368 - Edward Snowden](https://youtu.be/efs3QRr8LWw)
+- [Joe Rogan Experience #1158 - Chuck Palahniuk](https://youtu.be/v8ZCX0eywXw)
+- [Joe Rogan Experience #919 - Neil deGrasse Tyson](https://youtu.be/5XP-DQW_1gI)
+- [Joe Rogan Experience #1159 - Neil deGrasse Tyson](https://youtu.be/vGc4mg5pul4)
 - Darknet Diaries <progress value="54" max="157"></progress> (2017–present)
-- The World at War <progress value="6" max="26"></progress> (1973–1974)
