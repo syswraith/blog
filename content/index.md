@@ -18,10 +18,10 @@ What I'm up to currently is
 
 # What's new
 
+- [[Devlog for Alkindi]]
 - [[CrackMe1]]
 - [[Digital Footprint]]
 - [[Implementing a Logo Interpreter 2]]
-- [[Basic concepts of Hashing]]
 - [[Implementing a Logo Interpreter 1]]
 
 # Blog entries
