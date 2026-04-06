@@ -18,6 +18,7 @@ What I'm up to currently is
 
 # What's new
 
+- [[Flag Hunters]]
 - [[Devlog for Alkindi]]
 - [[CrackMe1]]
 - [[Digital Footprint]]

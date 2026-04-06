@@ -58,6 +58,7 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 
 # PicoCTF
 
+- [x] [[Flag Hunters]]
 - [x] [[MatchTheRegex]]
 - [x] [[CTFs/hashcrack|hashcrack]]
 - [x] [[Time Machine]]
