@@ -11,6 +11,16 @@ alias:
 cssclasses: []
 socialDescription:
 ---
+# Day 01
+
+## Monoalphabetic UI
+
+Worked on the component for [ciphertext](https://en.wikipedia.org/wiki/Ciphertext) and [plaintext](https://en.wikipedia.org/wiki/Plaintext). Nothing fancy, just two states that I have to manage. The `plaintext` state is going to be changed by the user's actions. I'm going to have to put the changes that the user is going to apply in a stack of sorts, so even if the `ciphertext` is changed, I can just reapply the changes on the stack (for example, adding more text in the ciphertext field). 
+
+Also planned out a rough outline of how the UI for the monoalphabetic cipher is going to look like. Very professional if I say so myself (/s).
+
+![[monoalphabetic_initial_ui.png]]
+
 # Day 00
 
 Frontend is a necessary evil. I learned that the hard way, after participating in hackathons and looking at real world projects. I need to brush up my frontend scripts even if I am trying to head into cybersecurity. 
@@ -34,7 +44,7 @@ Below is a loop to iterate over an iterable and count its frequency.
 
 ```ts
 for (let i of this.iterable) {
-    this.map.set(i, (this.map.get(i) ?? 0) + 1);
+	this.map.set(i, (this.map.get(i) ?? 0) + 1);
 }
 ```
 
@@ -43,3 +53,4 @@ Another trick that I used to calculate frequency was the usage of [Array.prototy
 ```ts
 let total = [...this.map.values()].reduce((sum, number) => (sum + number), 0);
 ```
+
