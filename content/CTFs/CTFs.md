@@ -67,6 +67,7 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 - [x] [[DISKO 1]]
 - [x] [[SSTI1]]
 - [x] [[Big Zip]]
+- [x] Quizploit
 - [x] Bases
 - [x] First Grep
 - [x] 2Warm
@@ -98,3 +99,4 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 # Crackmes.one
 
 - [x] [[CrackMe1]]
+
