@@ -31,7 +31,8 @@ aliases:
 
 5. By running `nm` we can get the static addresses of `main()` and `win()`
 
-![[running nm pie time.png]] 6. On running the binary, we can get the runtime address of the main function. Relative to this, we can find the runtime address of the win function, by calculating the base.
+![[running nm pie time.png]] 
+6. On running the binary, we can get the runtime address of the main function. Relative to this, we can find the runtime address of the win function, by calculating the base.
 
 $$
 Base = Dynamic\ Address\ of\ main()\ -\ Static\ Address\ of\ main()
