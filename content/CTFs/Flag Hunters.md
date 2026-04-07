@@ -8,13 +8,13 @@ draft: false
 enableToc: true
 tags:
   - Easy
-  - GeneralSkills
   - picoctf
   - writeup
+  - ReverseEngineering
 aliases:
   - /flag-hunters/
 ---
-# [PicoCTF Flag Hunters](https://play.picoctf.org/practice/challenge/472?category=3&page=1)
+# [Challenge link](https://play.picoctf.org/practice/challenge/472?category=3&page=1)
 
 1. Download the file and open it in a text editor.
 2. Immediately we can see that the script requires a `flag.txt` file in the same directory. Create it and make it something easy to spot. I'm going for the following:
