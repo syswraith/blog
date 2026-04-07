@@ -18,6 +18,7 @@ tags:
 aliases:
   - "/pie-time/"
 ---
+
 1. On launching the instance, we get two files- an executable and a script
 2. On analyzing the script, we can see that by inputting an address in hexadecimal format, we can jump to anywhere in the script.
 3. On further analysis, we come across the following mechanism implemented by the OS (in my case Linux)- [Address Space Layout Randomization (ASLR)](https://ctf101.org/binary-exploitation/address-space-layout-randomization/)
@@ -25,24 +26,24 @@ aliases:
 > Address Space Layout Randomization (or ASLR) is the randomization of the place in memory where the program, shared libraries, the stack, and the heap are.
 
 4. This also implies the existence of two types of addresses, both of which refer to the same function at different times:
-	1. Runtime address
-	2. Static address
+   1. Runtime address
+   2. Static address
 
 5. By running `nm` we can get the static addresses of `main()` and `win()`
 
-![[running nm pie time.png]]
-6. On running the binary, we can get the runtime address of the main function. Relative to this, we can find the runtime address of the win function, by calculating the base.
+![[running nm pie time.png]] 6. On running the binary, we can get the runtime address of the main function. Relative to this, we can find the runtime address of the win function, by calculating the base.
 
 $$
 Base = Dynamic\ Address\ of\ main()\ -\ Static\ Address\ of\ main()
 $$
+
 $$
 Dynamic\ Address\ of\ win()\ =\ Static\ address\ of\ win()\ +\ Base
 $$
 
 7. We can write the following Python script to make things easier
 
-```Python
+```py
 static_main = 0x133D
 static_win = 0x12A7
 
