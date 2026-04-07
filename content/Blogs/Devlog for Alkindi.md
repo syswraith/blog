@@ -7,7 +7,7 @@ publish: true
 draft: false
 enableToc: true
 tags:
-aliases: /alkindi/
+alias:
 cssclasses: []
 socialDescription:
 ---

@@ -18,12 +18,11 @@ What I'm up to currently is
 
 # What's new
 
+- [[PIE TIME]]
 - [[Flag Hunters]]
 - [[Devlog for Alkindi]]
 - [[CrackMe1]]
 - [[Digital Footprint]]
-- [[Implementing a Logo Interpreter 2]]
-- [[Implementing a Logo Interpreter 1]]
 
 # Blog entries
 
@@ -36,6 +35,7 @@ What I'm up to currently is
 - [[Implementing a Logo Interpreter 1]]
 - [[Basic concepts of Hashing]]
 - [[Implementing a Logo Interpreter 2]]
+- [[Devlog for Alkindi]]
 
 # Some cool people I know
 
