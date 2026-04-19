@@ -11,13 +11,57 @@ alias:
 cssclasses: []
 socialDescription:
 ---
+# Day 02
+
+The project is a typical Vite app with the following structure:  
+
+```
+alkindi/src/
+├── App.css
+├── App.tsx
+├── components
+│   └── monoalphabetic
+│       ├── ciphertext_plaintext.tsx
+│       ├── encode_decode.tsx
+│       ├── find_replace.tsx
+│       ├── frequency_chart.tsx
+│       └── keymap.tsx
+├── index.css
+├── main.tsx
+├── pages
+│   └── Monoalphabetic.tsx
+├── types
+│   └── CounterMap.ts
+└── utilities
+    ├── Counter.ts
+    └── EnglishFrequency.ts
+
+6 directories, 13 files
+```
+
+I added a couple of changes to it since last time.
+
+The keymap keeps a track of which character is mapped to what (null if mapped to nothing). Changes are made to the keymap by other components, and only keymap can change the plaintext.
+
+The find and replace is a simple, 2 input field component that takes in a string, finds it in the ciphertext and replaces it (on a very high level). In reality, it's better for it to use the keymap to do this as well- their functionalities overlap anyway.
+
+Frequency chart is just a bar chart made with [Recharts](https://recharts.github.io/) for visualising the counter object, we worked on in the last video. It tracks the counter for the ciphertext and returns a bar graph for the frequency of all the characters. It re-renders everytime the ciphertext state changes. It also renders another bar chart for the frequency of English alphabets. I had to add a new method `getChartData()` to make things easier.
+
+All these components are rendered on the page for monoalphabetic cipher. The ciphertext state is tracked by this page. This will help in passing it down to different components as a prop. Although if things start to go out of hand, I can make it into a React context.
+
+What's left to implement is the undo and redo stacks. Updates to this are going to be single character (keymap) or in batches (find and replace). This needs to be researched and thought out, because I don't know how to best implement this.
+
+For now here's what we have so far:
+		
+![[alkindi ui day 02.png]]
+
 # Day 01
 
 ## Monoalphabetic UI
 
 Worked on the component for [ciphertext](https://en.wikipedia.org/wiki/Ciphertext) and [plaintext](https://en.wikipedia.org/wiki/Plaintext). Nothing fancy, just two states that I have to manage. The `plaintext` state is going to be changed by the user's actions. I'm going to have to put the changes that the user is going to apply in a stack of sorts, so even if the `ciphertext` is changed, I can just reapply the changes on the stack (for example, adding more text in the ciphertext field). 
 
-Also planned out a rough outline of how the UI for the monoalphabetic cipher is going to look like. Very professional if I say so myself (/s).
+Also planned out a rough outline of how the UI for the monoalphabetic cipher is going to look like. Very professional if I say so myself (/s). That being said, I'm pretty sure that I'm going to end up changing and simplifying it but that's all for today.
 
 ![[monoalphabetic_initial_ui.png]]
 
