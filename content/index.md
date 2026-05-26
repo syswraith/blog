@@ -18,9 +18,9 @@ What I'm up to currently is
 
 # What's new
 
+- [[OverTheWire Leviathan]]
 - [[PIE TIME]]
 - [[Flag Hunters]]
-- [[Devlog for Alkindi]]
 - [[CrackMe1]]
 - [[Digital Footprint]]
 
@@ -35,7 +35,6 @@ What I'm up to currently is
 - [[Implementing a Logo Interpreter 1]]
 - [[Basic concepts of Hashing]]
 - [[Implementing a Logo Interpreter 2]]
-- [[Devlog for Alkindi]]
 
 # Some cool people I know
 

@@ -3,8 +3,8 @@ title: Devlog for Alkindi
 description: A devlog for a cryptanalysis application.
 comments: true
 lang: en
-publish: true
-draft: false
+publish: false
+draft: true
 enableToc: true
 tags:
 alias:

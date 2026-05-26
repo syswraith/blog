@@ -1,5 +1,10 @@
 ## Movies
 
+- (2000) Vampire Hunter D: Bloodlust
+- (1985) Vampire Hunter D
+- (2007) My BLueberry Nights
+- (2016) The Nice Guys
+- (1982) Blade Runner
 - (1968) 2001: A Space Odyssey
 - (2008) Kung Fu Panda
 - (2020) Extraction
@@ -76,6 +81,7 @@
 - (2019) Knives Out
 - (2022) Avatar: The Way of Water
 - (2009) Avatar
+- (2025) Now You See Me Now You Don't
 - (2016) Now You See Me 2
 - (2013) Now You See Me
 - (2023) John Wick: Chapter 4
@@ -223,9 +229,9 @@
 - (2013–2023) Attack on Titan
 - (2006–2007) Death Note
 - (1998–1999) Cowboy Bebop
+- (2010–2012) Ben 10: Ultimate Alien
 - (2008–2010) Ben 10: Alien Force
 - (2005–2008) Ben 10
-- (2010–2012) Ben 10: Ultimate Alien
 
 ---
 
