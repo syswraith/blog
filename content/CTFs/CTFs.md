@@ -51,10 +51,14 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 - [x] Bandit 10
 - [x] Bandit 11
 
-- [x] Leviathan 0
-- [x] Leviathan 1
-- [x] Leviathan 2
-- [x] Leviathan 3
+- [x] [[CTFs/OverTheWire Leviathan#Level 0|Leviathan 0]]
+- [x] [[CTFs/OverTheWire Leviathan#Level 1|Leviathan 1]]
+- [x] [[CTFs/OverTheWire Leviathan#Level 2|Leviathan 2]]
+- [x] [[CTFs/OverTheWire Leviathan#Level 3|Leviathan 3]]
+- [x] [[CTFs/OverTheWire Leviathan#Level 4|Leviathan 4]]
+- [x] [[CTFs/OverTheWire Leviathan#Level 5|Leviathan 5]]
+- [x] [[CTFs/OverTheWire Leviathan#Level 6|Leviathan 6]]
+- [x] [[CTFs/OverTheWire Leviathan#Level 7|Leviathan 7]]
 
 # PicoCTF
 
