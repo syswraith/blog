@@ -22,7 +22,8 @@ What I'm up to currently is
 - [[PIE TIME]]
 - [[Flag Hunters]]
 - [[CrackMe1]]
-- [[Digital Footprint]]
+- [[Some more pointer magic with Memory Arenas]]
+
 
 # Blog entries
 
@@ -35,6 +36,7 @@ What I'm up to currently is
 - [[Implementing a Logo Interpreter 1]]
 - [[Basic concepts of Hashing]]
 - [[Implementing a Logo Interpreter 2]]
+- [[Some more pointer magic with Memory Arenas]]
 
 # Some cool people I know
 
