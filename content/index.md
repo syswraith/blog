@@ -18,12 +18,11 @@ What I'm up to currently is
 
 # What's new
 
+- [[Some more pointer magic with Memory Arenas]]
 - [[OverTheWire Leviathan]]
 - [[PIE TIME]]
 - [[Flag Hunters]]
 - [[CrackMe1]]
-- [[Some more pointer magic with Memory Arenas]]
-
 
 # Blog entries
 
