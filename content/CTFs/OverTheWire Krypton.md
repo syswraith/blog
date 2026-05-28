@@ -1,3 +1,10 @@
+---
+title: "OverTheWire Krypton - Write-up"
+description: "Write-up for the OverTheWire Krypton wargame levels."
+draft: true
+publish: false
+---
+
 ## Level 0
 base64
 KRYPTONISGREAT
