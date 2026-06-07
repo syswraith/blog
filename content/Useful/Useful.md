@@ -1,6 +1,6 @@
-- [[Useful BASH commands.md]]
-- [[Useful C++ Snippets.md]]
-- [[Useful Extensions.md]]
-- [[Useful NMAP commands.md]]
-- [[Useful React snippets.md]]
-- [[Useful SQL injections.md]]
+* [Useful BASH commands.md](Useful%20BASH%20commands.md)
+* [Useful C++ Snippets.md](Useful%20C++%20Snippets.md)
+* [Useful Extensions.md](Useful%20Extensions.md)
+* [Useful NMAP commands.md](Useful%20NMAP%20commands.md)
+* [Useful React snippets.md](Useful%20React%20snippets.md)
+* [Useful SQL injections.md](Useful%20SQL%20injections.md)

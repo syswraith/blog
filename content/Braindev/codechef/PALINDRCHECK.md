@@ -7,7 +7,7 @@ tag: codechef
 
 # Program
 
-```cpp
+````cpp
 string reverseWords(string s) 
 {
     // the stringstream class initialized with the string
@@ -33,11 +33,11 @@ string reverseWords(string s)
     
     return result;
 }
-```
+````
 
 # Comments
 
-- the stringstream class initialized with the string
-- vector to hold the tokens
-- tmp and result
-- getline takes characters and appends it to the tmp until delim is encountered
+* the stringstream class initialized with the string
+* vector to hold the tokens
+* tmp and result
+* getline takes characters and appends it to the tmp until delim is encountered

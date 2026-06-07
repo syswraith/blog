@@ -1,4 +1,5 @@
-```bash
+
+````bash
 find . -name flag1.txt # find the file named “flag1.txt” in the current directory
 find /home -name flag1.txt # find the file names “flag1.txt” in the /home directory
 find / -type d -name config # find the directory named config under “/”
@@ -13,14 +14,14 @@ find / -size 50M # find files with a 50 MB size
 find / -type f -perm -04000 -ls 2>/dev/null # finds files with SUID set
 find . -type f ! -executable -size 1033c # finds non-executables with size 1033 bytes
 find / -type f -cmin -1 -user bob 2>/dev/null # finds all files created by bob in last 1 min
-```
+````
 
-```bash
+````bash
 sudo getcap -r / 2>/dev/null # will output commands with capabilities
-```
+````
 
-```bash
+````bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
 # for user supplied binaries and shared libraries
-```
+````

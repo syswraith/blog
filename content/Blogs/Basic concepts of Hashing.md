@@ -7,13 +7,13 @@ publish: true
 draft: false
 enableToc: true
 tags:
-  - hashing
-  - probing
-  - chaining
-  - algorithms
-  - data-structures
+- hashing
+- probing
+- chaining
+- algorithms
+- data-structures
 alias:
-  - basic_hashing
+- basic_hashing
 cssclasses: []
 socialDescription: The basic concepts of hashing, explained along with memory-safe C code and output.
 created: 2025-12-31
@@ -30,39 +30,39 @@ In my data structures and algorithms course, I had a topic which gave me a gener
 
 Some basic terms that I'll be using in my explanation are:
 
-| Terms         | Definitions                                                                                                                      |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| Key           | An input.                                                                                                                        |
-| Hashing       | The process of taking an input key and generating a parameter which is used to store the key.                                    |
-| Hash Function | A function that is responsible for taking the key as input, processing it and providing an output that is used to store the key. |
-| Bucket        | A place where the key is stored.                                                                                                 |
-| Hash table    | A table which stores all of the buckets.                                                                                         |
-| Bucket index  | An index or a reference to where the key is stored; or simply put, the address of the bucket in the hash table.                  |
-| Collision     | When one or more keys (input) produce the same bucket index (output), a collision is said to occur.                              |
-| Overflow      | When a hash table has reached the limit of how many keys it can store, adding any more elements will cause an overflow to occur. |
+|Terms|Definitions|
+|-----|-----------|
+|Key|An input.|
+|Hashing|The process of taking an input key and generating a parameter which is used to store the key.|
+|Hash Function|A function that is responsible for taking the key as input, processing it and providing an output that is used to store the key.|
+|Bucket|A place where the key is stored.|
+|Hash table|A table which stores all of the buckets.|
+|Bucket index|An index or a reference to where the key is stored; or simply put, the address of the bucket in the hash table.|
+|Collision|When one or more keys (input) produce the same bucket index (output), a collision is said to occur.|
+|Overflow|When a hash table has reached the limit of how many keys it can store, adding any more elements will cause an overflow to occur.|
 
 To resolve a collision, we use different collision resolution techniques. Three of them are:
 
-- [[#Chaining]]
-- [[#Linear Probing and Quadratic probing]]
+* [Chaining](Basic%20concepts%20of%20Hashing.md#chaining)
+* [Linear Probing and Quadratic probing](Basic%20concepts%20of%20Hashing.md#linear-probing-and-quadratic-probing)
 
 # Chaining
 
 ### Important points to note
 
-- This type of technique uses linked lists to store keys.
-- When a collision occurs, one can simply add the incoming key to the linked list.
-- This solution is able to dynamically store incoming keys without requiring us to manually resizing it.
-- Each index of the hash table points to the head of the linked list that stores the most recent element of the bucket.
-- Each element that is in the linked list points to the next element. If the current element is the last element, it will point to null.
+* This type of technique uses linked lists to store keys.
+* When a collision occurs, one can simply add the incoming key to the linked list.
+* This solution is able to dynamically store incoming keys without requiring us to manually resizing it.
+* Each index of the hash table points to the head of the linked list that stores the most recent element of the bucket.
+* Each element that is in the linked list points to the next element. If the current element is the last element, it will point to null.
 
 ### Visual representation
 
-![[chaining.png]]
+![chaining.png](../images/hashing/chaining.png)
 
 ### C code
 
-```c
+````c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -146,38 +146,38 @@ int main() {
 
   return 0;
 }
-```
+````
 
 ### Output
 
-![[chaining_output.png]]
+![chaining_output.png](../images/hashing/chaining_output.png)
 Since the hash function is `k % 10`, the index for 0 and 10 are the same, thus the leading spaces.
 
 # Linear Probing and Quadratic probing
 
-- Both Linear and Quadratic probing use a simple index table structure.
-- The hash table may be defined as a simple array that can hold the value and the probe number.
-- The probe number is the number of tries/probes taken to search for an empty bucket.
-- Since the table size is fixed, an overflow can occur.
+* Both Linear and Quadratic probing use a simple index table structure.
+* The hash table may be defined as a simple array that can hold the value and the probe number.
+* The probe number is the number of tries/probes taken to search for an empty bucket.
+* Since the table size is fixed, an overflow can occur.
 
 ### Difference between linear and quadratic probing
 
-- **S** = Table size
-- **N** = Probe number
-- **x** = Key value
+* **S** = Table size
+* **N** = Probe number
+* **x** = Key value
 
-| Differences          | Linear Probing        | Quadratic Probing     |
-| -------------------- | --------------------- | --------------------- |
-| Hash function used   | `(hash(x) + N) % S`   | `(hash(x) + N*N) % S` |
-| Primary clustering   | Occurs                | Does not occur        |
-| Secondary clustering | Occurs                | Occurs                |
-| Search time          | Drastically increases | Increases gradually   |
+|Differences|Linear Probing|Quadratic Probing|
+|-----------|--------------|-----------------|
+|Hash function used|`(hash(x) + N) % S`|`(hash(x) + N*N) % S`|
+|Primary clustering|Occurs|Does not occur|
+|Secondary clustering|Occurs|Occurs|
+|Search time|Drastically increases|Increases gradually|
 
 ## C code
 
 #### 1. Linear Probing
 
-```c
+````c
 #include <float.h>
 #include <limits.h>
 #include <stdbool.h>
@@ -294,11 +294,11 @@ int main(void) {
 
   return 0;
 }
-```
+````
 
 #### 2. Quadratic Probing
 
-```c
+````c
 #include <float.h>
 #include <limits.h>
 #include <stdbool.h>
@@ -415,8 +415,8 @@ int main(void) {
 
   return 0;
 }
-```
+````
 
 ## Output
 
-![[lq probing.png]]
+![lq probing.png](../images/hashing/lq%20probing.png)

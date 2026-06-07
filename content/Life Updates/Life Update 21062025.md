@@ -1,8 +1,7 @@
-![[friendly feline.png]]
-![[research paper.png]]
-![[scoreboard.png]]
-![[cloud part.png]]
-![[railroad.png]]
-![[whereami.png]]
-![[latenight.png]]
-
+![friendly feline.png](../images/21062025/friendly%20feline.png)
+![research paper.png](../images/21062025/research%20paper.png)
+![scoreboard.png](../images/21062025/scoreboard.png)
+![cloud part.png](../images/21062025/cloud%20part.png)
+![railroad.png](../images/21062025/railroad.png)
+![whereami.png](../images/21062025/whereami.png)
+![latenight.png](../images/21062025/latenight.png)

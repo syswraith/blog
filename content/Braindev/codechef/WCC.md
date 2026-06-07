@@ -7,7 +7,7 @@ tag: codechef
 
 # Program
 
-```cpp
+````cpp
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -41,6 +41,6 @@ int main()
         cout << cc << '\n';
     }
 }
-```
+````
 
 # Comments

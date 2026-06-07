@@ -10,32 +10,32 @@ This is a digital record of all of my conquests with computers, programming, mov
 
 What I'm up to currently is
 
-- [[CTFs/CTFs]]
-- [[Watching]]
-- [[Reading]]
-- [[Braindev/Braindev]]
-- [[Useful/Useful]]
+* [CTFs/CTFs](CTFs/CTFs.md)
+* [Watching](Watching.md)
+* [Reading](Reading.md)
+* [Braindev/Braindev](Braindev/Braindev.md)
+* [Useful/Useful](Useful/Useful.md)
 
 # What's new
 
-- [[Some more pointer magic with Memory Arenas]]
-- [[OverTheWire Leviathan]]
-- [[PIE TIME]]
-- [[Flag Hunters]]
-- [[CrackMe1]]
+* [Some more pointer magic with Memory Arenas](Blogs/Some%20more%20pointer%20magic%20with%20Memory%20Arenas.md)
+* [OverTheWire Leviathan](CTFs/OverTheWire%20Leviathan.md)
+* [PIE TIME](CTFs/PIE%20TIME.md)
+* [Flag Hunters](CTFs/Flag%20Hunters.md)
+* [CrackMe1](CTFs/CrackMe1.md)
 
 # Blog entries
 
-- [[Dissecting the Anatomy of a Botnet]]
-- [[Scraping an Insecure Instance of Moodle]]
-- [[Simplified alerts- Using Deepseek-r1 to summarize chats]]
-- [[Homebrewing a custom wordlist generator]]
-- [[Life on the Command-line]]
-- [[Breaking a Substitution Cipher with Cryptanalysis]]
-- [[Implementing a Logo Interpreter 1]]
-- [[Basic concepts of Hashing]]
-- [[Implementing a Logo Interpreter 2]]
-- [[Some more pointer magic with Memory Arenas]]
+* [Dissecting the Anatomy of a Botnet](Blogs/Dissecting%20the%20Anatomy%20of%20a%20Botnet.md)
+* [Scraping an Insecure Instance of Moodle](Blogs/Scraping%20an%20Insecure%20Instance%20of%20Moodle.md)
+* [Simplified alerts- Using Deepseek-r1 to summarize chats](Blogs/Simplified%20alerts-%20Using%20Deepseek-r1%20to%20summarize%20chats.md)
+* [Homebrewing a custom wordlist generator](Blogs/Homebrewing%20a%20custom%20wordlist%20generator.md)
+* [Life on the Command-line](Blogs/Life%20on%20the%20Command-line.md)
+* [Breaking a Substitution Cipher with Cryptanalysis](Blogs/Breaking%20a%20Substitution%20Cipher%20with%20Cryptanalysis.md)
+* [Implementing a Logo Interpreter 1](Blogs/Implementing%20a%20Logo%20Interpreter%201.md)
+* [Basic concepts of Hashing](Blogs/Basic%20concepts%20of%20Hashing.md)
+* [Implementing a Logo Interpreter 2](Blogs/Implementing%20a%20Logo%20Interpreter%202.md)
+* [Some more pointer magic with Memory Arenas](Blogs/Some%20more%20pointer%20magic%20with%20Memory%20Arenas.md)
 
 # Some cool people I know
 
@@ -80,3 +80,4 @@ What I'm up to currently is
     <img src="https://github.com/C0NFR1NGO.png" height="50" alt="@C0NFR1NGO">
   </a>
 </span>
+

@@ -1,6 +1,6 @@
 # Content styling
 
-```tsx
+````tsx
 <div
  style={{
         display: "flex",
@@ -8,13 +8,13 @@
         alignItems: "center",
     }}
 >
-```
+````
 
 # Avoid mutation
 
 It's better to do this. If you call `setCount(count + 1)` three times in one function, each call "sees" the same initial value of `count` from the current render cycle. For example, if `count` is 0, all three calls effectively become `setCount(0 + 1)`, and the final state becomes 1 instead of 3.
 
-```tsx
+````tsx
 <button
   style={{ height: "50px", width: "50px", margin: "10px" }}
   onClick={() => {
@@ -25,11 +25,11 @@ It's better to do this. If you call `setCount(count + 1)` three times in one f
 >
   +
 </button>
-```
+````
 
 # Input handling
 
-```tsx
+````tsx
   const [inputContent, setInput] = useState("")
 
   return (
@@ -50,32 +50,32 @@ It's better to do this. If you call `setCount(count + 1)` three times in one f
       </p>
     </div>
 
-```
+````
 
 # Pass functions to avoid recalculations
 
-- `useState` will use a function when it doesn't have to re-render a value every time, will only run the first time a component is rendered.
-- This has to be PASSED not called i.e. `useState(func)` instead of `useState(func())`
+* `useState` will use a function when it doesn't have to re-render a value every time, will only run the first time a component is rendered.
+* This has to be PASSED not called i.e. `useState(func)` instead of `useState(func())`
 
-```tsx
+````tsx
 // instead of complicating it like this just declare them as two different states
 const [state, setState] = useState({ count: 0, color: "red" })
 const count = state.count
 const color = state.color
-```
+````
 
 # useRef
 
 Persist across renders. Rendering is not affected.
 
-```tsx
+````tsx
 const time = useRef(0)
 console.log(time.current) // refers to the current
 time.current = 10 // mutable
-```
+````
 
 # Return type unknown
 
-```tsx
+````tsx
 ReturnType<typeof setInterval>
-```
+````

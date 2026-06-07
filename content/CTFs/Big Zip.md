@@ -1,23 +1,18 @@
 ---
-title: "Big Zip - picoCTF Write-up"
-description: "Write-up for the picoCTF Big Zip challenge, unzipping a pile of archives and grepping for the flag."
-
-permalink: "/writeups/big-zip/"
-lang: "en"
-
+title: Big Zip - picoCTF Write-up
+description: Write-up for the picoCTF Big Zip challenge, unzipping a pile of archives and grepping for the flag.
+permalink: /writeups/big-zip/
+lang: en
 publish: true
 draft: false
 enableToc: true
-
 tags:
-  - Easy
-  - GeneralSkills
-  - picoctf
-  - writeup
-
+- Easy
+- GeneralSkills
+- picoctf
+- writeup
 aliases:
-  - "/big-zip/"
-
+- /big-zip/
 created: 2026-02-11
 date: 2026-02-11
 published: 2026-02-11

@@ -7,12 +7,12 @@ publish: true
 draft: false
 enableToc: true
 tags:
-  - memory
-  - arena
-  - c
-  - pointers
+- memory
+- arena
+- c
+- pointers
 alias:
-  - memory_arenas
+- memory_arenas
 cssclasses: []
 socialDescription: A deep dive into memory arenas in C for efficient pointer handling and memory safety.
 created: 2026-05-28
@@ -25,18 +25,17 @@ published: 2026-05-28
 publishDate: 2026-05-28
 ---
 
-
 I like implementing low-level things in C. It sort of helps me visualize how things work at a low memory level.
 
 Consider the following example:
 
-```c
+````c
 int *p = malloc(3); 
 ````
 
 This pointer now holds the first address of a contiguous memory block of three bytes.
 
-![[123.png]]
+![123.png](../images/123.png)
 
 Now this memory is allocated on the heap. It has to be freed eventually, else we'll end up with a memory leak.
 
@@ -57,23 +56,23 @@ This approach makes it possible for us to avoid having to call `free` multiple t
 
 We need 5 functions.
 
-| Function        | Return Type | Parameters                                  | Description                                                                      |
-| --------------- | ----------- | ------------------------------------------- | -------------------------------------------------------------------------------- |
-| ArenaInitialize | (Arena *)   | (size_t size)                               | To initialize/allocate the memory arena                                          |
-| ArenaAllocate   | (char *)    | (Arena *arena, size_t size, datatype value) | To allocate pointers on the memory arena                                         |
-| ArenaPrinter    | void        | (Arena *arena, size_t size)                 | To print the contents of the memory arena                                        |
-| ArenaReset      | void        | (Arena *arena)                              | To clear the memory arena (clear the pointers that we have previously allocated) |
-| ArenaFree       | void        | (Arena *arena)                              | To deallocate the memory arena                                                   |
+|Function|Return Type|Parameters|Description|
+|--------|-----------|----------|-----------|
+|ArenaInitialize|(Arena \*)|(size_t size)|To initialize/allocate the memory arena|
+|ArenaAllocate|(char \*)|(Arena \*arena, size_t size, datatype value)|To allocate pointers on the memory arena|
+|ArenaPrinter|void|(Arena \*arena, size_t size)|To print the contents of the memory arena|
+|ArenaReset|void|(Arena \*arena)|To clear the memory arena (clear the pointers that we have previously allocated)|
+|ArenaFree|void|(Arena \*arena)|To deallocate the memory arena|
 
 Now let's step through some code!
 
-```c
+````c
 typedef struct {
   size_t size;
   size_t currentOffset;
   char *buffer;
 } Arena;
-```
+````
 
 First, we have a struct that is used to initialize the Arena.
 
@@ -81,7 +80,7 @@ First, we have a struct that is used to initialize the Arena.
 * The `currentOffset` is used to keep track of how much data has been written into the Arena. For example, if the Arena is storing 9 chars, then the `currentOffset` is 9 bytes (since every char is 1 byte).
 * `buffer` stores the actual data. Note that it's a `char *` because `char` is 1 byte and that it is yet to be initialized.
 
-```c
+````c
 Arena *ArenaInit(size_t size) {
 
   // if size == 0 then return NULL
@@ -99,14 +98,14 @@ Arena *ArenaInit(size_t size) {
 
   return arenaPtr;
 }
-```
+````
 
 * While initializing the arena, we have to allocate the arena and then the buffer inside it. I've used `malloc` and `calloc` here, but it can be done with either of them.
 * The arena's size is set to the `size` argument that is passed by the user. It's multiplied with `char` because `char` is usually 1 byte in size. It's also recorded in a variable.
 * The `currentOffset` is set to 0. This is done to keep track of where we are when allocating space on the arena.
 * Finally, the function returns a pointer to the initialized memory arena.
 
-```c
+````c
 char *ArenaAlloc(Arena *arena, size_t size, int value) {
 
   // if the arena offset is greater than or equal to the arena size then return
@@ -125,7 +124,7 @@ char *ArenaAlloc(Arena *arena, size_t size, int value) {
   // return the current offset
   return currentOffset;
 }
-```
+````
 
 After we are done initializing and allocating memory to the arena, we can now allocate space on it.
 
@@ -135,7 +134,7 @@ After we are done initializing and allocating memory to the arena, we can now al
 * We update the current offset by adding the size of the data copied to the arena.
 * Finally, we return the current offset. Notice that this is the offset that shows the beginning of the allocated data and not the current offset of the memory arena.
 
-```c
+````c
 void ArenaPrinter(Arena *arena, size_t size) {
 
   size_t currentOffset = arena->currentOffset;
@@ -151,11 +150,11 @@ void ArenaPrinter(Arena *arena, size_t size) {
     counter += size;
   }
 }
-```
+````
 
 * This is a function that prints the contents of the memory arena. It's purely for debugging purposes.
 
-```c
+````c
 void ArenaReset(Arena *arena) {
   // clear the buffer
   memset(arena->buffer, 0, arena->size);
@@ -163,11 +162,11 @@ void ArenaReset(Arena *arena) {
   // reset the current
   arena->currentOffset = 0;
 }
-```
+````
 
 * Say we want to remove the allocated data. Normally we would do this with `free`, but since we are using an arena, we can just overwrite the whole arena with `0` (or not, but this seems cleaner, like `calloc`) and reset the current offset of the arena to 0.
 
-```c
+````c
 void ArenaFree(Arena *arena) {
   // first free the buffer in arena
   free(arena->buffer);
@@ -175,7 +174,7 @@ void ArenaFree(Arena *arena) {
   // then free the arena itself
   free(arena);
 }
-```
+````
 
 * While freeing the arena, it's very important that we first free the buffer inside the arena and then the arena itself. If we free the arena first, the pointer to the buffer will be lost and this will result in a memory leak.
 

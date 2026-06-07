@@ -7,19 +7,19 @@ publish: true
 draft: false
 enableToc: true
 tags:
-  - llm
-  - deepseek
-  - ollama
-  - whatsapp
-  - notifications
-  - javascript
-  - ai
-  - automation
+- llm
+- deepseek
+- ollama
+- whatsapp
+- notifications
+- javascript
+- ai
+- automation
 alias:
-  - simplified-alerts-deepseek
+- simplified-alerts-deepseek
 cssclasses: []
 socialDescription: Using Deepseek-r1 and Ollama to generate concise WhatsApp chat summaries and deliver them as phone notifications.
-socialImage:
+socialImage: null
 created: 2025-02-09
 date: 2025-02-09
 modified: 2025-02-09
@@ -30,9 +30,9 @@ published: 2025-02-09
 publishDate: 2025-02-09
 ---
 
-![[thumbnail.png]]
+![thumbnail.png](../images/chat-summarizer/thumbnail.png)
 
-I'm going to be honest. I don't like JavaScript. Not one bit. _It's coarse and rough and irritating and it gets everywhere._ It was my first programming language, and my language of choice for web-scraping and other automation tasks for a long time. I came to realize the pros and cons of utilizing it in my workflow, and decided that it no longer aligned with the goals I had in mind. That's why I shifted towards more zen-like languages like Python and C.
+I'm going to be honest. I don't like JavaScript. Not one bit. *It's coarse and rough and irritating and it gets everywhere.* It was my first programming language, and my language of choice for web-scraping and other automation tasks for a long time. I came to realize the pros and cons of utilizing it in my workflow, and decided that it no longer aligned with the goals I had in mind. That's why I shifted towards more zen-like languages like Python and C.
 
 But for this particular project, I needed to interact with WhatsApp services, and I needed a quick and easy way that did not cost me money. I surveyed a few libraries and found [whatsapp-web.js by pedroslopez](https://github.com/pedroslopez/whatsapp-web.js) to be the most feature-complete library which checked all of my prerequisites. So this project is done purely in JavaScript.
 
@@ -43,9 +43,9 @@ So naturally, it's going to be a long one :)
 
 Apple's latest iOS 18.3 update introduced Apple Intelligence, bringing long-awaited AI integration to the ecosystem. I don't use, nor encourage using Apple devices to anyone but creators, but what caught my attention were the funny tweets on X/Twitter that ultimately made Apple rollback their newly-released AI features. One of those features was a notification summariser that used AI. Here are some examples for your entertainment:
 
-![[hiking.png]]
-![[pregwife.png]]
-![[divorced.png]]
+![hiking.png](../images/chat-summarizer/hiking.png)
+![pregwife.png](../images/chat-summarizer/pregwife.png)
+![divorced.png](../images/chat-summarizer/divorced.png)
 
 After seeing this fiasco play out, I wanted to implement something similar for Android. Of course, not every notification needs to be summarized (and we're not dealing with reading phone notifications **at all** right now); but we're going to summarize individual WhatsApp chats, since that's where I think this feature will truly shine.
 
@@ -55,7 +55,7 @@ What I can gather from these snippets is that the model being used is not able t
 
 Here's a simple explanation of how chain-of-thought processing works:
 
-```mermaid
+````mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#282828', 'primaryTextColor': '#ebdbb2', 'primaryBorderColor': '#d79921', 'lineColor': '#d79921', 'secondaryColor': '#3c3836', 'tertiaryColor': '#504945' }}}%%
 flowchart TD
     A["Breaking Down Thoughts"] --- B["Step-by-Step Process"]
@@ -63,43 +63,44 @@ flowchart TD
     C --- D["Benefits of Making Thinking Visible"]
     D --- E["Promoting Systematic Problem Solving"]
     E --- A
-```
+````
 
 Anyone who's been keeping up with the tech news is probably aware that the [new kid on the block](https://youtu.be/Nl7aCUsWykg) has all of Silicon Valley in a frenzy and most of the US-based Fortune 500 companies panicking. It's not every day that a small Chinese AI startup pokes a [billion-dollar hole](https://timesofindia.indiatimes.com/technology/tech-news/the-american-company-that-lost-more-than-500-billion-to-deepseek-has-these-words-for-the-chinese-startup/articleshow/117652155.cms) in the valuation of the largest [chipmaker](https://www.bbc.com/news/articles/cp8e970vn5vo) in the world. This raised many eyebrows and invited many comments. One such is listed below.
 
-> _"China’s progress in algorithmic efficiency hasn't come out of nothing. When it comes to producing outstanding performers in math and science, China's secondary education system is superior to that of the West. It fosters fierce competition among students, a principle borrowed from the highly efficient Soviet model."_
->
-> Pavel Durov, CEO of Telegram
-> [Source](https://t.me/durov/394)
+ > 
+ > *"China’s progress in algorithmic efficiency hasn't come out of nothing. When it comes to producing outstanding performers in math and science, China's secondary education system is superior to that of the West. It fosters fierce competition among students, a principle borrowed from the highly efficient Soviet model."*
+ > 
+ > Pavel Durov, CEO of Telegram
+ > [Source](https://t.me/durov/394)
 
-In addition to Deepseek outperforming its competitors at the time of release, it was also licensed under the MIT license. Technically it cannot be called _open-source_, since the datasets used to train this model may or may not have been open-sourced under a license. But for all our intents and purposes, it will suffice.
+In addition to Deepseek outperforming its competitors at the time of release, it was also licensed under the MIT license. Technically it cannot be called *open-source*, since the datasets used to train this model may or may not have been open-sourced under a license. But for all our intents and purposes, it will suffice.
 
 The model was released on Ollama, which allows independent researchers/experimentalists (like me!) to download, run and interact with it locally. Here's a demo of it running on my machine.
 
-![[terminal.png]]
+![terminal.png](../images/chat-summarizer/terminal.png)
 
 # The Script
 
 Now that we have `Deepseek-r1:7b` set up locally, let's get to the more interesting part. The purpose of this script is simple-
 
 1. Login to our WhatsApp account
-2. Listen for all `Message` events
-3. If one of them meets a certain criteria (or in this case, begins with a `!summarise` directive) then perform actions based on them.
+1. Listen for all `Message` events
+1. If one of them meets a certain criteria (or in this case, begins with a `!summarise` directive) then perform actions based on them.
 
-```mermaid
+````mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#282828', 'primaryTextColor': '#ebdbb2', 'primaryBorderColor': '#d79921', 'lineColor': '#d79921', 'secondaryColor': '#3c3836', 'tertiaryColor': '#504945' }}}%%
 graph TD
     A[Authentication] --> B[Listening for Messages]
     B --> C[Forwarding Messages to AI]
     C --> D[Sending Notification]
 
-```
+````
 
 Let's walk through this one by one.
 
 ## Authentication
 
-```js
+````js
 import pkg from "whatsapp-web.js"
 import qrcode from "qrcode-terminal"
 
@@ -112,7 +113,7 @@ const client = new Client({
 client.on("ready", () => console.log("[STATUS] WhatsApp client is ready"))
 client.on("qr", (qr) => qrcode.generate(qr, { small: true }))
 client.initialize()
-```
+````
 
 I'm using the `LocalAuth` strategy but feel free to use the others. This handles the authentication part. Remember to give the script some time to save your session locally (as this is something that takes time and cannot be checked)
 
@@ -125,7 +126,7 @@ When we fetch these messages, a `Message` object is returned. We extract useful 
 **Note:**
 The `pop()` method is called to remove the last message (which now is the `!summarise` command).
 
-```js
+````js
 client.on('message_create', async (msg) => {
     if (msg.body.startsWith("!summarise") && msg.fromMe) {
         let message_collection = [];
@@ -143,13 +144,13 @@ client.on('message_create', async (msg) => {
  console.log(message_collection.join("\n"))
         console.log("[STATUS] Messages fetched and recorded");
     }
-```
+````
 
 ## Forwarding messages to AI
 
-We have all the messages now. We just need to send it off to the _Deepseek-r1_ model. Here, we will be using a wrapper around the Ollama API.
+We have all the messages now. We just need to send it off to the *Deepseek-r1* model. Here, we will be using a wrapper around the Ollama API.
 
-```js
+````js
 import ollama from "ollama"
 
 import { readFile } from "fs/promises"
@@ -163,15 +164,15 @@ const ai_response = await ollama.generate({
   system: systemPrompt.trim(),
   prompt: message_collection.join("\n"),
 })
-```
+````
 
-This code is pretty straightforward, but there is one thing that needs to be pointed out. At this point, we are going to need certain guidelines that will tell the model what kind of output we're expecting. We don't want it going on forever and ever, and we won't get good-quality results if we just say _"Summarise this thing in 3 lines!"_.
+This code is pretty straightforward, but there is one thing that needs to be pointed out. At this point, we are going to need certain guidelines that will tell the model what kind of output we're expecting. We don't want it going on forever and ever, and we won't get good-quality results if we just say *"Summarise this thing in 3 lines!"*.
 
 So we will use a [system prompt](https://csrc.nist.gov/glossary/term/system_prompt) to direct how the response will be generated.
 
 Writing this was a bit tricky because keeping the summary limited to a few lines and asking it NOT to output Markdown (like it's used to) is a bit difficult. I took inspiration from many of the patterns listed in [Daniel Meissler's Fabric Framework](https://github.com/danielmiessler/Fabric). Go check those out, they're really good prompts!
 
-```system_prompt.txt
+````system_prompt.txt
 # IDENTITY and PURPOSE
 
 You are an expert AI who specialises at analysing complex debates, conversations, discussions and other forms of communication, and providing a concise one short paragraph summary of what's important.
@@ -237,13 +238,13 @@ Your output is now a single sentence complete with all the information that is n
 # INPUT:
 
 INPUT:
-```
+````
 
 ## Sending notification
 
 We use [binwiederhier's ntfy.sh](https://github.com/binwiederhier/ntfy) pub-sub notification service to send notifications to our phone. All we need to do is perform a `POST` request to the endpoint (in this case `feychat`) and subscribe to it from our phone to receive notifications. We'll use `axios` over node-native POST. This is done purely for simplicity.
 
-```js
+````js
 try {
   const response = await axios.post("https://ntfy.sh/feychat", notif_content, {
     headers: {
@@ -255,7 +256,7 @@ try {
 } catch (error) {
   console.error("[STATUS] Error sending notification: ", error)
 }
-```
+````
 
 And that's about it!
 
@@ -264,51 +265,51 @@ And that's about it!
 In my testing, I can encounter mainly two types of conversations:
 
 1. Fact-rich conversations
-2. Emotion-heavy conversations
-   (My friends advised me against including this conversation because it isn't _suited_ for a blog-post, but I think its one of the best things I could have picked to test the capabilities of Deepseek!)
+1. Emotion-heavy conversations
+   (My friends advised me against including this conversation because it isn't *suited* for a blog-post, but I think its one of the best things I could have picked to test the capabilities of Deepseek!)
    Below are the examples of both of them, and their results. They're not real conversations (obviously) but rather simulated with regards to being as real as possible.
 
 ## 1. Fact-rich conversation
 
-![[cjs-vs-es6-chat.png]]
-![[cjs-vs-es6-notif.png]]
+![cjs-vs-es6-chat.png](../images/chat-summarizer/cjs-vs-es6-chat.png)
+![cjs-vs-es6-notif.png](../images/chat-summarizer/cjs-vs-es6-notif.png)
 
 ## 2. Emotion-heavy conversation
 
-![[bsf-chat.png]]
-![[bsf-notif.png]]
+![bsf-chat.png](../images/chat-summarizer/bsf-chat.png)
+![bsf-notif.png](../images/chat-summarizer/bsf-notif.png)
 
 # Parting thoughts
 
-- The **_system prompt_** needs to be improved. It's the only thing that can manipulate the output of the notification in a way that is well-suited for a short notification.
-- The notification cannot be a single line. It needs to be big enough (but not too big!) to summarize the conversation in a way that might carry meaning.
-- More testing on a wide variety of conversational tones- including sarcastic, ironic, satirical, assertive, and pessimistic- is needed. This will help to fine-tune the system prompt and improve the output notification.
+* The ***system prompt*** needs to be improved. It's the only thing that can manipulate the output of the notification in a way that is well-suited for a short notification.
+* The notification cannot be a single line. It needs to be big enough (but not too big!) to summarize the conversation in a way that might carry meaning.
+* More testing on a wide variety of conversational tones- including sarcastic, ironic, satirical, assertive, and pessimistic- is needed. This will help to fine-tune the system prompt and improve the output notification.
 
 ### Things to keep in mind
 
-- Running LLMs locally require a **powerful** GPU. The one that I have used in this project is a relatively low-powered and cheap one.
-- The LLM model used here is a 7 billion parameter model.
+* Running LLMs locally require a **powerful** GPU. The one that I have used in this project is a relatively low-powered and cheap one.
+* The LLM model used here is a 7 billion parameter model.
 
-```
+````
 Higher the parameter count
 = More factors controlling the LLM
 = Richer responses and results
-```
+````
 
-- A powerful GPU is able to run greater parameter models with speed and efficiency. However this is not something I have at disposal.
+* A powerful GPU is able to run greater parameter models with speed and efficiency. However this is not something I have at disposal.
 
 ### Hardware Specifications
 
-- Active internet connection with no funny DNS rules set.
-- A computer running GNU/Linux-based operating system.
-- Nvidia RTX 4050 minimum.
+* Active internet connection with no funny DNS rules set.
+* A computer running GNU/Linux-based operating system.
+* Nvidia RTX 4050 minimum.
 
 ### Tools used in this project
 
-- [Ollama](https://ollama.com/) = An open-tool that facilitates testing of LLMs locally
-- [Deepseek-r1:7b](https://www.deepseek.com/) = A modern chain-of-thought, open-source LLM model that's threatening US-based AI companies.
-- [ntfy.sh](https://ntfy.sh/) = HTTP-based notification service utilizing a REST API
-- [Node.js](https://nodejs.org/) = A well-established, industry-ready JavaScript runtime
-  - [axios](https://axios-http.com/) = To make HTTP requests
-  - [whatsapp-web.js](https://wwebjs.dev/) = Unofficial WhatsApp Web client library for Node.js (an official API is available but is paid and for businesses only)
-  - [ollama](https://www.npmjs.com/package/ollama) = A library to interact with the Ollama API
+* [Ollama](https://ollama.com/) = An open-tool that facilitates testing of LLMs locally
+* [Deepseek-r1:7b](https://www.deepseek.com/) = A modern chain-of-thought, open-source LLM model that's threatening US-based AI companies.
+* [ntfy.sh](https://ntfy.sh/) = HTTP-based notification service utilizing a REST API
+* [Node.js](https://nodejs.org/) = A well-established, industry-ready JavaScript runtime
+  * [axios](https://axios-http.com/) = To make HTTP requests
+  * [whatsapp-web.js](https://wwebjs.dev/) = Unofficial WhatsApp Web client library for Node.js (an official API is available but is paid and for businesses only)
+  * [ollama](https://www.npmjs.com/package/ollama) = A library to interact with the Ollama API

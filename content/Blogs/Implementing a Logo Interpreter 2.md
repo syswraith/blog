@@ -1,6 +1,6 @@
 ---
 title: Implementing a Logo Interpreter — Part 2
-description: "Part 2: Building the drawing engine for a Microsoft Logo interpreter using the HTML5 Canvas API, angle-based turtle movement, and coordinate transformations."
+description: 'Part 2: Building the drawing engine for a Microsoft Logo interpreter using the HTML5 Canvas API, angle-based turtle movement, and coordinate transformations.'
 permalink: /posts/logo-interpreter-typescript/part-2/
 comments: true
 lang: en
@@ -8,14 +8,14 @@ publish: true
 draft: false
 enableToc: true
 tags:
-  - canvas
-  - drawing-engine
-  - graphics
-  - logo
-  - javascript
-  - editor
+- canvas
+- drawing-engine
+- graphics
+- logo
+- javascript
+- editor
 aliases:
-  - logo2
+- logo2
 cssclasses: []
 socialDescription: Part 2 of building a Logo interpreter — implementing the drawing engine using Canvas, Cartesian updates, and turtle direction handling.
 created: 2025-12-02
@@ -28,16 +28,16 @@ published: 2025-12-02
 publishDate: 2025-12-02
 ---
 
-This is part 2 of **Implementing a Logo Interpreter**. Refer to [[Implementing a Logo Interpreter 1]] for the first part.
+This is part 2 of **Implementing a Logo Interpreter**. Refer to [Implementing a Logo Interpreter 1](Implementing%20a%20Logo%20Interpreter%201.md) for the first part.
 
 The drawing part is the most interesting part, you get to see the results of your work. Pat yourselves on the back to those of you who made it till here.
 
 # Editor
 
-- The editor is a simple `<textarea>` element, with two buttons- the `exportBtn` and the `runBtn`.
-- The `exportBtn` exports the graphics drawn on the canvas as a PNG file.
+* The editor is a simple `<textarea>` element, with two buttons- the `exportBtn` and the `runBtn`.
+* The `exportBtn` exports the graphics drawn on the canvas as a PNG file.
 
-```js
+````js
 exportBtn.addEventListener("click", () => {
   const img = canvas.toDataURL("image/png")
   const downloadLink = document.createElement("a")
@@ -45,11 +45,11 @@ exportBtn.addEventListener("click", () => {
   downloadLink.download = "canvas.png"
   downloadLink.click()
 })
-```
+````
 
-- The `runBtn` is responsible for running the Tokenizer and the Parser for the Logo code inside the `<textarea>`, and to draw the graphics on the screen.
+* The `runBtn` is responsible for running the Tokenizer and the Parser for the Logo code inside the `<textarea>`, and to draw the graphics on the screen.
 
-```js
+````js
 runBtn.addEventListener("click", () => {
   let editor_content = editor.value
   editor.value = ""
@@ -59,37 +59,37 @@ runBtn.addEventListener("click", () => {
   home(turtle, canvas)
   draw(p.getAST())
 })
-```
+````
 
 # Canvas
 
 Below are the **Canvas API** methods that we'll need to draw stuff on the screen.
 
-| Name and syntax             | What it does                                      |
-| --------------------------- | ------------------------------------------------- |
-| `beginPath()`               | Begins a path or resets the current path.         |
-| `moveTo(x, y)`              | Sets the start-point of the line in the canvas    |
-| `lineTo(x, y)`              | Sets the end-point of the line in the canvas      |
-| `stroke()`                  | Draws the line. The default stroke color is black |
-| `clearRect(x1, y1, x2, y2)` | Clears specified pixels on the canvas.            |
+|Name and syntax|What it does|
+|---------------|------------|
+|`beginPath()`|Begins a path or resets the current path.|
+|`moveTo(x, y)`|Sets the start-point of the line in the canvas|
+|`lineTo(x, y)`|Sets the end-point of the line in the canvas|
+|`stroke()`|Draws the line. The default stroke color is black|
+|`clearRect(x1, y1, x2, y2)`|Clears specified pixels on the canvas.|
 
 As we can see, we need the (X, Y) coordinates for the lines. We also need an angle because commands like `RIGHT` and `LEFT` shift the turtle's position by `n` amount.
 
 `RT 10 FD 10` will result in the following:
 
-![[displace_turtle.png]]
+![displace_turtle.png](../images/logo/displace_turtle.png)
 
 Initial experiments with the Canvas API revealed some interesting findings. I was convinced that I needed to convert polar coordinates to cartesian coordinates and vice versa every time I wanted to execute a drawing function.
 
 $$
-\begin{aligned}
+\\begin{aligned}
 x &= r \cdot \cos(\theta) \\
 y &= r \cdot \sin(\theta) \\
 
 r &= \sqrt{x^2 + y^2} \\
-\theta &= \tan^{-1}\left(\frac{y}{x}\right)
+\\theta &= \tan^{-1}\left(\frac{y}{x}\right)
 
-\end{aligned}
+\\end{aligned}
 $$
 
 However only one of these was needed. This is because (X, Y) remain constant throughout and the direction may or may not change. And the Canvas primarily works on Cartesian coordinates.
@@ -100,28 +100,28 @@ However only one of these was needed. This is because (X, Y) remain constant thr
 
 ## Functions and their explanation
 
-| Function or parameters           | Description                                                                                        |
-| -------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `toRadians(angle)`               | Converts an angle measured in degrees to its equivalent value in radians.                          |
-| `computeVector(angle, distance)` | Calculates a directional displacement vector based on the given angle and distance.                |
-| `moveTurtle(turtle, dx, dy)`     | Updates the turtle’s position by applying the specified horizontal and vertical offsets.           |
-| `drawLine(x1, y1, x2, y2)`       | Renders a line segment between two coordinate points when the pen state is enabled.                |
-| `forward(turtle, distance)`      | Advances the turtle by a specified distance and draws the corresponding line if the pen is active. |
-| `penup(turtle)`                  | Sets the turtle’s pen state to disabled, preventing drawing operations.                            |
-| `pendown(turtle)`                | Sets the turtle’s pen state to enabled, allowing drawing operations.                               |
-| `clearscreen(ctx, canvas)`       | Clears all rendered content from the canvas surface.                                               |
-| `home(turtle, canvas)`           | Resets the turtle’s position to the center of the canvas and its orientation to the default angle. |
-| `setxy(xcoor, ycoor)`            | Assigns an absolute position to the turtle using the provided coordinates.                         |
+|Function or parameters|Description|
+|----------------------|-----------|
+|`toRadians(angle)`|Converts an angle measured in degrees to its equivalent value in radians.|
+|`computeVector(angle, distance)`|Calculates a directional displacement vector based on the given angle and distance.|
+|`moveTurtle(turtle, dx, dy)`|Updates the turtle’s position by applying the specified horizontal and vertical offsets.|
+|`drawLine(x1, y1, x2, y2)`|Renders a line segment between two coordinate points when the pen state is enabled.|
+|`forward(turtle, distance)`|Advances the turtle by a specified distance and draws the corresponding line if the pen is active.|
+|`penup(turtle)`|Sets the turtle’s pen state to disabled, preventing drawing operations.|
+|`pendown(turtle)`|Sets the turtle’s pen state to enabled, allowing drawing operations.|
+|`clearscreen(ctx, canvas)`|Clears all rendered content from the canvas surface.|
+|`home(turtle, canvas)`|Resets the turtle’s position to the center of the canvas and its orientation to the default angle.|
+|`setxy(xcoor, ycoor)`|Assigns an absolute position to the turtle using the provided coordinates.|
 
 ### How REPEAT is implemented
 
-- `case 'REPEAT':`  
+* `case 'REPEAT':`  
   Selects the handler for a parsed `REPEAT` command.
-- `const [count, ...body] = node[1];`
+* `const [count, ...body] = node[1];`
   Destructures the instruction arguments:
-  - `count` is the number of iterations.
-  - `body` is an array of commands to be executed repeatedly.
-- `for (let i = 0; i < count; i++) draw(body);`  
+  * `count` is the number of iterations.
+  * `body` is an array of commands to be executed repeatedly.
+* `for (let i = 0; i < count; i++) draw(body);`  
   Executes the instruction body exactly `count` times by passing it to `draw`.
-- `break;`  
-   Exits the switch statement after the loop completes.
+* `break;`  
+  Exits the switch statement after the loop completes.

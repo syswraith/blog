@@ -7,7 +7,7 @@ tag: codechef
 
 # Program
 
-```cpp
+````cpp
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -23,9 +23,9 @@ int main() {
 	}
 	return 0;
 }
-```
+````
 
 # Comments
 
-- your code goes here
-- a/b floors down so we add (b-1) to ceil up so when it floors down it floors down right
+* your code goes here
+* a/b floors down so we add (b-1) to ceil up so when it floors down it floors down right

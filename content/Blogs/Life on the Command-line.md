@@ -7,14 +7,14 @@ publish: true
 draft: false
 enableToc: true
 tags:
-  - c
-  - python
-  - command-line
-  - systems-programming
-  - algorithms
-  - ascii
+- c
+- python
+- command-line
+- systems-programming
+- algorithms
+- ascii
 alias:
-  - command-line-projects
+- command-line-projects
 cssclasses: []
 socialDescription: Exploring life on the command line through small C and Python projects, from games to algorithms and system-level experiments.
 created: 2025-10-21
@@ -33,7 +33,7 @@ publishDate: 2025-10-21
 
 This was a first-time, crude effort for writing a bus reservation system.
 I know, corny; but it was my first experience writing an actual project in C and I had to write it for a college assignment anyway.
-And it worked out pretty well. Too sad I had to submit the assignment in _Times New Roman_ which messed up the character spacing.
+And it worked out pretty well. Too sad I had to submit the assignment in *Times New Roman* which messed up the character spacing.
 
 <script src="https://asciinema.org/a/738608.js" id="asciicast-738608" async="true"></script>
 
