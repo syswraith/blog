@@ -204,16 +204,6 @@ plugins:
       links:
         GitHub: https://github.com/jackyzha0/quartz
         Discord Community: https://discord.gg/cRFFHYye7t
-  - source: github:quartz-community/recent-notes
-    enabled: true
-    options:
-      title: Recent Notes
-      limit: 5
-      linkToMore: false
-      showTags: true
-    layout:
-      position: left
-      priority: 25
   - source: github:quartz-community/spacer
     enabled: true
     options: {}
