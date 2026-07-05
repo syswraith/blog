@@ -18,7 +18,7 @@ What I'm up to currently is
 
 # What's new
 
-* [Inside the CHIP-8 Virtual Machine](Blogs/Inside the CHIP-8 Virtual Machine.md)
+* [Inside the CHIP-8 Virtual Machine](Blogs/Inside%20the%20CHIP-8%20Virtual%20Machine.md)
 * [Some more pointer magic with Memory Arenas](Blogs/Some%20more%20pointer%20magic%20with%20Memory%20Arenas.md)
 * [OverTheWire Leviathan](CTFs/OverTheWire%20Leviathan.md)
 * [PIE TIME](CTFs/PIE%20TIME.md)
