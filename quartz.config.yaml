@@ -116,11 +116,6 @@ plugins:
       position: afterBody
       priority: 50
       display: all
-  - source: github:quartz-community/note-properties
-    enabled: true
-    options:
-      includeAll: false
-    hidePropertiesView: true
   - source: github:quartz-community/alias-redirects
     enabled: true
   - source: github:quartz-community/content-index
@@ -231,7 +226,7 @@ plugins:
         - tags
         - aliases
       excludedProperties: []
-      hidePropertiesView: false
+      hidePropertiesView: true
       delimiters: ---
       language: yaml
     order: 5
