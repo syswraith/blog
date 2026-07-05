@@ -198,25 +198,6 @@ plugins:
       position: beforeBody
       priority: 5
       condition: not-index
-  - source: github:quartz-community/comments
-    enabled: true
-    options:
-      provider: giscus
-      options:
-        repo: TODO:username/repo-name
-        repoId: TODO:your-repo-id
-        category: Announcements
-        categoryId: TODO:your-category-id
-        mapping: url
-        strict: true
-        reactionsEnabled: true
-        inputPosition: bottom
-        lightTheme: light
-        darkTheme: dark
-        lang: en
-    layout:
-      position: afterBody
-      priority: 10
   - source: github:quartz-community/footer
     enabled: true
     options:
