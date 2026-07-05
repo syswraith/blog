@@ -34,12 +34,12 @@ Here's the stuff that I've read (and enjoyed reading)
 50 books before 20 progress
 
 1. Steve Jobs by Walter Isaacson
-1. Metamorphosis by Franz Kafka
-1. The Labyrinth of Spirits by Carlos Ruiz Zafón
-1. The A B C Murders by Agatha Christie
-1. Murder on the Orient Express by Agatha Christie
-1. Brave New World by Aldous Huxley
-1. Appointment with Death by Agatha Christie
-1. Neon Genesis Evangelion Anima Volume 1
-1. Neuromancer by William Gibson
-1. Strange Case of Dr Jekyll and Mr Hyde by Robert Louis Stevenson
+2. Metamorphosis by Franz Kafka
+3. The Labyrinth of Spirits by Carlos Ruiz Zafón
+4. The A B C Murders by Agatha Christie
+5. Murder on the Orient Express by Agatha Christie
+6. Brave New World by Aldous Huxley
+7. Appointment with Death by Agatha Christie
+8. Neon Genesis Evangelion Anima Volume 1
+9. Neuromancer by William Gibson
+10. Strange Case of Dr Jekyll and Mr Hyde by Robert Louis Stevenson
