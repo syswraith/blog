@@ -50,3 +50,9 @@
 * [TWOVSTEN.md](codechef/TWOVSTEN.md)
 * [WATERCOOLER2.md](codechef/WATERCOOLER2.md)
 * [WCC.md](codechef/WCC.md)
+
+# Leetcode
+
+- [14. Longest Common Prefix](leetcode/14.md)
+- [1629. Slowest Key](leetcode/1629.md)
+- [2190. Most Frequent Number Following Key In an Array](leetcode/2190.md)
