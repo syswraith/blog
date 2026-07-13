@@ -36,7 +36,7 @@ What I'm up to currently is
 * [Basic concepts of Hashing](Blogs/Basic%20concepts%20of%20Hashing.md)
 * [Implementing a Logo Interpreter 2](Blogs/Implementing%20a%20Logo%20Interpreter%202.md)
 * [Some more pointer magic with Memory Arenas](Blogs/Some%20more%20pointer%20magic%20with%20Memory%20Arenas.md)
-* [Inside the CHIP-8 Virtual Machine](Blogs/Inside the CHIP-8 Virtual Machine.md)
+* [Inside the CHIP-8 Virtual Machine](Blogs/Inside%20the%20CHIP-8%20Virtual%20Machine.md)
 
 # Some cool people I know
 
