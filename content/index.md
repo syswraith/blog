@@ -2,27 +2,28 @@
 title: Home page
 ---
 
-My name is `syswraith`.
+My name is syswraith.
 I like computers, networking, pentesting, building stuff, breaking stuff, watching stuff, reading stuff and quoting stuff.
-I'm a `vim` heretic and an `arch` (btw) user.
+I'm a vim heretic and an arch (btw) user.
 
-This is a digital record of all of my conquests with computers, programming, movies, books, music, linguistics, cryptography, typography, et cetera. My musings are my own and may be wrong at times, for I am always looking to improve.
+This is a digital record of all of my conquests with computers, programming, movies, books, music, linguistics, cryptography, typography, et cetera. My musings are my own and may be wrong at times. Proceed with caution.
 
 What I'm up to currently is
 
-* [CTFs/CTFs](CTFs/CTFs.md)
-* [Watching](Watching.md)
-* [Reading](Reading.md)
-* [Braindev/Braindev](Braindev/Braindev.md)
-* [Useful/Useful](Useful/Useful.md)
+![CHIP-8 demo](https://youtu.be/m19BBzCtBEE)
+
+* Solving [CTFs](CTFs/CTFs.md)
+* [Watching](Watching.md) stuff
+* [Reading](Reading.md) stuff
+* Trying to [Braindev](Braindev/Braindev.md)
+* Some useful stuff that you probably don't need [Useful](Useful/Useful.md)
 
 # What's new
 
 * [Inside the CHIP-8 Virtual Machine](Blogs/Inside%20the%20CHIP-8%20Virtual%20Machine.md)
+    > Virtual machines are a nice level of abstraction between software and the hardware. This project helped me appreciate decoupled architecture that modern programming languages use to keep code reusable.
 * [Some more pointer magic with Memory Arenas](Blogs/Some%20more%20pointer%20magic%20with%20Memory%20Arenas.md)
-* [OverTheWire Leviathan](CTFs/OverTheWire%20Leviathan.md)
-* [PIE TIME](CTFs/PIE%20TIME.md)
-* [Flag Hunters](CTFs/Flag%20Hunters.md)
+    > Memory management is torture. Smart pointers are complicated. Memory arenas sit somewhere right in between.
 
 # Blog entries
 
@@ -37,48 +38,4 @@ What I'm up to currently is
 * [Implementing a Logo Interpreter 2](Blogs/Implementing%20a%20Logo%20Interpreter%202.md)
 * [Some more pointer magic with Memory Arenas](Blogs/Some%20more%20pointer%20magic%20with%20Memory%20Arenas.md)
 * [Inside the CHIP-8 Virtual Machine](Blogs/Inside%20the%20CHIP-8%20Virtual%20Machine.md)
-
-# Some cool people I know
-
-<span style="display:inline-flex; gap:8px; align-items:center; padding-left:5px; padding-right: 5px; flex-wrap:wrap;">
-  <a href="https://tervicke.github.io" target="_blank" rel="noopener">
-    <img src="https://github.com/tervicke.png" height="50" alt="@tervicke">
-  </a>
-  <a href="https://ferroflux.github.io" target="_blank" rel="noopener">
-    <img src="https://github.com/ferroflux.png" height="50" alt="@ferroflux">
-  </a>
-  <a href="https://faizanfirdousi.vercel.app" target="_blank" rel="noopener">
-    <img src="https://github.com/faizanfirdousi.png" height="50" alt="@faizanfirdousi">
-  </a>
-  <a href="https://dhruvmarulkar.github.io" target="_blank" rel="noopener">
-    <img src="https://github.com/dhruvmarulkar.png" height="50" alt="@dhruvmarulkar">
-  </a>
-  <a href="https://github.com/shrutiiiyet" target="_blank" rel="noopener">
-    <img src="https://github.com/shrutiiiyet.png" height="50" alt="@shrutiiiyet">
-  </a>
-  <a href="https://github.com/shivaji43" target="_blank" rel="noopener">
-    <img src="https://github.com/shivaji43.png" height="50" alt="@shivaji43">
-  </a>
-  <a href="https://github.com/Sherin-2711" target="_blank" rel="noopener">
-    <img src="https://github.com/Sherin-2711.png" height="50" alt="@Sherin-2711">
-  </a>
-  <a href="https://github.com/samrth07" target="_blank" rel="noopener">
-    <img src="https://github.com/samrth07.png" height="50" alt="@samrth07">
-  </a>
-  <a href="https://github.com/Shashwati12" target="_blank" rel="noopener">
-    <img src="https://github.com/Shashwati12.png" height="50" alt="@Shashwati12">
-  </a>
-  <a href="https://github.com/i-am-that-guy" target="_blank" rel="noopener">
-    <img src="https://github.com/i-am-that-guy.png" height="50" alt="@i-am-that-guy">
-  </a>
-  <a href="https://github.com/Harish-Naruto" target="_blank" rel="noopener">
-    <img src="https://github.com/Harish-Naruto.png" height="50" alt="@Harish-Naruto">
-  </a>
-  <a href="https://mortysome.github.io" target="_blank" rel="noopener">
-    <img src="https://github.com/mortySome.png" height="50" alt="@mortySome">
-  </a>
-  <a href="https://c0nfr1ngo.github.io" target="_blank" rel="noopener">
-    <img src="https://github.com/C0NFR1NGO.png" height="50" alt="@C0NFR1NGO">
-  </a>
-</span>
 
