@@ -16,30 +16,30 @@ configuration:
     fontOrigin: googleFonts
     cdnCaching: true
     typography:
-      header: Schibsted Grotesk
-      body: Source Sans Pro
-      code: IBM Plex Mono
+      header: Inter
+      body: Avenir
+      code: Source Code Pro
     colors:
       lightMode:
-        light: "#faf8f8"
-        lightgray: "#e5e5e5"
-        gray: "#b8b8b8"
-        darkgray: "#4e4e4e"
-        dark: "#2b2b2b"
-        secondary: "#284b63"
-        tertiary: "#84a59d"
-        highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#fff23688"
+        light: "#fbf1c7"       # --light0
+        lightgray: "#d5c4a1"   # --light2
+        gray: "#a89984"        # --light4
+        darkgray: "#3c3836"    # --dark1
+        dark: "#282828"        # --dark0
+        secondary: "#e78a4e"   # --neutral-yellow
+        tertiary: "#6c782e"    # --faded-green
+        highlight: "rgba(231, 138, 78, 0.15)" # --neutral-yellow tint
+        textHighlight: "#e78a4e88"            # --neutral-yellow
       darkMode:
-        light: "#161618"
-        lightgray: "#393639"
-        gray: "#646464"
-        darkgray: "#d4d4d4"
-        dark: "#ebebec"
-        secondary: "#7b97aa"
-        tertiary: "#84a59d"
-        highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#b3aa0288"
+        light: "#282828"       # --dark0
+        lightgray: "#3c3836"   # --dark1
+        gray: "#928374"        # --gray
+        darkgray: "#d5c4a1"    # --light2
+        dark: "#e78a4e"        # --neutral-yellow / --inline-title-color
+        secondary: "#e78a4e"   # --neutral-yellow
+        tertiary: "#a9b665"    # --neutral-green
+        highlight: "rgba(231, 138, 78, 0.15)" # --neutral-yellow tint
+        textHighlight: "#e78a4e88"            # --neutral-yellow
 plugins:
   - source: github:quartz-community/created-modified-date
     enabled: true
@@ -54,8 +54,8 @@ plugins:
     enabled: true
     options:
       theme:
-        light: github-light
-        dark: github-dark
+        light: gruvbox-light-medium
+        dark: gruvbox-dark-medium
       keepBackground: false
     order: 20
   - source: github:quartz-community/obsidian-flavored-markdown
@@ -127,6 +127,11 @@ plugins:
     enabled: true
   - source: github:quartz-community/og-image
     enabled: true
+    options:
+      colorScheme: darkMode
+      width: 1200
+      height: 630
+      excludeRoot: false
   - source: github:quartz-community/cname
     enabled: true
   - source: github:quartz-community/canvas-page
@@ -144,6 +149,35 @@ plugins:
       priority: 50
   - source: github:quartz-community/graph
     enabled: true
+    options:
+      localGraph:
+        drag: true
+        zoom: true
+        depth: 1
+        scale: 1.1
+        repelForce: 0.5
+        centerForce: 0.3
+        linkDistance: 30
+        fontSize: 0.6
+        opacityScale: 1
+        removeTags: []
+        showTags: true
+        focusOnHover: true
+        enableRadial: false
+      globalGraph:
+        drag: true
+        zoom: true
+        depth: -1
+        scale: 0.9
+        repelForce: 0.5
+        centerForce: 0.3
+        linkDistance: 30
+        fontSize: 0.6
+        opacityScale: 1
+        removeTags: []
+        showTags: true
+        focusOnHover: true
+        enableRadial: false
     layout:
       position: right
       priority: 10
@@ -259,4 +293,3 @@ layout:
         right: []
     canvas: {}
     bases: {}
-
