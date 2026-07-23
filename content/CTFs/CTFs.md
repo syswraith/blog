@@ -18,72 +18,46 @@ published: 2026-02-11
 modified: 2026-02-11
 lastmod: 2026-02-11
 ---
-
 I feel like a wizard trying to solve this solving this stuff. I guess this is how players felt when they cleared a dungeon in RPGs. Not gonna lie, this stuff is fun :)
-
 # TryHackMe
-
-* [x] [Digital Footprint](Digital-Footprint.md)
-* [x] [0x41haz](0x41haz.md)
+* [x] [Digital Footprint](CTFs/Digital%20Footprint.md)
+* [x] [0x41haz](CTFs/0x41haz.md)
 * [x] basicmalwarere
 * [x] reverselfiles
 * [x] ohsint
 * [x] sakura
 * [x] rrootme
-
 # OverTheWire progress
-
 * [x] Bandit 0
-
 * [x] Bandit 1
-
 * [x] Bandit 2
-
 * [x] Bandit 3
-
 * [x] Bandit 4
-
 * [x] Bandit 5
-
 * [x] Bandit 6
-
 * [x] Bandit 7
-
 * [x] Bandit 8
-
 * [x] Bandit 9
-
 * [x] Bandit 10
-
 * [x] Bandit 11
-
-* [x] [Leviathan 0](OverTheWire-Leviathan.md#level-0)
-
-* [x] [Leviathan 1](OverTheWire-Leviathan.md#level-1)
-
-* [x] [Leviathan 2](OverTheWire-Leviathan.md#level-2)
-
-* [x] [Leviathan 3](OverTheWire-Leviathan.md#level-3)
-
-* [x] [Leviathan 4](OverTheWire-Leviathan.md#level-4)
-
-* [x] [Leviathan 5](OverTheWire-Leviathan.md#level-5)
-
-* [x] [Leviathan 6](OverTheWire-Leviathan.md#level-6)
-
-* [x] [Leviathan 7](OverTheWire-Leviathan.md#level-7)
-
+* [x] [Leviathan 0](CTFs/OverTheWire%20Leviathan.md#level-0)
+* [x] [Leviathan 1](CTFs/OverTheWire%20Leviathan.md#level-1)
+* [x] [Leviathan 2](CTFs/OverTheWire%20Leviathan.md#level-2)
+* [x] [Leviathan 3](CTFs/OverTheWire%20Leviathan.md#level-3)
+* [x] [Leviathan 4](CTFs/OverTheWire%20Leviathan.md#level-4)
+* [x] [Leviathan 5](CTFs/OverTheWire%20Leviathan.md#level-5)
+* [x] [Leviathan 6](CTFs/OverTheWire%20Leviathan.md#level-6)
+* [x] [Leviathan 7](CTFs/OverTheWire%20Leviathan.md#level-7)
 # PicoCTF
-
-* [x] [PIE TIME](PIE-TIME.md)
-* [x] [Flag Hunters](Flag-Hunters.md)
-* [x] [MatchTheRegex](MatchTheRegex.md)
-* [x] [hashcrack](hashcrack.md)
-* [x] [Time Machine](Time-Machine.md)
-* [x] [Commitment Issues](Commitment-Issues.md)
-* [x] [DISKO 1](DISKO-1.md)
-* [x] [SSTI1](SSTI1.md)
-* [x] [Big Zip](Big-Zip.md)
+* [x] [PIE TIME](CTFs/PIE%20TIME.md)
+* [x] [Flag Hunters](CTFs/Flag%20Hunters.md)
+* [x] [MatchTheRegex](CTFs/MatchTheRegex.md)
+* [x] [hashcrack](CTFs/hashcrack.md)
+* [x] [Time Machine](CTFs/Time%20Machine.md)
+* [x] [Commitment Issues](CTFs/Commitment%20Issues.md)
+* [x] [DISKO 1](CTFs/DISKO%201.md)
+* [x] [SSTI1](CTFs/SSTI1.md)
+* [x] [Big Zip](CTFs/Big%20Zip.md)
 * [x] Quizploit
 * [x] Bases
 * [x] First Grep
@@ -112,7 +86,5 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 * [x] Collaborative Development
 * [x] FANTASY CTF
 * [x] First Find
-
 # Crackmes.one
-
-* [x] [CrackMe1](CrackMe1.md)
+* [x] [CrackMe1](CTFs/CrackMe1.md)
