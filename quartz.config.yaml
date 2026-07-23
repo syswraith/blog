@@ -17,29 +17,29 @@ configuration:
     cdnCaching: true
     typography:
       header: Inter
-      body: Avenir
+      body: Work Sans
       code: Source Code Pro
     colors:
       lightMode:
-        light: "#fbf1c7"       # --light0
-        lightgray: "#d5c4a1"   # --light2
-        gray: "#a89984"        # --light4
-        darkgray: "#3c3836"    # --dark1
-        dark: "#282828"        # --dark0
-        secondary: "#e78a4e"   # --neutral-yellow
-        tertiary: "#6c782e"    # --faded-green
-        highlight: "rgba(231, 138, 78, 0.15)" # --neutral-yellow tint
-        textHighlight: "#e78a4e88"            # --neutral-yellow
+        light: "#fbf1c7"       # bg0
+        lightgray: "#d5c4a1"   # bg2
+        gray: "#928374"        # gray (mode-agnostic)
+        darkgray: "#3c3836"    # fg1
+        dark: "#282828"        # fg0
+        secondary: "#af3a03"   # orange (light-mode true)
+        tertiary: "#79740e"    # faded green (light-mode true)
+        highlight: "rgba(175, 58, 3, 0.15)"
+        textHighlight: "#af3a0388"
       darkMode:
-        light: "#282828"       # --dark0
-        lightgray: "#3c3836"   # --dark1
-        gray: "#928374"        # --gray
-        darkgray: "#d5c4a1"    # --light2
-        dark: "#e78a4e"        # --neutral-yellow / --inline-title-color
-        secondary: "#e78a4e"   # --neutral-yellow
-        tertiary: "#a9b665"    # --neutral-green
-        highlight: "rgba(231, 138, 78, 0.15)" # --neutral-yellow tint
-        textHighlight: "#e78a4e88"            # --neutral-yellow
+        light: "#282828"       # bg0
+        lightgray: "#3c3836"   # bg1
+        gray: "#928374"        # gray
+        darkgray: "#d5c4a1"    # light2 / fg2
+        dark: "#fe8019"        # bright orange / inline-title
+        secondary: "#fe8019"   # bright orange
+        tertiary: "#b8bb26"    # bright green
+        highlight: "rgba(254, 128, 25, 0.15)"
+        textHighlight: "#fe801988"
 plugins:
   - source: github:quartz-community/created-modified-date
     enabled: true
