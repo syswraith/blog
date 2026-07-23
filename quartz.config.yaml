@@ -163,7 +163,7 @@ plugins:
         removeTags: []
         showTags: true
         focusOnHover: true
-        enableRadial: false
+        enableRadial: true
       globalGraph:
         drag: true
         zoom: true
@@ -177,7 +177,7 @@ plugins:
         removeTags: []
         showTags: true
         focusOnHover: true
-        enableRadial: false
+        enableRadial: true
     layout:
       position: right
       priority: 10
