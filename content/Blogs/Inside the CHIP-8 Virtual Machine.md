@@ -26,6 +26,7 @@ published: 2026-07-05
 publishDate: 2026-07-05
 ---
 
+![CHIP-8 demo](https://youtu.be/m19BBzCtBEE)
 
 # Context
 
