@@ -22,6 +22,7 @@ I feel like a wizard trying to solve this solving this stuff. I guess this is ho
 # TryHackMe
 * [x] [Digital Footprint](CTFs/Digital%20Footprint.md)
 * [x] [0x41haz](CTFs/0x41haz.md)
+* [x] [[The Brochure]]
 * [x] basicmalwarere
 * [x] reverselfiles
 * [x] ohsint
