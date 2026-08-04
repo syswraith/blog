@@ -20,6 +20,8 @@ What I'm up to currently is
 
 # What's new
 
+* [Implementing Ndarrays in C.md](Implementing%20Ndarrays%20in%20C.md)
+    > Jumping around in higher dimensions inside arrays is so not fun.
 * [Inside the CHIP-8 Virtual Machine](Blogs/Inside%20the%20CHIP-8%20Virtual%20Machine.md)
     > Virtual machines are a nice level of abstraction between software and the hardware. This project helped me appreciate decoupled architecture that modern programming languages use to keep code reusable.
 * [Some more pointer magic with Memory Arenas](Blogs/Some%20more%20pointer%20magic%20with%20Memory%20Arenas.md)
@@ -38,4 +40,4 @@ What I'm up to currently is
 * [Implementing a Logo Interpreter 2](Blogs/Implementing%20a%20Logo%20Interpreter%202.md)
 * [Some more pointer magic with Memory Arenas](Blogs/Some%20more%20pointer%20magic%20with%20Memory%20Arenas.md)
 * [Inside the CHIP-8 Virtual Machine](Blogs/Inside%20the%20CHIP-8%20Virtual%20Machine.md)
-
+* [Implementing Ndarrays in C.md](Implementing%20Ndarrays%20in%20C.md)

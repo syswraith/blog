@@ -1,4 +1,19 @@
-# Context
+---
+title: Implementing Ndarrays in C
+description: A look at implementing Numpy-style Ndarrays from scratch in C.
+comments: true
+lang: en
+publish: true
+draft: false
+enableToc: true
+tags:
+- c
+- arrays
+- numpy
+- systems-programming
+- data-structures
+alias:
+---
 
 [Numpy's ndarrays](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html) are a very useful data structure, used everywhere from training AI models to unpacking data for astronomy. It implements a very well thought out version of matrices, with some extra useful properties.
 

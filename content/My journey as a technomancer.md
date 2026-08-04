@@ -62,6 +62,5 @@ I switched to arch. Built the perfect system. Broke it down and reassembled it b
 
 I was 17. The real world was just a place I'd temporarily be in.
 
-I was a pirate. Whatever I wanted to watch or read, I could with a few keystroked. Whatever game I wanted to play, I did.
+I was a pirate. Whatever I wanted to watch or read, I could with a few keystroked. Whatever game I wanted to play, I did. It wasn't enough. It never will be enough.
 
-It wasn't enough. It never will be enough.
