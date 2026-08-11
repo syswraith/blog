@@ -1,6 +1,8 @@
 ---
 title: MISSP
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 
 [MISSP](https://www.codechef.com/problems/MISSP)

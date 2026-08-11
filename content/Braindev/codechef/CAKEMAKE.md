@@ -1,6 +1,8 @@
 ---
 title: CAKEMAKE
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 
 [CAKEMAKE](https://www.codechef.com/problems/CAKEMAKE)

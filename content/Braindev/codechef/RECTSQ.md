@@ -1,6 +1,8 @@
 ---
 title: RECTSQ
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 
 [RECTSQ](https://www.codechef.com/problems/RECTSQ)

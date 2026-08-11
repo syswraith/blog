@@ -1,6 +1,8 @@
 ---
 title: LOCKDRAW
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 
 [LOCKDRAW](https://www.codechef.com/problems/LOCKDRAW)

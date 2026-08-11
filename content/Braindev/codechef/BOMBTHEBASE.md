@@ -1,6 +1,8 @@
 ---
 title: BOMBTHEBASE
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 
 [bombthebase](https://www.codechef.com/problems/BOMBTHEBASE)

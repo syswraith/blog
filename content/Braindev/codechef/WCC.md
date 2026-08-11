@@ -1,6 +1,8 @@
 ---
 title: WCC
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 
 [WCC](https://www.codechef.com/problems/WCC)

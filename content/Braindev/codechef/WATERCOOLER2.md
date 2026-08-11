@@ -1,6 +1,8 @@
 ---
 title: WATERCOOLER2
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 
 [WATERCOOLER2](https://www.codechef.com/problems/WATERCOOLER2)

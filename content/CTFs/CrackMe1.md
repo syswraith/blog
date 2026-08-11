@@ -7,8 +7,10 @@ publish: true
 draft: false
 enableToc: true
 tags:
+- ctf
 - Easy
 - crackmesone
+- crackmes.one
 - writeup
 - reversing
 - binary

@@ -1,6 +1,8 @@
 ---
 title: PASSWD
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 # Problem
 [PASSWD](https://www.codechef.com/practice/course/strings/STRINGS/problems/PASSWD)

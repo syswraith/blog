@@ -1,6 +1,8 @@
 ---
 title: MINIPIZZA
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 
 [MINIPIZZA](https://www.codechef.com/problems/MINIPIZZA)

@@ -1,6 +1,8 @@
 ---
 title: LASTLEVELS
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 
 [LASTLEVELS](https://www.codechef.com/problems/LASTLEVELS)

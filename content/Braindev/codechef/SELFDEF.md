@@ -1,6 +1,8 @@
 ---
 title: SELFDEF
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 
 [SELFDEF](https://www.codechef.com/problems/SELFDEF)

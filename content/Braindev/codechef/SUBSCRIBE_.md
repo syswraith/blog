@@ -1,6 +1,8 @@
 ---
 title: SUBSCRIBE_
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 
 [SUBSCRIBE\_](https://www.codechef.com/problems/SUBSCRIBE_)

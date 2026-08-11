@@ -1,6 +1,8 @@
 ---
 title: LUCKYFR
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 
 [LUCKYFR](https://www.codechef.com/problems/LUCKYFR)

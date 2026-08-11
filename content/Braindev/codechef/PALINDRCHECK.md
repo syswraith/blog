@@ -1,6 +1,8 @@
 ---
 title: PALINDRCHECK
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 
 [PALINDRCHECK](https://www.codechef.com/problems/PALINDRCHECK)

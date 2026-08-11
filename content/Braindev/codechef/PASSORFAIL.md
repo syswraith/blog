@@ -1,6 +1,8 @@
 ---
 title: PASSORFAIL
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 
 [PASSORFAIL](https://www.codechef.com/problems/PASSORFAIL)

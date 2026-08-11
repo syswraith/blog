@@ -1,6 +1,8 @@
 ---
 title: TWOVSTEN
-tag: codechef
+tags:
+  - codechef
+  - writeup
 ---
 
 [TWOVSTEN](https://www.codechef.com/problems/TWOVSTEN)

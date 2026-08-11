@@ -1,8 +1,20 @@
 ---
 title: OverTheWire Krypton - Write-up
 description: Write-up for the OverTheWire Krypton wargame levels.
-draft: true
+permalink: /writeups/overthewire-krypton/
+lang: en
 publish: false
+draft: true
+enableToc: true
+tags:
+- ctf
+- overthewire
+- wargame
+- writeup
+- linux
+- cryptography
+aliases:
+- /overthewire-krypton/
 ---
 
 ## Level 0

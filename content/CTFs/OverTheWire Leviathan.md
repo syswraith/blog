@@ -7,6 +7,7 @@ publish: true
 draft: false
 enableToc: true
 tags:
+- ctf
 - overthewire
 - writeup
 - wargame

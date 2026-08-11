@@ -7,9 +7,11 @@ publish: true
 draft: false
 enableToc: true
 tags:
+- ctf
 - Easy
 - OSINT
 - tryhackme
+- writeup
 - instagram
 - base64
 - flag
