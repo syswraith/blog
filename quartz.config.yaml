@@ -161,7 +161,7 @@ plugins:
         fontSize: 0.6
         opacityScale: 1
         removeTags: []
-        showTags: false
+        showTags: true
         focusOnHover: true
         enableRadial: true
       globalGraph:
@@ -171,13 +171,13 @@ plugins:
         scale: 0.9
         repelForce: 0.5
         centerForce: 0.3
-        linkDistance: 30
+        linkDistance: 60
         fontSize: 0.6
         opacityScale: 1
         removeTags: []
-        showTags: false
+        showTags: true
         focusOnHover: true
-        enableRadial: true
+        enableRadial: false
     layout:
       position: right
       priority: 10
