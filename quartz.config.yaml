@@ -3,9 +3,7 @@ configuration:
   pageTitle: Syswraith's Holocron 🔮
   pageTitleSuffix: ""
   enableSPA: true
-  enablePopovers: true
-  analytics:
-    provider: plausible
+  enablePopovers: false
   locale: en-US
   baseUrl: syswraith.github.io/blog
   ignorePatterns:
@@ -42,7 +40,7 @@ configuration:
         textHighlight: "#fe801988"
 plugins:
   - source: github:quartz-community/created-modified-date
-    enabled: true
+    enabled: false
     options:
       defaultDateType: modified
       priority:
@@ -68,7 +66,7 @@ plugins:
     enabled: true
     order: 40
   - source: github:quartz-community/table-of-contents
-    enabled: true
+    enabled: false
     order: 50
     layout:
       position: right
@@ -139,9 +137,9 @@ plugins:
   - source: github:quartz-community/content-page
     enabled: true
   - source: github:quartz-community/folder-page
-    enabled: true
+    enabled: false
   - source: github:quartz-community/tag-page
-    enabled: true
+    enabled: false
   - source: github:quartz-community/explorer
     enabled: true
     layout:
@@ -177,7 +175,7 @@ plugins:
         removeTags: []
         showTags: true
         focusOnHover: true
-        enableRadial: false
+        enableRadial: true
     layout:
       position: right
       priority: 10
@@ -221,7 +219,7 @@ plugins:
       priority: 30
       group: toolbar
   - source: github:quartz-community/reader-mode
-    enabled: true
+    enabled: false
     layout:
       position: left
       priority: 35
