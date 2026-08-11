@@ -44,9 +44,11 @@
 * [MISSP.md](codechef/MISSP.md)
 * [PALINDRCHECK.md](codechef/PALINDRCHECK.md)
 * [PASSORFAIL.md](codechef/PASSORFAIL.md)
+* [PASSWD.md](codechef/PASSWD.md)
 * [RECTSQ.md](codechef/RECTSQ.md)
 * [SELFDEF.md](codechef/SELFDEF.md)
 * [SUBSCRIBE_.md](codechef/SUBSCRIBE_.md)
+* [TWOSTR.md](codechef/TWOSTR.md)
 * [TWOVSTEN.md](codechef/TWOVSTEN.md)
 * [WATERCOOLER2.md](codechef/WATERCOOLER2.md)
 * [WCC.md](codechef/WCC.md)
@@ -54,5 +56,10 @@
 # Leetcode
 
 - [14. Longest Common Prefix](leetcode/14.md)
+- [744. Find Smallest Letter Greater Than Target](leetcode/744.md)
+- [860. Lemonade Change](leetcode/860.md)
 - [1629. Slowest Key](leetcode/1629.md)
+- [1903. Largest Odd Number in String](leetcode/1903.md)
 - [2190. Most Frequent Number Following Key In an Array](leetcode/2190.md)
+- [2465. Number of Distinct Averages](leetcode/2465.md)
+- [3731. Find Missing Elements](leetcode/3731.md)

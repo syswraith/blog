@@ -20,6 +20,8 @@ What I'm up to currently is
 
 # What's new
 
+* [Dynamic and Heterogeneous Vectors in C](Dynamic%20and%20Heterogeneous%20Vectors%20in%20C.md)
+    > Python Lists, but in God's Programming language!
 * [Implementing Ndarrays in C](Implementing%20Ndarrays%20in%20C.md)
     > Jumping around in higher dimensions inside arrays is so not fun.
 * [Inside the CHIP-8 Virtual Machine](Blogs/Inside%20the%20CHIP-8%20Virtual%20Machine.md)
