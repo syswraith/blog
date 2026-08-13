@@ -43,3 +43,4 @@ What I'm up to currently is
 * [Some more pointer magic with Memory Arenas](Blogs/Some%20more%20pointer%20magic%20with%20Memory%20Arenas.md)
 * [Inside the CHIP-8 Virtual Machine](Blogs/Inside%20the%20CHIP-8%20Virtual%20Machine.md)
 * [Implementing Ndarrays in C](Implementing%20Ndarrays%20in%20C.md)
+* [Dynamic and Heterogeneous Vectors in C](Dynamic%20and%20Heterogeneous%20Vectors%20in%20C.md)
