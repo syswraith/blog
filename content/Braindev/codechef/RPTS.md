@@ -1,7 +1,7 @@
 ---
-title: "CodeChef: <Problem Code>"
-description: "Solution and write-up for CodeChef <Problem Code>."
-permalink: /writeups/codechef-<problem-code>/
+title: "CodeChef: RPTS"
+description: Solution and write-up for CodeChef <Problem Code>.
+permalink: /writeups/codechef-RPTS/
 lang: en
 publish: false
 draft: true
@@ -13,8 +13,10 @@ tags:
   - <Topic1>
 aliases:
   - /codechef-<problem-code>/
-created: {{date}}
-date: {{date}}
+created:
+  "{ date }":
+date:
+  "{ date }":
 ---
 
 [<Problem Code>](https://www.codechef.com/problems/<PROBLEM_CODE>)
