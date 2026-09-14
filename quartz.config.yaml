@@ -24,20 +24,20 @@ configuration:
         gray: "#928374"        # gray (mode-agnostic)
         darkgray: "#3c3836"    # fg1
         dark: "#282828"        # fg0
-        secondary: "#af3a03"   # orange (light-mode true)
-        tertiary: "#79740e"    # faded green (light-mode true)
-        highlight: "rgba(175, 58, 3, 0.15)"
-        textHighlight: "#af3a0388"
+        secondary: "#79740e"   # faded green (light-mode true)
+        tertiary: "#d79921"    # yellow (light-mode true)
+        highlight: "rgba(121, 116, 14, 0.15)"
+        textHighlight: "#79740e88"
       darkMode:
         light: "#282828"       # bg0
         lightgray: "#3c3836"   # bg1
         gray: "#928374"        # gray
         darkgray: "#d5c4a1"    # light2 / fg2
-        dark: "#fe8019"        # bright orange / inline-title
-        secondary: "#fe8019"   # bright orange
-        tertiary: "#b8bb26"    # bright green
-        highlight: "rgba(254, 128, 25, 0.15)"
-        textHighlight: "#fe801988"
+        dark: "#b8bb26"        # bright green / inline-title
+        secondary: "#b8bb26"   # bright green
+        tertiary: "#fabd2f"    # bright yellow
+        highlight: "rgba(184, 187, 38, 0.15)"
+        textHighlight: "#b8bb2688"
 plugins:
   - source: github:quartz-community/created-modified-date
     enabled: false
