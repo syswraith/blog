@@ -20,9 +20,11 @@ What I'm up to currently is
 
 # What's new
 
-* [Dynamic and Heterogeneous Vectors in C](Dynamic%20and%20Heterogeneous%20Vectors%20in%20C.md)
+* [Memory management with Pool Allocators](Blogs/Memory%20management%20with%20Pool%20Allocators.md)
+    > Memory management without fragmentation using fixed-size block pool allocators.
+* [Dynamic and Heterogeneous Vectors in C](Blogs/Dynamic%20and%20Heterogeneous%20Vectors%20in%20C.md)
     > Python Lists, but in God's Programming language!
-* [Implementing Ndarrays in C](Implementing%20Ndarrays%20in%20C.md)
+* [Implementing Ndarrays in C](Blogs/Implementing%20Ndarrays%20in%20C.md)
     > Jumping around in higher dimensions inside arrays is so not fun.
 * [Inside the CHIP-8 Virtual Machine](Blogs/Inside%20the%20CHIP-8%20Virtual%20Machine.md)
     > Virtual machines are a nice level of abstraction between software and the hardware. This project helped me appreciate decoupled architecture that modern programming languages use to keep code reusable.
@@ -42,5 +44,6 @@ What I'm up to currently is
 * [Implementing a Logo Interpreter 2](Blogs/Implementing%20a%20Logo%20Interpreter%202.md)
 * [Some more pointer magic with Memory Arenas](Blogs/Some%20more%20pointer%20magic%20with%20Memory%20Arenas.md)
 * [Inside the CHIP-8 Virtual Machine](Blogs/Inside%20the%20CHIP-8%20Virtual%20Machine.md)
-* [Implementing Ndarrays in C](Implementing%20Ndarrays%20in%20C.md)
-* [Dynamic and Heterogeneous Vectors in C](Dynamic%20and%20Heterogeneous%20Vectors%20in%20C.md)
+* [Implementing Ndarrays in C](Blogs/Implementing%20Ndarrays%20in%20C.md)
+* [Dynamic and Heterogeneous Vectors in C](Blogs/Dynamic%20and%20Heterogeneous%20Vectors%20in%20C.md)
+* [Memory management with Pool Allocators](Blogs/Memory%20management%20with%20Pool%20Allocators.md)
