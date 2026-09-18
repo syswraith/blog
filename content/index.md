@@ -2,7 +2,7 @@
 title: Home page
 ---
 
-My name is syswraith.
+My name is Aryan Karekar a.k.a syswraith.
 I like computers, networking, pentesting, building stuff, breaking stuff, watching stuff, reading stuff and quoting stuff.
 I'm a vim heretic and an arch (btw) user.
 
