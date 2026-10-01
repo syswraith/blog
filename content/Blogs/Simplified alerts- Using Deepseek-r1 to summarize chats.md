@@ -30,7 +30,7 @@ published: 2025-02-09
 publishDate: 2025-02-09
 ---
 
-![thumbnail.png](../images/chat-summarizer/thumbnail.png)
+![thumbnail.png](images/simplified-alerts-using-deepseek-r1-to-summarize-chats/thumbnail.png)
 
 I'm going to be honest. I don't like JavaScript. Not one bit. *It's coarse and rough and irritating and it gets everywhere.* It was my first programming language, and my language of choice for web-scraping and other automation tasks for a long time. I came to realize the pros and cons of utilizing it in my workflow, and decided that it no longer aligned with the goals I had in mind. That's why I shifted towards more zen-like languages like Python and C.
 
@@ -43,9 +43,9 @@ So naturally, it's going to be a long one :)
 
 Apple's latest iOS 18.3 update introduced Apple Intelligence, bringing long-awaited AI integration to the ecosystem. I don't use, nor encourage using Apple devices to anyone but creators, but what caught my attention were the funny tweets on X/Twitter that ultimately made Apple rollback their newly-released AI features. One of those features was a notification summariser that used AI. Here are some examples for your entertainment:
 
-![hiking.png](../images/chat-summarizer/hiking.png)
-![pregwife.png](../images/chat-summarizer/pregwife.png)
-![divorced.png](../images/chat-summarizer/divorced.png)
+![hiking.png](images/simplified-alerts-using-deepseek-r1-to-summarize-chats/hiking.png)
+![pregwife.png](images/simplified-alerts-using-deepseek-r1-to-summarize-chats/pregwife.png)
+![divorced.png](images/simplified-alerts-using-deepseek-r1-to-summarize-chats/divorced.png)
 
 After seeing this fiasco play out, I wanted to implement something similar for Android. Of course, not every notification needs to be summarized (and we're not dealing with reading phone notifications **at all** right now); but we're going to summarize individual WhatsApp chats, since that's where I think this feature will truly shine.
 
@@ -55,29 +55,21 @@ What I can gather from these snippets is that the model being used is not able t
 
 Here's a simple explanation of how chain-of-thought processing works:
 
-````mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#282828', 'primaryTextColor': '#ebdbb2', 'primaryBorderColor': '#d79921', 'lineColor': '#d79921', 'secondaryColor': '#3c3836', 'tertiaryColor': '#504945' }}}%%
-flowchart TD
-    A["Breaking Down Thoughts"] --- B["Step-by-Step Process"]
-    B --- C["Identifying Gaps & Refining Reasoning"]
-    C --- D["Benefits of Making Thinking Visible"]
-    D --- E["Promoting Systematic Problem Solving"]
-    E --- A
-````
+![Chain-of-thought processing loop](images/simplified-alerts-using-deepseek-r1-to-summarize-chats/chain-of-thought.png)
 
 Anyone who's been keeping up with the tech news is probably aware that the [new kid on the block](https://youtu.be/Nl7aCUsWykg) has all of Silicon Valley in a frenzy and most of the US-based Fortune 500 companies panicking. It's not every day that a small Chinese AI startup pokes a [billion-dollar hole](https://timesofindia.indiatimes.com/technology/tech-news/the-american-company-that-lost-more-than-500-billion-to-deepseek-has-these-words-for-the-chinese-startup/articleshow/117652155.cms) in the valuation of the largest [chipmaker](https://www.bbc.com/news/articles/cp8e970vn5vo) in the world. This raised many eyebrows and invited many comments. One such is listed below.
 
- > 
- > *"China’s progress in algorithmic efficiency hasn't come out of nothing. When it comes to producing outstanding performers in math and science, China's secondary education system is superior to that of the West. It fosters fierce competition among students, a principle borrowed from the highly efficient Soviet model."*
- > 
- > Pavel Durov, CEO of Telegram
- > [Source](https://t.me/durov/394)
+> 
+> *"China’s progress in algorithmic efficiency hasn't come out of nothing. When it comes to producing outstanding performers in math and science, China's secondary education system is superior to that of the West. It fosters fierce competition among students, a principle borrowed from the highly efficient Soviet model."*
+> 
+> Pavel Durov, CEO of Telegram
+> [Source](https://t.me/durov/394)
 
 In addition to Deepseek outperforming its competitors at the time of release, it was also licensed under the MIT license. Technically it cannot be called *open-source*, since the datasets used to train this model may or may not have been open-sourced under a license. But for all our intents and purposes, it will suffice.
 
 The model was released on Ollama, which allows independent researchers/experimentalists (like me!) to download, run and interact with it locally. Here's a demo of it running on my machine.
 
-![terminal.png](../images/chat-summarizer/terminal.png)
+![terminal.png](images/simplified-alerts-using-deepseek-r1-to-summarize-chats/terminal.png)
 
 # The Script
 
@@ -87,14 +79,7 @@ Now that we have `Deepseek-r1:7b` set up locally, let's get to the more interest
 1. Listen for all `Message` events
 1. If one of them meets a certain criteria (or in this case, begins with a `!summarise` directive) then perform actions based on them.
 
-````mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#282828', 'primaryTextColor': '#ebdbb2', 'primaryBorderColor': '#d79921', 'lineColor': '#d79921', 'secondaryColor': '#3c3836', 'tertiaryColor': '#504945' }}}%%
-graph TD
-    A[Authentication] --> B[Listening for Messages]
-    B --> C[Forwarding Messages to AI]
-    C --> D[Sending Notification]
-
-````
+![Script message-flow overview](images/simplified-alerts-using-deepseek-r1-to-summarize-chats/script-flow.png)
 
 Let's walk through this one by one.
 
@@ -271,13 +256,13 @@ In my testing, I can encounter mainly two types of conversations:
 
 ## 1. Fact-rich conversation
 
-![cjs-vs-es6-chat.png](../images/chat-summarizer/cjs-vs-es6-chat.png)
-![cjs-vs-es6-notif.png](../images/chat-summarizer/cjs-vs-es6-notif.png)
+![cjs-vs-es6-chat.png](images/simplified-alerts-using-deepseek-r1-to-summarize-chats/cjs-vs-es6-chat.png)
+![cjs-vs-es6-notif.png](images/simplified-alerts-using-deepseek-r1-to-summarize-chats/cjs-vs-es6-notif.png)
 
 ## 2. Emotion-heavy conversation
 
-![bsf-chat.png](../images/chat-summarizer/bsf-chat.png)
-![bsf-notif.png](../images/chat-summarizer/bsf-notif.png)
+![bsf-chat.png](images/simplified-alerts-using-deepseek-r1-to-summarize-chats/bsf-chat.png)
+![bsf-notif.png](images/simplified-alerts-using-deepseek-r1-to-summarize-chats/bsf-notif.png)
 
 # Parting thoughts
 

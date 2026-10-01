@@ -79,7 +79,7 @@ First things that I notice right off the bat are:
 
 * The LMS is written in PHP meaning majority of the operations might be handled without having to execute any JavaScript code. That's good.
 * With the Cookie-Editor extension, I can see that a cookie named `MoodleSession` is being set to a random string of 26 alphanumeric characters. That's interesting.
-  ![moodle_session_cookie.png](../images/moodle_scraper/moodle_session_cookie.png)
+  ![moodle_session_cookie.png](images/scraping-an-insecure-instance-of-moodle/moodle_session_cookie.png)
 
 Secondly, authenticating myself with a username and password makes the equivalent of the
 following cURL request:
@@ -110,7 +110,7 @@ word-url-encoded'
 * This tells us that there are two `MoodleSession` cookies, one before authentication and one after authentication.
 * Usernames and passwords are being URL-encoded and sent in plain-text over the HTTP POST request.
 * It took me a few tries but i finally found `logintoken` sneakily nested inside the page's source code in the following way:
-  ![logintoken_nested.png](../images/moodle_scraper/logintoken_nested.png)
+  ![logintoken_nested.png](images/scraping-an-insecure-instance-of-moodle/logintoken_nested.png)
 
 # Writing the script
 
@@ -400,15 +400,15 @@ conn.close()
 
 Scraped data output from the console:
 
-![scraped_data_console.png](../images/moodle_scraper/scraped_data_console.png)
+![scraped_data_console.png](images/scraping-an-insecure-instance-of-moodle/scraped_data_console.png)
 
 Scraped data from the database:
 
-![scraped_data_db.jpg](../images/moodle_scraper/scraped_data_db.jpg)
+![scraped_data_db.jpg](images/scraping-an-insecure-instance-of-moodle/scraped_data_db.jpg)
 
 # Parting thoughts
 
- > 
- > ”In God we trust. All others must bring data.” ~ W. Edwards Deming
+> 
+> ”In God we trust. All others must bring data.” ~ W. Edwards Deming
 
 Keep yours safe :)

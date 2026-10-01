@@ -1,7 +1,6 @@
 ---
 title: Big Zip - picoCTF Write-up
 description: Write-up for the picoCTF Big Zip challenge, unzipping a pile of archives and grepping for the flag.
-permalink: /writeups/big-zip/
 lang: en
 publish: true
 draft: false

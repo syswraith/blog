@@ -45,14 +45,14 @@ publishDate: 2025-01-17
 
 # About the IRC protocol
 
- > 
- > The IRC protocol was developed over the last 4 years since it was first implemented as a means for users on a BBS to chat amongst themselves. Now it supports a world-wide network of servers and clients, and is stringing to cope with growth.
- > 
- > Over the past 2 years, the average number of users connected to the main IRC network has grown by a factor of 10.
- > 
- > The IRC protocol is a text-based protocol, with the simplest client being any socket program capable of connecting to the server.
- > 
- > ~ *Abstract, RFC 1459*
+> 
+> The IRC protocol was developed over the last 4 years since it was first implemented as a means for users on a BBS to chat amongst themselves. Now it supports a world-wide network of servers and clients, and is stringing to cope with growth.
+> 
+> Over the past 2 years, the average number of users connected to the main IRC network has grown by a factor of 10.
+> 
+> The IRC protocol is a text-based protocol, with the simplest client being any socket program capable of connecting to the server.
+> 
+> ~ *Abstract, RFC 1459*
 
 * IRC is a TCP-based protocol that supports multi-user communication in real time.
 * It was created in 1988 by Jarkko "WiZ" Oikarinen at the University of Oulu in Finland, to extend his BBS software.
@@ -148,16 +148,7 @@ while True:
 
 6. Now to the crux of the program. There are three main features that I'm going to implement- the ability of the bot to respond to PINGS, the ability of the bot to record the username of the bot operator, and the ability to execute the commands issued by the bot operator. The second feature is vital for the third to work.
 
-````mermaid
-graph TD
-  Decision["Decision"]:::diamond
-  Decision -->|"PING"| Respond["Respond with PONG"]
-  Decision -->|"Record username"| Record["Parse and record the username<br>of the bot operator"]
-  Decision -->|"Issued commands"| Issue["Execute the<br>issued commands"]
-
-  classDef diamond shape:diamond, font-size:25px;
-
-````
+![Bot command-handling flow](images/dissecting-the-anatomy-of-a-botnet/botnet-flow.png)
 
 7. The first one is simple enough, you just have to respond with `PONG` every time someone says `PING`, followed by the server name.
 

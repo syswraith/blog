@@ -1,3 +1,13 @@
+---
+title: Watching
+description: A running log of what I'm watching — films, series, and the occasional documentary or podcast, with progress bars.
+tags:
+- watching
+- movies
+- series
+- list
+---
+
 ## Movies
 
 * (2025) TRON: Ares

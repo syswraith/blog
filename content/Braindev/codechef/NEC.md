@@ -1,5 +1,9 @@
-# Problem
-### [Neck](https://www.codechef.com/practice/course/stacks-and-queues-new/STACKQUE06/problems/NEC)
+---
+title: Neck
+tags:
+- codechef
+- writeup
+---
 
 # Program 
 
@@ -28,7 +32,6 @@ int main()
 
         for (int i = 0; i < n; i++) cout << " " << rot[i];
         cout << endl;
-
 
     }
 

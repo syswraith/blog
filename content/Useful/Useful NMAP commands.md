@@ -1,3 +1,13 @@
+---
+title: Useful NMAP commands
+description: An nmap cheat sheet, with notes on when ARP beats ICMP and what having sudo actually changes about a scan.
+tags:
+- nmap
+- networking
+- pentesting
+- reference
+---
+
 * arp works on the same network. it returns the mac address of the systems.
 
 * icmp works across networks. doest return ip

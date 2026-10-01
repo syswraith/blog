@@ -1,7 +1,6 @@
 ---
 title: The Brochure - TryHackMe Write-up
 description: Write-up for the TryHackMe The Brochure challenge, simple OSINT challenge.
-permalink: /writeups/the-brochure/
 lang: en
 publish: true
 draft: false
@@ -26,6 +25,6 @@ aliases:
 2. Searching Instagram for "Byte Lotus Resorts" leads us to [this page](https://www.instagram.com/thebytelotusresort/)
 3. The 1 follower looks suspicious. Nice. Base64 encoding.
 
-![[Pasted image 20260725172128.png]]
+![Byte Lotus Resorts Instagram follower profile](images/the-brochure/Pasted%20image%2020260725172128.png)
 
 4. The flag: `THM{V3r@s_aCC0unt_h4s_b33n_f0und!}`

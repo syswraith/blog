@@ -46,8 +46,6 @@ To resolve a collision, we use different collision resolution techniques. Three 
 * [Chaining](Basic%20concepts%20of%20Hashing.md#chaining)
 * [Linear Probing and Quadratic probing](Basic%20concepts%20of%20Hashing.md#linear-probing-and-quadratic-probing)
 
-# Chaining
-
 ### Important points to note
 
 * This type of technique uses linked lists to store keys.
@@ -58,7 +56,7 @@ To resolve a collision, we use different collision resolution techniques. Three 
 
 ### Visual representation
 
-![chaining.png](../images/hashing/chaining.png)
+![chaining.png](images/basic-concepts-of-hashing/chaining.png)
 
 ### C code
 
@@ -150,7 +148,7 @@ int main() {
 
 ### Output
 
-![chaining_output.png](../images/hashing/chaining_output.png)
+![chaining_output.png](images/basic-concepts-of-hashing/chaining_output.png)
 Since the hash function is `k % 10`, the index for 0 and 10 are the same, thus the leading spaces.
 
 # Linear Probing and Quadratic probing
@@ -172,8 +170,6 @@ Since the hash function is `k % 10`, the index for 0 and 10 are the same, thus t
 |Primary clustering|Occurs|Does not occur|
 |Secondary clustering|Occurs|Occurs|
 |Search time|Drastically increases|Increases gradually|
-
-## C code
 
 #### 1. Linear Probing
 
@@ -419,4 +415,4 @@ int main(void) {
 
 ## Output
 
-![lq probing.png](../images/hashing/lq%20probing.png)
+![lq probing.png](images/basic-concepts-of-hashing/lq%20probing.png)

@@ -47,10 +47,10 @@ So how do we- as mortals- make sense of this seemingly gigantic number?
 Well it's simple really. We focus on the things that are making these passwords- *people*. Man is the most exploitable part of the security ecosystem. About ***95%*** of the security faults happen today, happen because of man.
 
 How would a normal, ignorant person make his passwords? He/She would reuse the words, phrases and figures closest to him. The first few lines of *`rockyou.txt`* make this clear to us:
-![rockyou.png](../images/wordlist-generator/rockyou.png)
+![rockyou.png](images/homebrewing-a-custom-wordlist-generator/rockyou.png)
 
- > 
- > *"A man is defined by the company he keeps."*
+> 
+> *"A man is defined by the company he keeps."*
 
 The whole idea is based around the fact that through his social connections, there might be some words/characters whose combination makes up one of his passwords. So we need to define a social structure of people that surrounds our target and utilize it to generate the wordlist that we'll eventually use in our attacks. We also need to sort the passwords from high probability to low probability so that we'll reduce time spent in brute-forcing the passwords.
 

@@ -30,7 +30,7 @@ publishDate: 2025-10-27
 
 A **cipher** is an algorithm for encoding or decoding text in such a way that only the intended recipient can understand it.
 
-![images/substitution_cipher/input_output_map.png](../images/substitution_cipher/input_output_map.png)
+![images/substitution_cipher/input_output_map.png](images/breaking-a-substitution-cipher-with-cryptanalysis/input_output_map.png)
 
 At a high level, all cryptographic algorithms work as follows:
 
@@ -57,7 +57,7 @@ Uppercase letters denote letters that are decrypted and lowercase letters denote
 
 ## Step 1: Initial Guesses
 
-![images/substitution_cipher/word_frequency.png](../images/substitution_cipher/word_frequency.png)
+![images/substitution_cipher/word_frequency.png](images/breaking-a-substitution-cipher-with-cryptanalysis/word_frequency.png)
 
 Observing the text, we notice **frequent repetitions** such as `psi` and `ncr`
 . We can guess 2 common 3-letter words:
@@ -78,8 +78,8 @@ c => N
 r => D
 ````
 
-![images/substitution_cipher/cipher_1.png](../images/substitution_cipher/cipher_1.png)
-In the first word, if we change `l` => `R`, we get the word `THERE`.  
+![images/substitution_cipher/cipher_1.png](images/breaking-a-substitution-cipher-with-cryptanalysis/cipher_1.png)
+In the first word, if we change `l` => `R`, we get the word `THERE`.\
 In the second word, if we change `n` => `A`, we get the word `ARE`.
 
 ````
@@ -87,7 +87,7 @@ l => R
 n => A
 ````
 
-![images/substitution_cipher/cipher_2.png](../images/substitution_cipher/cipher_2.png)
+![images/substitution_cipher/cipher_2.png](images/breaking-a-substitution-cipher-with-cryptanalysis/cipher_2.png)
 
 ---
 
@@ -99,7 +99,7 @@ The character `a` comes by itself. There are two possibilities — `A` and `I`. 
 a => I
 ````
 
-![images/substitution_cipher/cipher_3.png](../images/substitution_cipher/cipher_3.png)
+![images/substitution_cipher/cipher_3.png](images/breaking-a-substitution-cipher-with-cryptanalysis/cipher_3.png)
 
 ---
 
@@ -114,7 +114,7 @@ c => N
 r => D
 ````
 
-![images/substitution_cipher/cipher_4.png](../images/substitution_cipher/cipher_4.png)
+![images/substitution_cipher/cipher_4.png](images/breaking-a-substitution-cipher-with-cryptanalysis/cipher_4.png)
 We can assume that since since v, w have their usual meanings, the letters coming after them follow this property as well.
 
 ````
@@ -128,8 +128,8 @@ z => Z
 ## Step 4: Repeating Letters
 
 * Repeated ciphertext `kk` likely is likely `ll` because ALL fits more in this context than ASS.
-* `m` → `S` to form the word `INSANE`.  
-  ![images/substitution_cipher/cipher_5.png](../images/substitution_cipher/cipher_5.png)
+* `m` → `S` to form the word `INSANE`.\
+  ![images/substitution_cipher/cipher_5.png](images/breaking-a-substitution-cipher-with-cryptanalysis/cipher_5.png)
 
 ---
 
@@ -148,7 +148,7 @@ f => C
 e => F
 ````
 
-![images/substitution_cipher/cipher_6.png](../images/substitution_cipher/cipher_6.png)
+![images/substitution_cipher/cipher_6.png](images/breaking-a-substitution-cipher-with-cryptanalysis/cipher_6.png)
 
 ---
 

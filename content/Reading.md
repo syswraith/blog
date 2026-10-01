@@ -1,3 +1,12 @@
+---
+title: Reading
+description: A running log of what I'm reading — what's next, what's finished, and a fifty-books-before-twenty list.
+tags:
+- reading
+- books
+- list
+---
+
 Here's what I'm planning to read
 
 |Book|Author|Acquired?|Progress|

@@ -1,3 +1,13 @@
+---
+title: Useful React snippets
+description: React and TSX patterns I keep looking up — inline styling, avoiding mutation, input handling, useRef, and passing functions to skip recalculation.
+tags:
+- react
+- javascript
+- tsx
+- reference
+---
+
 # Content styling
 
 ````tsx

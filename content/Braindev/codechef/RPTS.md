@@ -1,7 +1,6 @@
 ---
 title: "CodeChef: RPTS"
 description: Solution and write-up for CodeChef <Problem Code>.
-permalink: /writeups/codechef-RPTS/
 lang: en
 publish: false
 draft: true

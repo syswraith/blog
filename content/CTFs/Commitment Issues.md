@@ -1,7 +1,6 @@
 ---
 title: Commitment Issues - picoCTF Write-up
 description: Write-up for the picoCTF Commitment Issues challenge, digging through a git repo’s history to drag the flag back into the present.
-permalink: /writeups/commitment-issues/
 lang: en
 publish: true
 draft: false
@@ -23,4 +22,4 @@ lastmod: 2026-02-11
 ---
 
 1. Reset the repository's head to the previous commit
-   ![Pasted image 20250522130114.png](/CTFs/images/Pasted-image-20250522130114.png)
+   ![Pasted image 20250522130114.png](images/commitment-issues/Pasted%20image%2020250522130114.png)

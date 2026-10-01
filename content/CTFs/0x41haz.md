@@ -1,7 +1,6 @@
 ---
 title: 0x41haz - TryHackMe Write-up
 description: Write-up for the TryHackMe 0x41haz reversing challenge where we fix a broken ELF header and poke around in Ghidra.
-permalink: /writeups/0x41haz/
 lang: en
 publish: true
 draft: false
@@ -38,14 +37,14 @@ No RELRO        No canary found   NX disabled   Not an ELF file   N/A        N/A
 ````
 
 3. Let's try to check the magic numbers. Wikipedia says that they should be `7f 45 4c 46`.
-   ![hexdum-challenge.png](/CTFs/images/hexdum-challenge.png)
+   ![hexdum-challenge.png](images/0x41haz/hexdum-challenge.png)
    Do they match? Yes they do.
 
 3. Something's off. The [magic number](https://en.wikipedia.org/wiki/List_of_file_signatures) matches but the file isn't recognized as a binary file. Why is that? Is there something else in the header causing the commands to behave that way?
 
 <https://en.wikipedia.org/wiki/Executable_and_Linkable_Format#ELF_header>
 
-![wikipedia_elf_header.png](/CTFs/images/wikipedia_elf_header.png)
+![wikipedia_elf_header.png](images/0x41haz/wikipedia_elf_header.png)
 
 5. It seems that the `0x06`th byte should be set to 1 as to refer to the original and current version of ELF. But here it's set to `02`. Let's change that.
 
@@ -64,11 +63,11 @@ Partial RELRO   No canary found   NX enabled    PIE enabled     No RPATH   No RU
 
 7. Let's open ghidra and analyze the file a bit.
 
-![ghidra_def_tool.png](/CTFs/images/ghidra_def_tool.png)
+![ghidra_def_tool.png](images/0x41haz/ghidra_def_tool.png)
 
 8. Going through each function in the memory, we can see that the `FUN_00101165` is the one that we need to focus on.
 
-![FUN_00101165.png](/CTFs/images/FUN_00101165.png)
+![FUN_00101165.png](images/0x41haz/FUN_00101165.png)
 
 9. The `strcpy` function lookalike has the guy we need.
 
@@ -84,11 +83,11 @@ We can infer from the above program that:
 * `local_1e` is a character array of size 14
 * `"2@@25$gfsT&@L"` is the string that's being copied into the `local_1e` buffer
 
-![assembly_strcpy.png](/CTFs/images/assembly_strcpy.png)
+![assembly_strcpy.png](images/0x41haz/assembly_strcpy.png)
 
 Now here's what we get when we hover over `0x6667243532404032`, we get the following:
 
-![memaddr.png](/CTFs/images/memaddr.png)
+![memaddr.png](images/0x41haz/memaddr.png)
 
 From this we can infer that
 

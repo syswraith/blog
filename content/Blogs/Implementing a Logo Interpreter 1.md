@@ -31,11 +31,11 @@ published: 2025-12-02
 publishDate: 2025-12-02
 ---
 
-![msw_logo.png](../images/logo/msw_logo.png)
+![msw_logo.png](images/implementing-a-logo-interpreter-1/msw_logo.png)
 
 One of my first experiences with programming was when I was in third grade, sitting in front of an old desktop, in my school's computer lab. The white triangle on the screen moved around when I typed in simple commands, leaving trails. Even with this simplicity, one would be able to draw complex shapes and beautiful patterns. As a tribute to that little guy who was initially scared of computers but then learned to love them, I'll be implementing a subset of Microsoft Logo.
 
-![logo_screen.png](../images/logo/logo_screen.png)
+![logo_screen.png](images/implementing-a-logo-interpreter-1/logo_screen.png)
 
 It is also high time I put aside my hate for modern web development and start building some stuff that is actually cool. My days of [scraping exam portals for answers](https://github.com/syswraith/javascript-projects/blob/main/collegedoors.js) and [hacking HTML5 games](https://github.com/syswraith/javascript-projects/blob/main/math_battle_telegram.js) with JavaScript are behind me (hopefully), and I will now move on to more interesting and type-safe programming languages and actually start building things.
 
@@ -46,8 +46,8 @@ The goal of this project is to:
 * Mess around with **HTML5 Canvas**
 * Write a minimal, yet flexible **tokenizer** and **parser** without external [PEG](https://en.wikipedia.org/wiki/Parsing_expression_grammar) libraries.
 
- > 
- > *We choose to go to the moon in this decade and do the other things, not because they are easy, but because they are hard!*
+> 
+> *We choose to go to the moon in this decade and do the other things, not because they are easy, but because they are hard!*
 
 # TL;DR
 

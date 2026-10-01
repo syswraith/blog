@@ -35,7 +35,7 @@ int *p = malloc(3);
 
 This pointer now holds the first address of a contiguous memory block of three bytes.
 
-![123.png](../images/123.png)
+![123.png](images/some-more-pointer-magic-with-memory-arenas/123.png)
 
 Now this memory is allocated on the heap. It has to be freed eventually, else we'll end up with a memory leak.
 

@@ -31,7 +31,7 @@ publishDate: 2026-09-15
 
 One of my many projects that I work on from time to time is the [sstdlib](https://github.com/syswraith/sstdlib), which is a pure C implementation of common data structures that I use. The inspiration for this is [stb](https://github.com/nothings/stb) but built by me from the ground up. So I know exactly how it all works under the hood.
 
-Last time, I implemented [[Dynamic and Heterogeneous Vectors in C]], which was a nice little exercise for it. The problem with this was that I was allocating this on the heap. I made it work with an [arena allocator](https://en.wikipedia.org/wiki/Region-based_memory_management) (which I implemented in [[Some more pointer magic with Memory Arenas]], by the way), but it still needs work. More specifically, I need to design a generic allocator interface for it to be able to use different types of allocation strategies—normal heap allocations, arena allocations, and what we are writing today—pool allocations.
+Last time, I implemented [Dynamic and Heterogeneous Vectors in C](Dynamic%20and%20Heterogeneous%20Vectors%20in%20C.md), which was a nice little exercise for it. The problem with this was that I was allocating this on the heap. I made it work with an [arena allocator](https://en.wikipedia.org/wiki/Region-based_memory_management) (which I implemented in [Some more pointer magic with Memory Arenas](Some%20more%20pointer%20magic%20with%20Memory%20Arenas.md), by the way), but it still needs work. More specifically, I need to design a generic allocator interface for it to be able to use different types of allocation strategies—normal heap allocations, arena allocations, and what we are writing today—pool allocations.
 
 # Difference between Arena Allocations and Pool Allocations
 
@@ -41,11 +41,11 @@ The terminology for these types of allocators is ambiguous. But for the purpose 
 
 Say this is the initial memory layout of the memory arena
 
-![[Pasted image 20260915190901.png]]
+![Initial memory layout of the arena](images/memory-management-with-pool-allocators/Pasted%20image%2020260915190901.png)
 
 And say we don't need Segment 2, so we free it.
 
-![[Pasted image 20260915190949.png]]
+![Arena after freeing segment 2, leaving a hole](images/memory-management-with-pool-allocators/Pasted%20image%2020260915190949.png)
 
 Now comes a problem. 
 
@@ -55,7 +55,7 @@ To fit another substantially large segment, we need to shift segment 3 and 4 to 
 
 Unlike arena allocators, pool allocators have their memory divided in fixed segments.
 
-![[Pasted image 20260915191124.png]]
+![Pool allocator divided into fixed-size segments](images/memory-management-with-pool-allocators/Pasted%20image%2020260915191124.png)
 
 So if we free segment 2, then we can track it by pushing it onto a stack. The next operation that requires free memory, will pop off the segment from the top of the stack and use that. This makes sure that we don't have external fragmentation.
 

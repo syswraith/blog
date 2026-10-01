@@ -20,26 +20,26 @@ alias:
 With that said, any programmer who has an intermediate understanding of programming and math knows that an array is basically a matrix.
 
 #### 2d matrix 
-![[Pasted image 20260711014943.png]]
+![2d matrix](images/implementing-ndarrays-in-c/Pasted%20image%2020260711014943.png)
 
 #### 2d array 
-![[Pasted image 20260711014814.png]]
+![2d array](images/implementing-ndarrays-in-c/Pasted%20image%2020260711014814.png)
 
 are functionally equivalent.
 
 But life is not that simple. We tend to categorise complex data into categories, and associate it with different things. So a situation may arise when you are dealing with a weirdly nested array.
 
-![[Pasted image 20260711015330.png]]
+![Nested array partitioned into pairs and rows](images/implementing-ndarrays-in-c/Pasted%20image%2020260711015330.png)
 
 Like we established before, arrays are just matrices.
 
-![[Pasted image 20260711015854.png]]
+![Same nested array as a contiguous block of memory](images/implementing-ndarrays-in-c/Pasted%20image%2020260711015854.png)
 
 But how do you retain the logical partitions such as the pairs and the rows? This array is stored into memory as a contiguous block of memory.
 
 You use what's called a stride. A stride allows you to make jumps in a higher dimension.
 
-![[Pasted image 20260711020252.png|453]]
+![Strides for the nested array](images/implementing-ndarrays-in-c/Pasted%20image%2020260711020252.png)
 
 Here's what that actually looks like for the nested example above:
 

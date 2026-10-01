@@ -1,15 +1,22 @@
-![codeforces.png](../images/09022025/codeforces.png)
+---
+title: Life Update 09022025
+description: A photo log from 9 February 2025 — Codeforces, CodeArena, a contribution graph, and a few odds and ends.
+tags:
+- life-update
+---
 
-![codearena.jpg](../images/09022025/codearena.jpg)
+![codeforces.png](images/life-update-09022025/codeforces.png)
 
-![contribution_graph.png](../images/09022025/contribution_graph.png)
+![codearena.jpg](images/life-update-09022025/codearena.jpg)
 
-![sans.png](../images/09022025/sans.png)
+![contribution_graph.png](images/life-update-09022025/contribution_graph.png)
 
-![nicks.png](../images/09022025/nicks.png)
+![sans.png](images/life-update-09022025/sans.png)
 
-![36th_chamber.png](../images/09022025/36th_chamber.png)
+![nicks.png](images/life-update-09022025/nicks.png)
 
-![o_children.png](../images/09022025/o_children.png)
+![36th_chamber.png](images/life-update-09022025/36th_chamber.png)
 
-![pancard.png](../images/09022025/pancard.png)
+![o_children.png](images/life-update-09022025/o_children.png)
+
+![pancard.png](images/life-update-09022025/pancard.png)

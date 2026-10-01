@@ -1,3 +1,12 @@
+---
+title: Useful C++ Snippets
+description: A quick reference for the methods every standard C++ container shares, plus the extras that belong to vectors, deques, and lists.
+tags:
+- cpp
+- stl
+- reference
+---
+
 # Common methods for almost all containers
 
 * `int .size()`

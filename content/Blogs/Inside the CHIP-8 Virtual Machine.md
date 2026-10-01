@@ -49,8 +49,6 @@ While classifications such as RISC or CISC did not appear until the late 80s, th
 
 In addition to this, I'll be using [raylib](https://www.raylib.com/) to handle the graphics aspect of the program, as it's simple and fun to work with.
 
-# Implementation
-
 ## Registers
 
 ```c
@@ -74,7 +72,7 @@ Another thing that I realised while declaring structs was that in some cases the
 
 ## Opcodes
 
-- **Fixed Size:** Every instruction is exactly 16 bits (2 bytes).    
+- **Fixed Size:** Every instruction is exactly 16 bits (2 bytes).
 - **Embedded Registers:** Hex variables inside the opcode (usually `X` and `Y`) identify which of the 16 general-purpose registers (`V0` to `VF`) to read from or write to.
 - Your predefined opcode table will store an array of structures, where each entry contains:
 	1. **Pattern:** The base hexadecimal template of the instruction with variables zeroed out (e.g., `0x8001`).
@@ -89,27 +87,24 @@ $$\text{Match} = (\text{Fetched Opcode} \ \& \ \text{Mask}) == \text{Pattern}$$
 
 - Memory / ROMs
 
-# Demos
-
 ## Breakout
 
-![[breakout.gif]]
+![Breakout running on the CHIP-8 interpreter](images/inside-the-chip-8-virtual-machine/breakout.gif)
 
 ## Tetris
 
-![[tetris.gif]]
+![Tetris running on the CHIP-8 interpreter](images/inside-the-chip-8-virtual-machine/tetris.gif)
 
 ## Maze
 
-![[maze.gif]]
-
+![Maze demo running on the CHIP-8 interpreter](images/inside-the-chip-8-virtual-machine/maze.gif)
 
 ## Sirpinski
 
-![[sierpski.gif]]
+![Sierpinski triangle drawn by the CHIP-8 interpreter](images/inside-the-chip-8-virtual-machine/sierpski.gif)
 ## Bad Apple
 
-![[badapple.gif]]
+![Bad Apple video playback on the CHIP-8 interpreter](images/inside-the-chip-8-virtual-machine/badapple.gif)
 
 CHIP-8 was never designed for video playback. Its normal display pipeline works by drawing sprites onto the screen using XOR operations, one 8-pixel-wide row at a time. That's fine for games, but for a 30fps video it's way too slow and cumbersome to work with.
 
@@ -195,7 +190,6 @@ The whole thing is a bit of a hack, but it works, and it was a good reminder tha
 Overall, this was a really fun project. It gave me a solid introduction to how emulators and virtual machines work, and I ended up learning a lot more than I expected. Along the way, I got a much better understanding of things like bit masking, bit shifting, conditional and unconditional jumps, computer architecture, and how instructions are actually executed. 
 
 If you're looking to get into emulator development, I'd definitely recommend building a CHIP-8 emulator. It's small enough to be manageable, but teaches you a lot of concepts that show up everywhere else.
-
 
 ## Useful links
 - [Guide to making a CHIP-8 emulator by Tobias V. I. Langhoff](https://tobiasvl.github.io/blog/write-a-chip-8-emulator/)

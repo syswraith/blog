@@ -1,3 +1,13 @@
+---
+title: Useful BASH commands
+description: A cheat sheet of Bash one-liners for find, getcap, and spotting SUID files during Linux enumeration and privilege escalation.
+tags:
+- bash
+- linux
+- shell
+- cli
+- reference
+---
 
 ````bash
 find . -name flag1.txt # find the file named “flag1.txt” in the current directory

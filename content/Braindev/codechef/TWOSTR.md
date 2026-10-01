@@ -1,5 +1,9 @@
-
-# [Problem](https://www.codechef.com/practice/course/strings/STRINGS/problems/TWOSTR)
+---
+title: Two Strings
+tags:
+- codechef
+- writeup
+---
 
 # Code
 

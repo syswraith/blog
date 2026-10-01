@@ -1,7 +1,6 @@
 ---
 title: Implementing a Logo Interpreter — Part 2
 description: 'Part 2: Building the drawing engine for a Microsoft Logo interpreter using the HTML5 Canvas API, angle-based turtle movement, and coordinate transformations.'
-permalink: /posts/logo-interpreter-typescript/part-2/
 comments: true
 lang: en
 publish: true
@@ -77,7 +76,7 @@ As we can see, we need the (X, Y) coordinates for the lines. We also need an ang
 
 `RT 10 FD 10` will result in the following:
 
-![displace_turtle.png](../images/logo/displace_turtle.png)
+![displace_turtle.png](images/implementing-a-logo-interpreter-2/displace_turtle.png)
 
 Initial experiments with the Canvas API revealed some interesting findings. I was convinced that I needed to convert polar coordinates to cartesian coordinates and vice versa every time I wanted to execute a drawing function.
 
@@ -115,13 +114,13 @@ However only one of these was needed. This is because (X, Y) remain constant thr
 
 ### How REPEAT is implemented
 
-* `case 'REPEAT':`  
+* `case 'REPEAT':`\
   Selects the handler for a parsed `REPEAT` command.
 * `const [count, ...body] = node[1];`
   Destructures the instruction arguments:
   * `count` is the number of iterations.
   * `body` is an array of commands to be executed repeatedly.
-* `for (let i = 0; i < count; i++) draw(body);`  
+* `for (let i = 0; i < count; i++) draw(body);`\
   Executes the instruction body exactly `count` times by passing it to `draw`.
-* `break;`  
+* `break;`\
   Exits the switch statement after the loop completes.

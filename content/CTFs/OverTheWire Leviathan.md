@@ -1,7 +1,6 @@
 ---
 title: OverTheWire Leviathan - Write-up
 description: Write-up for the OverTheWire Leviathan wargame levels.
-permalink: /writeups/overthewire-leviathan/
 lang: en
 publish: true
 draft: false
@@ -24,9 +23,9 @@ lastmod: 2026-05-26
 ---
 
 
- > 
- > Leviathan is a wargame that has been rescued from the demise of **intruded.net**, previously hosted on leviathan.intruded.net.
- > ~ OverTheWire
+> 
+> Leviathan is a wargame that has been rescued from the demise of **intruded.net**, previously hosted on leviathan.intruded.net.
+> ~ OverTheWire
 
 ## Recommended reading material:
 

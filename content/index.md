@@ -15,8 +15,8 @@ What I'm up to currently is
 * Solving [CTFs](CTFs/CTFs.md)
 * [Watching](Watching.md) stuff
 * [Reading](Reading.md) stuff
-* Trying to [Braindev](Braindev/Braindev.md)
-* Some useful stuff that you probably don't need [Useful](Useful/Useful.md)
+* Trying to [Braindev](Braindev/)
+* Some useful stuff that you probably don't need [Useful](Useful/)
 
 # What's new
 

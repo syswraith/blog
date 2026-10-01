@@ -1,7 +1,6 @@
 ---
 title: OverTheWire Krypton - Write-up
 description: Write-up for the OverTheWire Krypton wargame levels.
-permalink: /writeups/overthewire-krypton/
 lang: en
 publish: false
 draft: true
@@ -72,5 +71,3 @@ for j, i in enumerate(cipher):
 print()
 
 ````
-
-## Level 7
