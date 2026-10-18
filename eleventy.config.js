@@ -204,6 +204,33 @@ export default async function(eleventyConfig) {
 		return (new Date()).toISOString();
 	});
 
+	// Transform: rewrite image src to use wsrv.nl CDN in production
+	if (process.env.ELEVENTY_RUN_MODE === "build") {
+		eleventyConfig.addTransform("wsrv-images", async (content, outputPath) => {
+			if (!outputPath.endsWith(".html")) return content;
+			
+			// Compute the page's base URL (directory) for resolving relative image paths
+			const pathPrefix = "/blog";
+			// Remove _site prefix and file name to get the page's directory path
+			const pageDir = outputPath
+				.replace(/^\.\/_site[\/\\]/, "")  // handle ./_site/ prefix
+				.replace(/\/index\.html$/, "")
+				.replace(/\/[^/]+\.html$/, "");
+			const pageBaseUrl = `https://syswraith.github.io${pathPrefix}/${pageDir}/`;
+			
+			return content.replace(/src="([^"]+\.(?:webp|png|jpg|jpeg|gif|svg))"/g, (match, src) => {
+				// Skip external URLs, data URIs, and already absolute paths
+				if (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:") || src.startsWith("/")) {
+					return match;
+				}
+				// Resolve relative image URL against page base
+				const imageUrl = new URL(src, pageBaseUrl).href;
+				const wsrvUrl = `https://wsrv.nl/?url=${encodeURIComponent(imageUrl)}&w=640&q=80&output=webp`;
+				return `src="${wsrvUrl}"`;
+			});
+		});
+	}
+
 	// Features to make your build faster (when you need them)
 
 	// If your passthrough copy gets heavy and cumbersome, add this line
