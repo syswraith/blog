@@ -123,6 +123,8 @@ a[href]:active {
 main,
 footer {
 	padding: 1rem;
+}
+footer {
 	text-align: center;
 }
 main :first-child {
