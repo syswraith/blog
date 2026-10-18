@@ -219,8 +219,18 @@ export default async function(eleventyConfig) {
 			const pageBaseUrl = `https://syswraith.github.io${pathPrefix}/${pageDir}/`;
 			
 			return content.replace(/src="([^"]+\.(?:webp|png|jpg|jpeg|gif|svg))"/g, (match, src) => {
-				// Skip external URLs, data URIs, and already absolute paths
-				if (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:") || src.startsWith("/")) {
+				// Skip external URLs, data URIs
+				if (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:")) {
+					return match;
+				}
+				// Handle absolute paths starting with /blog/ - convert to full URL
+				if (src.startsWith("/blog/")) {
+					const imageUrl = `https://syswraith.github.io${src}`;
+					const wsrvUrl = `https://wsrv.nl/?url=${encodeURIComponent(imageUrl)}&w=640&q=80&output=webp`;
+					return `src="${wsrvUrl}"`;
+				}
+				// Skip other absolute paths (like /dist/)
+				if (src.startsWith("/")) {
 					return match;
 				}
 				// Resolve relative image URL against page base
