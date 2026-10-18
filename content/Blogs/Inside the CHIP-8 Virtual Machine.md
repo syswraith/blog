@@ -90,22 +90,22 @@ $$\text{Match} = (\text{Fetched Opcode} \ \& \ \text{Mask}) == \text{Pattern}$$
 
 ## Breakout
 
-![Breakout running on the CHIP-8 interpreter](images/inside-the-chip-8-virtual-machine/breakout.webp){eleventy:ignore}
+![Breakout running on the CHIP-8 interpreter](images/inside-the-chip-8-virtual-machine/breakout.webp)
 
 ## Tetris
 
-![Tetris running on the CHIP-8 interpreter](images/inside-the-chip-8-virtual-machine/tetris.webp){eleventy:ignore}
+![Tetris running on the CHIP-8 interpreter](images/inside-the-chip-8-virtual-machine/tetris.webp)
 
 ## Maze
 
-![Maze demo running on the CHIP-8 interpreter](images/inside-the-chip-8-virtual-machine/maze.webp){eleventy:ignore}
+![Maze demo running on the CHIP-8 interpreter](images/inside-the-chip-8-virtual-machine/maze.webp)
 
 ## Sirpinski
 
-![Sierpinski triangle drawn by the CHIP-8 interpreter](images/inside-the-chip-8-virtual-machine/sierpski.webp){eleventy:ignore}
+![Sierpinski triangle drawn by the CHIP-8 interpreter](images/inside-the-chip-8-virtual-machine/sierpski.webp)
 ## Bad Apple
 
-![Bad Apple video playback on the CHIP-8 interpreter](images/inside-the-chip-8-virtual-machine/badapple.webp){eleventy:ignore}
+![Bad Apple video playback on the CHIP-8 interpreter](images/inside-the-chip-8-virtual-machine/badapple.webp)
 
 CHIP-8 was never designed for video playback. Its normal display pipeline works by drawing sprites onto the screen using XOR operations, one 8-pixel-wide row at a time. That's fine for games, but for a 30fps video it's way too slow and cumbersome to work with.
 
