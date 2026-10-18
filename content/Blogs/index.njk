@@ -1,0 +1,14 @@
+---
+title: Blogs
+permalink: /blogs/
+isPost: false
+---
+{% set items = collections.all | section("Blogs", "date") %}
+<ul class="section-list">
+{%- for item in items %}
+	<li class="section-list-item">
+		<a href="{{ item.url }}" class="section-list-link">{{ item.data.title or item.url }}</a>
+		{%- if item.data.date %}<time datetime="{{ item.date | htmlDateString }}">{{ item.date | readableDate("dd LLLL yyyy") }}</time>{% endif %}
+	</li>
+{%- endfor %}
+</ul>

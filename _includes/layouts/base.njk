@@ -5,9 +5,26 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>{{ title or metadata.title }}</title>
 		<meta name="description" content="{{ description or metadata.description }}">
+		<link rel="icon" href="/favicon.ico">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="{{ metadata.title }}">
+		<link rel="alternate" href="/index.xml" type="application/rss+xml" title="{{ metadata.title }}">
 
-		{#- Uncomment this if you’d like folks to know that you used Eleventy to build your site!  #}
+{#- OpenGraph #}
+	<meta property="og:site_name" content="{{ metadata.title }}">
+	<meta property="og:title" content="{{ title or metadata.title }}">
+	<meta property="og:description" content="{{ description or metadata.description }}">
+	{% set ogType = "website" if page.url == "/" else "article" %}
+	<meta property="og:type" content="{{ ogType }}">
+	<meta property="og:url" content="{{ metadata.url }}{{ page.url }}">
+	<meta property="og:image" content="{{ metadata.url }}/og-image.svg">
+
+	{#- Twitter #}
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="{{ title or metadata.title }}">
+	<meta name="twitter:description" content="{{ description or metadata.description }}">
+	<meta name="twitter:image" content="{{ metadata.url }}/og-image.svg">
+
+		{#- Uncomment this if you'd like folks to know that you used Eleventy to build your site!  #}
 		{#- <meta name="generator" content="{{ eleventy.generator }}"> #}
 
 		{#-
@@ -26,6 +43,7 @@
 
 		{#- Add the contents of a file to the bundle #}
 		<style>{% include "css/index.css" %}</style>
+		<style>{% include "css/prism-gruvbox.css" %}</style>
 
 		{#- Or you can add from node_modules #}
 		{# <style>{% include "node_modules/something.css" %}</style> #}
@@ -33,10 +51,12 @@
 		{#- Render the CSS bundle using inlined CSS (for the fastest site performance in production) #}
 		<style>{% getBundle "css" %}</style>
 
-		{#- Renders the CSS bundle using a separate file, if you can't set CSP directive style-src: 'unsafe-inline' #}
-		{#- <link rel="stylesheet" href="{% getBundleFileUrl "css" %}"> #}
+		{#- JetBrains Mono #}
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
 
-		{#- Add the heading-anchors web component to the JavaScript bundle #}
+		{#- heading-anchors: deeplinks to headings. `content` is empty so no “#” is rendered. #}
 		<script type="module">{% include "node_modules/@zachleat/heading-anchors/heading-anchors.js" %}</script>
 	</head>
 	<body>
@@ -56,19 +76,38 @@
 			</nav>
 		</header>
 
-		<main id="main">
-			<heading-anchors>
-				{{ content | safe }}
-			</heading-anchors>
-		</main>
+<main id="main">
+		<heading-anchors content="">
+			{{ content | safe }}
+		</heading-anchors>
+	</main>
 
 		<footer>
-			<p>
-				<em>Built with <a href="https://www.11ty.dev/">{{ eleventy.generator }}</a></em>
-			</p>
+			<ul class="footer-socials">
+				<li><a href="https://github.com/syswraith/">GitHub</a></li>
+				<li><a href="https://www.youtube.com/@syswraith">YouTube</a></li>
+				<li><a href="https://x.com/syswraith">Twitter</a></li>
+			</ul>
+			<p>© 2026 Syswraith</p>
 		</footer>
 
 		<!-- This page `{{ page.url }}` was built on {% currentBuildDate %} -->
 		<script type="module" src="{% getBundleFileUrl "js" %}"></script>
+
+		{#- Make the heading text itself clickable so it deeplinks (no “#” shown) #}
+		<script type="module">
+			for (const heading of document.querySelectorAll("heading-anchors :is(h1,h2,h3,h4,h5,h6)[id]")) {
+				if (heading.querySelector(":scope > a.heading-link")) {
+					continue;
+				}
+				const link = document.createElement("a");
+				link.className = "heading-link";
+				link.href = "#" + heading.id;
+				while (heading.firstChild) {
+					link.appendChild(heading.firstChild);
+				}
+				heading.appendChild(link);
+			}
+		</script>
 	</body>
 </html>

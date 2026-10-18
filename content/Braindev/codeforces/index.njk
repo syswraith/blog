@@ -1,0 +1,13 @@
+---
+title: Codeforces
+permalink: /braindev/codeforces/
+isPost: false
+---
+{% set items = collections.all | section("Braindev/codeforces") %}
+<ul class="section-list">
+{%- for item in items %}
+	<li class="section-list-item">
+		<a href="{{ item.url }}" class="section-list-link">{{ item.data.title or item.url }}</a>
+	</li>
+{%- endfor %}
+</ul>

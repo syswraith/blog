@@ -1,8 +1,13 @@
-<h1>Tags</h1>
+---
+title: Tags
+eleventyNavigation:
+  key: Tags
+  order: 3
+---
 
 <ul>
 {% for tag in collections | getKeys | filterTagList | sortAlphabetically %}
-	{% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
+	{% set tagUrl %}/tags/{{ tag | tagSlug }}/{% endset %}
 	<li><a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a></li>
 {% endfor %}
 </ul>

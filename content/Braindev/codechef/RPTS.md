@@ -1,0 +1,40 @@
+---
+title: "CodeChef: RPTS"
+description: Solution and write-up for CodeChef <Problem Code>.
+lang: en
+publish: false
+draft: true
+enableToc: true
+tags:
+  - codechef
+  - writeup
+---
+
+[<Problem Code>](https://www.codechef.com/problems/<PROBLEM_CODE>)
+
+# Logic
+
+- 
+
+# Program
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int t;
+    cin >> t;
+    while (t--) {
+
+    }
+    return 0;
+}
+```
+
+# Comments
+
+- 

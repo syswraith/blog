@@ -1,22 +1,24 @@
 ---
 layout: layouts/base.njk
 ---
-{# Only include the syntax highlighter CSS on blog posts, included with the CSS per-page bundle #}
-<style>{% include "node_modules/prismjs/themes/prism-okaidia.css" %}</style>
-<style>{% include "css/prism-diff.css" %}</style>
 <h1>{{ title }}</h1>
 
-<ul class="post-metadata">
-	<li><time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time></li>
-	{%- for tag in tags | filterTagList %}
-	{%- set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
-	<li><a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a>{%- if not loop.last %}, {% endif %}</li>
+{%- if date %}
+<p class="post-metadata"><time datetime="{{ date | htmlDateString }}">{{ date | readableDate }}</time></p>
+{%- endif %}
+
+{%- set tagList = tags | filterTagList %}
+{%- if tagList.length %}
+<p class="post-tags">Tags:
+	{%- for tag in tagList %}
+	<a href="/tags/{{ tag | tagSlug }}/" class="post-tag">{{ tag }}</a>
 	{%- endfor %}
-</ul>
+</p>
+{%- endif %}
 
 {{ content | safe }}
 
-{%- if collections.posts %}
+{%- if isPost and collections.posts %}
 {%- set previousPost = collections.posts | getPreviousCollectionItem %}
 {%- set nextPost = collections.posts | getNextCollectionItem %}
 {%- if nextPost or previousPost %}

@@ -1,0 +1,25 @@
+---
+pagination:
+  data: collections.aliasRedirects
+  size: 1
+  alias: redirect
+layout: false
+permalink: "{{ redirect.url }}"
+eleventyExcludeFromCollections: true
+eleventyComputed:
+  title: "Redirecting to {{ redirect.title or redirect.target }}"
+---
+<!doctype html>
+<html lang="{{ metadata.language }}">
+<head>
+	<meta charset="utf-8">
+	<title>Redirecting…</title>
+	<link rel="canonical" href="{{ redirect.target | htmlBaseUrl(metadata.url) }}">
+	<meta http-equiv="refresh" content="0; url={{ redirect.target }}">
+	<meta name="robots" content="noindex">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<p>This page moved to <a href="{{ redirect.target }}">{{ redirect.title or redirect.target }}</a>.</p>
+</body>
+</html>

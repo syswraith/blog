@@ -1,3 +1,5 @@
 _site/
 node_modules/
 .cache
+content/.obsidian/
+.DS_Store

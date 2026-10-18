@@ -1,0 +1,15 @@
+---
+title: Braindev
+permalink: /braindev/
+---
+{% set groups = [["codechef", "CodeChef"], ["codeforces", "Codeforces"], ["leetcode", "LeetCode"]] %}
+{%- for group in groups %}
+<h2>{{ group[1] }}</h2>
+<ul class="section-list">
+	{%- for item in collections.all | section("Braindev/" + group[0]) %}
+	<li class="section-list-item">
+		<a href="{{ item.url }}" class="section-list-link">{{ item.data.title or item.url }}</a>
+	</li>
+	{%- endfor %}
+</ul>
+{%- endfor %}

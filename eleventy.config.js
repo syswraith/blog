@@ -3,12 +3,17 @@ import { feedPlugin } from "@11ty/eleventy-plugin-rss";
 import pluginSyntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import pluginNavigation from "@11ty/eleventy-navigation";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
+import markdownIt from "markdown-it";
+import taskLists from "markdown-it-task-lists";
+import markdownItAttrs from "markdown-it-attrs";
 
 import pluginFilters from "./_config/filters.js";
+import wikilinkPlugin from "./_config/wikilinks.js";
+import { simplifySlug, slugifyFilePath } from "./_config/slugs.js";
+import metadata from "./_data/metadata.js";
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function(eleventyConfig) {
-	// Drafts, see also _data/eleventyDataSchema.js
 	eleventyConfig.addPreprocessor("drafts", "*", (data, content) => {
 		if (data.draft) {
 			data.title = `${data.title} (draft)`;
@@ -47,10 +52,21 @@ export default async function(eleventyConfig) {
 	// Bundle <script> content and adds a {% js %} paired shortcode
 	eleventyConfig.addBundle("js", {
 		toFileDirectory: "dist",
-		// Add all <script> content to the `js` bundle (use <script eleventy:ignore> to opt-out)
+		// Add all <script> content to `js` bundle (use <script eleventy:ignore> to opt-out)
 		// Supported selectors: https://www.npmjs.com/package/posthtml-match-helper
 		bundleHtmlContentFromSelector: "script",
 	});
+
+	// Markdown: Obsidian wikilinks + GFM task list checkboxes
+	let slugify = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+	try {
+		slugify = eleventyConfig.getFilter("slugify");
+	} catch {}
+	const mdLib = markdownIt({ html: true })
+		.use(taskLists)
+		.use(markdownItAttrs)
+		.use(wikilinkPlugin, { slugify });
+	eleventyConfig.setLibrary("md", mdLib);
 
 	// Official plugins
 	eleventyConfig.addPlugin(pluginSyntaxHighlight, {
@@ -60,8 +76,18 @@ export default async function(eleventyConfig) {
 	eleventyConfig.addPlugin(HtmlBasePlugin);
 	eleventyConfig.addPlugin(InputPathToUrlTransformPlugin);
 
+	const feedMetadata = {
+		language: metadata.language,
+		title: metadata.title,
+		subtitle: metadata.description,
+		base: metadata.url,
+		author: {
+			name: metadata.author.name
+		}
+	};
+
 	eleventyConfig.addPlugin(feedPlugin, {
-		type: "atom", // or "rss", "json"
+		type: "atom",
 		outputPath: "/feed/feed.xml",
 		stylesheet: "pretty-atom-feed.xsl",
 		templateData: {
@@ -74,28 +100,32 @@ export default async function(eleventyConfig) {
 			name: "posts",
 			limit: 10,
 		},
-		metadata: {
-			language: "en",
-			title: "Blog Title",
-			subtitle: "This is a longer description about your blog.",
-			base: "https://example.com/",
-			author: {
-				name: "Your Name"
-			}
-		}
+		metadata: feedMetadata
+	});
+
+	// Old Quartz RSS path, keeps existing subscribers working
+	eleventyConfig.addPlugin(feedPlugin, {
+		type: "rss",
+		outputPath: "/index.xml",
+		collection: {
+			name: "posts",
+			limit: 10,
+		},
+		metadata: feedMetadata
 	});
 
 	// Image optimization: https://www.11ty.dev/docs/plugins/image/#eleventy-transform
 	eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
 		// Output formats for each image.
-		formats: ["avif", "webp", "auto"],
+		formats: ["webp"],
 
-		// widths: ["auto"],
+		// Responsive widths (the image transform uses `sizes` to pick one).
+		widths: [640, 1280],
+		sizes: "(min-width: 40em) 40em, 100vw",
 
 		failOnError: false,
 		htmlOptions: {
 			imgAttributes: {
-				// e.g. <img loading decoding> assigned on the HTML tag will override these values.
 				loading: "lazy",
 				decoding: "async",
 			}
@@ -103,6 +133,29 @@ export default async function(eleventyConfig) {
 
 		sharpOptions: {
 			animated: true,
+		},
+
+		// Skip already-optimized WebP sources (e.g. converted animated GIFs)
+		skipFile: (filepath) => filepath.endsWith(".webp"),
+
+		// Diagrams/screenshots (line art, text) look soft when encoded lossily,
+		// but lossless WebP can balloon on photographic sources. So: try
+		// lossless first and keep it when it stays small, otherwise fall back
+		// to lossy (which is what photos/animations need).
+		formatHooks: {
+			webp: async function(sharpInstance) {
+				const targetWidth = this.width;
+				const factor = targetWidth <= 200 ? 3 : (targetWidth <= 480 ? 2 : 1);
+				const pipeline = factor > 1
+					? sharpInstance.clone().resize({ width: targetWidth * factor, kernel: "lanczos3" }).sharpen({ sigma: 0.6 })
+					: sharpInstance.clone();
+
+				const lossless = await pipeline.webp({ lossless: true, effort: 6 }).toBuffer();
+				if(lossless.length <= 300 * 1024) {
+					return lossless;
+				}
+				return pipeline.webp({ quality: 90, effort: 6 }).toBuffer();
+			},
 		},
 	});
 
@@ -113,6 +166,35 @@ export default async function(eleventyConfig) {
 		// by default we use Eleventy’s built-in `slugify` filter:
 		// slugify: eleventyConfig.getFilter("slugify"),
 		// selector: "h1,h2,h3,h4,h5,h6", // default
+	});
+
+	// Posts: dated writing in Blogs/, CTFs/ and Life Updates/
+	eleventyConfig.addCollection("posts", (collectionApi) =>
+		collectionApi.getAll()
+			.filter(item => item.data.isPost && item.date instanceof Date && !isNaN(item.date))
+			.sort((a, b) => a.date - b.date)
+	);
+
+	// Old Quartz aliases (e.g. /chip8/, /pool_allocators/) -> redirect pages
+	eleventyConfig.addCollection("aliasRedirects", (collectionApi) => {
+		const seen = new Set();
+		const redirects = [];
+		for(const page of collectionApi.getAll()) {
+			const aliases = [...(page.data.alias || []), ...(page.data.aliases || [])];
+			for(const raw of aliases) {
+				if(typeof raw !== "string" || !raw.trim()) {
+					continue;
+				}
+				const slug = simplifySlug(slugifyFilePath(raw.trim()));
+				const url = slug === "" ? "/" : `/${slug}/`;
+				if(url === page.url || seen.has(url)) {
+					continue;
+				}
+				seen.add(url);
+				redirects.push({ url, target: page.url, title: page.data.title });
+			}
+		}
+		return redirects;
 	});
 
 	eleventyConfig.addShortcode("currentBuildDate", () => {
@@ -130,20 +212,12 @@ export default async function(eleventyConfig) {
 
 export const config = {
 	// Control which files Eleventy will process
-	// e.g.: *.md, *.njk, *.html, *.liquid
-	templateFormats: [
-		"md",
-		"njk",
-		"html",
-		"liquid",
-		"11ty.js",
-	],
+	templateFormats: ["md", "njk"],
 
-	// Pre-process *.md files with: (default: `liquid`)
-	markdownTemplateEngine: "njk",
-
-	// Pre-process *.html files with: (default: `liquid`)
-	htmlTemplateEngine: "njk",
+	// Content comes from Obsidian/Quartz and isn't written as an Eleventy
+	// template, so don't pre-process markdown (code samples contain {{ }}
+	// and {% %} which would otherwise be interpreted as template syntax).
+	markdownTemplateEngine: false,
 
 	// These are all optional:
 	dir: {

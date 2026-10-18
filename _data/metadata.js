@@ -1,11 +1,9 @@
 export default {
-	title: "Eleventy Base Blog v9",
-	url: "https://example.com/",
+	title: "Syswraith's Holocron 🔮",
+	url: "https://syswraith.github.io/blog",
 	language: "en",
-	description: "I am writing about my experiences as a naval navel-gazer.",
+	description: "CTF writeups, systems programming, emulation and other musings by Aryan Karekar (syswraith).",
 	author: {
-		name: "Your Name Here",
-		email: "youremailaddress@example.com",
-		url: "https://example.com/about-me/"
+		name: "Aryan Karekar"
 	}
 }
