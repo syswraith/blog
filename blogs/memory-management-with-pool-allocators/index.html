@@ -1,0 +1,773 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Memory management with Pool Allocators</title>
+		<meta name="description" content="Implementing a fixed-size block pool allocator in C to avoid internal fragmentation and optimize memory management for data structures.">
+		<link rel="icon" href="/blog/blg/favicon.ico">
+		<link rel="alternate" href="/blog/feed/feed.xml" type="application/atom+xml" title="Syswraith&#39;s Holocron 🔮">
+		<link rel="alternate" href="/blog/index.xml" type="application/rss+xml" title="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:site_name" content="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:title" content="Memory management with Pool Allocators">
+	<meta property="og:description" content="Implementing a fixed-size block pool allocator in C to avoid internal fragmentation and optimize memory management for data structures.">
+	
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="https://syswraith.github.io/blog/blogs/memory-management-with-pool-allocators/">
+	<meta property="og:image" content="https://syswraith.github.io/blog/og-image.svg">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Memory management with Pool Allocators">
+	<meta name="twitter:description" content="Implementing a fixed-size block pool allocator in C to avoid internal fragmentation and optimize memory management for data structures.">
+	<meta name="twitter:image" content="https://syswraith.github.io/blog/og-image.svg">
+		
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	--font-family-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* Theme colors: gruvbox material soft dark */
+:root {
+	color-scheme: dark;
+
+	--color-bg-0: #32302f;
+	--color-bg-1: #3c3836;
+	--color-bg-2: #504945;
+	--color-gray-20: #504945;
+	--color-gray-50: #a89984;
+	--color-gray-90: #ebdbb2;
+
+	--color-green: #b8bb26;
+	--color-yellow: #fabd2f;
+	--color-blue: #83a598;
+	--color-purple: #d3869b;
+	--color-aqua: #8ec07c;
+	--color-red: #fb4934;
+
+	--background-color: var(--color-bg-0);
+
+	--text-color: var(--color-gray-90);
+	--color-link: #6cc5b3;
+	--color-link-visited: #c76b99;
+	--text-color-link: var(--color-link);
+	--text-color-link-active: var(--color-yellow);
+	--text-color-link-visited: var(--color-link-visited);
+
+	--syntax-tab-size: 2;
+}
+
+::selection {
+	background: var(--color-bg-2);
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden:not(:focus):not(:active) {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img{
+  display: block;
+  max-width: 100%;
+  margin: 1.5rem auto;
+  border-radius: 5px;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+footer {
+	border-top: 1px dashed var(--color-gray-20);
+}
+
+#skip-link {
+	text-decoration: none;
+	background: var(--background-color);
+	color: var(--text-color);
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--color-gray-90);
+	border-radius: 2px;
+}
+
+/* Prevent visually-hidden skip link fom pushing content around when focused */
+#skip-link.visually-hidden:focus {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	/* Ensure it is positioned on top of everything else when it is shown */
+	z-index: 999;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	flex-grow: 1;
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-50);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	padding: 0;
+	margin: 0;
+}
+.post-tags {
+	margin: .25em 0 0;
+}
+
+
+/* Gruvbox dark soft: content details */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	line-height: 1.25;
+}
+
+/* Heading text doubles as the deeplink (no “#” glyph) */
+a.heading-link {
+	color: inherit;
+	text-decoration: none;
+}
+:is(h1, h2, h3, h4, h5, h6):hover a.heading-link {
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+h1 {
+	color: var(--color-yellow);
+	margin-bottom: 0.25em;
+}
+h2 {
+	color: var(--color-green);
+}
+h3 {
+	color: var(--color-aqua);
+}
+h4 {
+	color: var(--color-blue);
+}
+h5 {
+	color: var(--color-purple);
+}
+h6 {
+	color: var(--color-gray-50);
+}
+
+blockquote {
+	margin: 1em 0;
+	padding: 0.25em 0 0.25em 1em;
+	border-left: 0.25em solid var(--color-green);
+	color: var(--color-gray-50);
+}
+
+hr {
+	border: 0;
+	border-top: 1px dashed var(--color-gray-20);
+	margin: 1.5em 0;
+}
+
+table {
+	border-collapse: collapse;
+}
+th,
+td {
+	border: 1px solid var(--color-gray-20);
+}
+th {
+	background: var(--color-bg-1);
+	font-weight: 700;
+}
+td,
+th {
+	padding: 0.35em 0.75em;
+}
+
+pre:not([class*="language-"]) {
+	background: var(--color-bg-1);
+	color: var(--color-gray-90);
+	padding: 0.75em 1em;
+	border: 1px solid var(--color-gray-20);
+	border-radius: 2px;
+}
+
+code {
+	background: var(--color-bg-1);
+	border-radius: 2px;
+	padding: 0.1em 0.3em;
+}
+pre code {
+	background: none;
+	padding: 0;
+}
+
+a[href]:not([class]) {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	text-decoration-thickness: 1px;
+}
+
+progress {
+ accent-color: var(--color-green);
+}
+
+input[type="checkbox"] {
+ accent-color: var(--color-green);
+}
+
+/* Obsidian-style wikilinks */
+a.wikilink {
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	text-underline-offset: 2px;
+}
+.wikilink-missing {
+	color: var(--color-red);
+	text-decoration: underline dotted;
+	text-underline-offset: 2px;
+}
+
+/* Section index lists */.section-list {
+	list-style: none;
+	padding: 0;
+	margin: 1em 0;
+}
+.section-list-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.75em;
+	margin-bottom: 0.6em;
+	line-height: 1.4;
+}
+.section-list-link {
+	font-weight: 700;
+	font-size: 1.0625em; /* 17px */
+	text-underline-offset: 2px;
+}
+.section-list-item time {
+	font-size: 0.8125em;
+	color: var(--color-gray-50);
+}
+
+/* YouTube embeds */
+.youtube-embed {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	border: 0;
+	border-radius: 2px;
+}
+
+/* Footer socials */
+.footer-socials {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25em 1.25em;
+	list-style: none;
+	padding: 0;
+	margin: 0 0 0.5em;
+}
+.footer-socials a {
+	text-underline-offset: 2px;
+}
+/* gruvbox bright for Prism */
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #ebdbb2;
+	background: #3c3836;
+	text-shadow: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	tab-size: 2;
+	hyphens: none;
+}
+
+pre[class*="language-"] {
+	overflow: auto;
+	padding: 0.75em 1em;
+	margin: 0.5em 0;
+	border: 1px solid #504945;
+	border-radius: 2px;
+	line-height: 1.4;
+}
+
+:not(pre) > code[class*="language-"] {
+	padding: 0.1em 0.3em;
+	border-radius: 2px;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #928374;
+	font-style: italic;
+}
+
+.token.punctuation {
+	color: #a89984;
+}
+
+.token.namespace {
+	opacity: 0.7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #fb4934;
+}
+
+.token.boolean,
+.token.number {
+	color: #d3869b;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #b8bb26;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #fe8019;
+	background: transparent;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #fabd2f;
+}
+
+.token.function,
+.token.class-name {
+	color: #8ec07c;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #fe8019;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.entity {
+	cursor: help;
+}</style>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+		
+	</head>
+	<body>
+		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/blog/" class="home-link">Syswraith&#39;s Holocron 🔮</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/blog/">Home</a></li>
+					<li class="nav-item"><a href="/blog/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/blog/tags/">Tags</a></li>
+					<li class="nav-item"><a href="/blog/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+<main id="main">
+		<heading-anchors content="">
+			<h1 id="memory-management-with-pool-allocators">Memory management with Pool Allocators</h1>
+<p class="post-metadata"><time datetime="2026-09-15">15 September 2026</time></p>
+<p class="post-tags">Tags:
+	<a href="/blog/tags/c/" class="post-tag">c</a>
+	<a href="/blog/tags/memory-management/" class="post-tag">memory-management</a>
+	<a href="/blog/tags/pool-allocator/" class="post-tag">pool-allocator</a>
+	<a href="/blog/tags/pointers/" class="post-tag">pointers</a>
+	<a href="/blog/tags/data-structures/" class="post-tag">data-structures</a>
+	<a href="/blog/tags/systems-programming/" class="post-tag">systems-programming</a>
+</p>
+
+<h1 id="introduction">Introduction</h1>
+<p>One of my many projects that I work on from time to time is the <a href="https://github.com/syswraith/sstdlib">sstdlib</a>, which is a pure C implementation of common data structures that I use. The inspiration for this is <a href="https://github.com/nothings/stb">stb</a> but built by me from the ground up. So I know exactly how it all works under the hood.</p>
+<p>Last time, I implemented <a href="/blog/blogs/dynamic-and-heterogeneous-vectors-in-c/" class="wikilink">Dynamic and Heterogeneous Vectors in C</a>, which was a nice little exercise for it. The problem with this was that I was allocating this on the heap. I made it work with an <a href="https://en.wikipedia.org/wiki/Region-based_memory_management">arena allocator</a> (which I implemented in <a href="/blog/blogs/some-more-pointer-magic-with-memory-arenas/" class="wikilink">Some more pointer magic with Memory Arenas</a>, by the way), but it still needs work. More specifically, I need to design a generic allocator interface for it to be able to use different types of allocation strategies—normal heap allocations, arena allocations, and what we are writing today—pool allocations.</p>
+<h1 id="difference-between-arena-allocations-and-pool-allocations">Difference between Arena Allocations and Pool Allocations</h1>
+<p>The terminology for these types of allocators is ambiguous. But for the purpose of this article, the difference is the following:</p>
+<h3 id="arena-allocations-may-result-in-external-fragmentation-over-time">Arena allocations may result in external fragmentation over time.</h3>
+<p>Say this is the initial memory layout of the memory arena</p>
+<p><img src="/blog/blogs/memory-management-with-pool-allocators/GXgzBUuPzW-640.webp" alt="Initial memory layout of the arena" loading="lazy" decoding="async" width="1280" height="387" srcset="/blog/blogs/memory-management-with-pool-allocators/GXgzBUuPzW-640.webp 640w, /blog/blogs/memory-management-with-pool-allocators/GXgzBUuPzW-1280.webp 1280w" sizes="auto"></p>
+<p>And say we don't need Segment 2, so we free it.</p>
+<p><img src="/blog/blogs/memory-management-with-pool-allocators/S_VsFdrUYa-640.webp" alt="Arena after freeing segment 2, leaving a hole" loading="lazy" decoding="async" width="1280" height="387" srcset="/blog/blogs/memory-management-with-pool-allocators/S_VsFdrUYa-640.webp 640w, /blog/blogs/memory-management-with-pool-allocators/S_VsFdrUYa-1280.webp 1280w" sizes="auto"></p>
+<p>Now comes a problem.</p>
+<p>To fit another substantially large segment, we need to shift segment 3 and 4 to the left OR track the amount of space the new segment needs in order to fit in that memory. Either way, this is an expensive operation to perform.</p>
+<h3 id="pool-allocators-provide-fixed-size-segments">Pool allocators provide fixed-size segments</h3>
+<p>Unlike arena allocators, pool allocators have their memory divided in fixed segments.</p>
+<p><img src="/blog/blogs/memory-management-with-pool-allocators/sD3YAKI3F_-640.webp" alt="Pool allocator divided into fixed-size segments" loading="lazy" decoding="async" width="1280" height="340" srcset="/blog/blogs/memory-management-with-pool-allocators/sD3YAKI3F_-640.webp 640w, /blog/blogs/memory-management-with-pool-allocators/sD3YAKI3F_-1280.webp 1280w" sizes="auto"></p>
+<p>So if we free segment 2, then we can track it by pushing it onto a stack. The next operation that requires free memory, will pop off the segment from the top of the stack and use that. This makes sure that we don't have external fragmentation.</p>
+<p>However, since the segments are of fixed size, we make a trade-off of internal fragmentation for knowing the size before allocation.</p>
+<h1 id="implementation">Implementation</h1>
+<p>This is what the segment/block looks like. The next pointer points to the next block.</p>
+<pre class="language-c" tabindex="0"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">block_t</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> data<span class="token punctuation">;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">block_t</span> <span class="token operator">*</span>next<span class="token punctuation">;</span>
+<span class="token punctuation">}</span> Block<span class="token punctuation">;</span></code></pre>
+<p>This is the structure that tracks the pool allocator.</p>
+<pre class="language-c" tabindex="0"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">pool_t</span> <span class="token punctuation">{</span>
+    Block <span class="token operator">*</span>pool<span class="token punctuation">;</span>
+    Block <span class="token operator">*</span>free_list<span class="token punctuation">;</span> 
+    <span class="token class-name">size_t</span> count<span class="token punctuation">;</span>
+    <span class="token class-name">size_t</span> pool_size<span class="token punctuation">;</span>
+<span class="token punctuation">}</span> Pool<span class="token punctuation">;</span></code></pre>
+<p>These are the functions that we'll need.</p>
+<pre class="language-c" tabindex="0"><code class="language-c"><span class="token keyword">void</span> <span class="token function">pool_printer</span><span class="token punctuation">(</span>Pool <span class="token operator">*</span>pool<span class="token punctuation">)</span><span class="token punctuation">;</span>
+Pool <span class="token operator">*</span><span class="token function">pool_create</span><span class="token punctuation">(</span><span class="token class-name">size_t</span> pool_size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+Block <span class="token operator">*</span><span class="token function">block_allocate</span><span class="token punctuation">(</span>Pool <span class="token operator">*</span>pool<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">block_free</span><span class="token punctuation">(</span>Pool <span class="token operator">*</span>pool<span class="token punctuation">,</span> Block <span class="token operator">*</span>block<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">pool_free</span><span class="token punctuation">(</span>Pool <span class="token operator">*</span>pool<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="creating-the-pool">Creating the pool</h2>
+<p>Here is what this function does in short:</p>
+<ul>
+<li>We specify the size of the pool.</li>
+<li>We allocate memory for it.</li>
+<li>The free list tracks all the free blocks (initially it contains all the blocks).</li>
+<li><code>count</code> tracks the free blocks (initially the same as <code>pool_size</code>).</li>
+</ul>
+<pre class="language-c" tabindex="0"><code class="language-c">Pool <span class="token operator">*</span><span class="token function">pool_create</span><span class="token punctuation">(</span><span class="token class-name">size_t</span> pool_size<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    Pool <span class="token operator">*</span>pool_ptr <span class="token operator">=</span> <span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>Pool<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    pool_ptr<span class="token operator">-></span>pool <span class="token operator">=</span> <span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>Block<span class="token punctuation">)</span> <span class="token operator">*</span> pool_size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    pool_ptr<span class="token operator">-></span>free_list <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">size_t</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> pool_size<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            pool_ptr<span class="token operator">-></span>pool<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>next <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+            pool_ptr<span class="token operator">-></span>free_list <span class="token operator">=</span> <span class="token operator">&amp;</span>pool_ptr<span class="token operator">-></span>pool<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        pool_ptr<span class="token operator">-></span>pool<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>next <span class="token operator">=</span> pool_ptr<span class="token operator">-></span>free_list<span class="token punctuation">;</span>
+
+        pool_ptr<span class="token operator">-></span>free_list <span class="token operator">=</span> <span class="token operator">&amp;</span>pool_ptr<span class="token operator">-></span>pool<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    pool_ptr<span class="token operator">-></span>count <span class="token operator">=</span> pool_size<span class="token punctuation">;</span>
+    pool_ptr<span class="token operator">-></span>pool_size <span class="token operator">=</span> pool_size<span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> pool_ptr<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="allocate-block">Allocate block</h2>
+<ul>
+<li>If <code>count</code> is 0, then there are no free blocks.</li>
+<li>Get the first free block (i.e. the head of the linked-list) and record it.</li>
+<li>Set the new head.</li>
+<li>Decrease the <code>count</code>.</li>
+<li>Return the recorded address.</li>
+</ul>
+<pre class="language-c" tabindex="0"><code class="language-c">Block <span class="token operator">*</span><span class="token function">block_allocate</span><span class="token punctuation">(</span>Pool <span class="token operator">*</span>pool<span class="token punctuation">)</span> 
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>pool<span class="token operator">-></span>count <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+
+    Block <span class="token operator">*</span>tmp <span class="token operator">=</span> pool<span class="token operator">-></span>free_list<span class="token punctuation">;</span>
+    pool<span class="token operator">-></span>free_list <span class="token operator">=</span> pool<span class="token operator">-></span>free_list<span class="token operator">-></span>next<span class="token punctuation">;</span>
+    pool<span class="token operator">-></span>count<span class="token operator">--</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> tmp<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="free-the-block">Free the block</h2>
+<ul>
+<li>The first two operations are not necessary but specify the intent of the operation.</li>
+<li>Add the block to the free list (you can make it so that the same block isn't added twice by iterating through the whole thing, but I'm going to ignore that).</li>
+<li>Increase the count.</li>
+</ul>
+<pre class="language-c" tabindex="0"><code class="language-c"><span class="token keyword">void</span> <span class="token function">block_free</span><span class="token punctuation">(</span>Pool <span class="token operator">*</span>pool<span class="token punctuation">,</span> Block <span class="token operator">*</span>block<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    block<span class="token operator">-></span>data <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    block<span class="token operator">-></span>next <span class="token operator">=</span> pool<span class="token operator">-></span>free_list<span class="token punctuation">;</span>
+    pool<span class="token operator">-></span>free_list <span class="token operator">=</span> block<span class="token punctuation">;</span>
+    pool<span class="token operator">-></span>count<span class="token operator">++</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="free-the-pool">Free the pool</h2>
+<ul>
+<li>Free the pool memory that's allocated and then free the pool struct itself.</li>
+<li>Ideally, this will probably go on the stack in my implementation.</li>
+<li>The asserts are there because I don't want to do verbose error checking.</li>
+</ul>
+<pre class="language-c" tabindex="0"><code class="language-c"><span class="token keyword">void</span> <span class="token function">pool_free</span><span class="token punctuation">(</span>Pool <span class="token operator">*</span>pool<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token function">assert</span><span class="token punctuation">(</span>pool <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">assert</span><span class="token punctuation">(</span>pool<span class="token operator">-></span>pool <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    pool<span class="token operator">-></span>free_list <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    pool<span class="token operator">-></span>count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token function">free</span><span class="token punctuation">(</span>pool<span class="token operator">-></span>pool<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">free</span><span class="token punctuation">(</span>pool<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h1 id="conclusion">Conclusion</h1>
+<p>This pool allocator is useful if I have vectors of fixed data types.</p>
+<p>That way it's easier to reallocate more space if necessary, and not worry about external fragmentation.</p>
+<p>The source code can be found at <a href="https://github.com/syswraith/pool_allocator">https://github.com/syswraith/pool_allocator</a>.</p>
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/blogs/dynamic-and-heterogeneous-vectors-in-c/">Dynamic and Heterogeneous Vectors in C</a></li>
+</ul>
+
+		</heading-anchors>
+	</main>
+
+		<footer>
+			<ul class="footer-socials">
+				<li><a href="https://github.com/syswraith/">GitHub</a></li>
+				<li><a href="https://www.youtube.com/@syswraith">YouTube</a></li>
+				<li><a href="https://x.com/syswraith">Twitter</a></li>
+				<li><a href="https://instagram.com/syswraith">Instagram</a></li>
+			</ul>
+			<p>© 2026 Syswraith</p>
+		</footer>
+
+		<!-- This page `/blogs/memory-management-with-pool-allocators/` was built on 2026-10-18T18:29:03.903Z -->
+		<script type="module" src="/blog/dist/VZzbzR9_xw.js"></script>
+		
+	</body>
+</html>

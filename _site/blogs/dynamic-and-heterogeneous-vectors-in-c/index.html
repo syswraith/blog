@@ -1,0 +1,919 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Dynamic and Heterogeneous Vectors in C</title>
+		<meta name="description" content="Implementing a std::vector equivalent in C with dynamic resizing and support for heterogeneous data types using tagged unions.">
+		<link rel="icon" href="/blog/blg/favicon.ico">
+		<link rel="alternate" href="/blog/feed/feed.xml" type="application/atom+xml" title="Syswraith&#39;s Holocron 🔮">
+		<link rel="alternate" href="/blog/index.xml" type="application/rss+xml" title="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:site_name" content="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:title" content="Dynamic and Heterogeneous Vectors in C">
+	<meta property="og:description" content="Implementing a std::vector equivalent in C with dynamic resizing and support for heterogeneous data types using tagged unions.">
+	
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="https://syswraith.github.io/blog/blogs/dynamic-and-heterogeneous-vectors-in-c/">
+	<meta property="og:image" content="https://syswraith.github.io/blog/og-image.svg">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Dynamic and Heterogeneous Vectors in C">
+	<meta name="twitter:description" content="Implementing a std::vector equivalent in C with dynamic resizing and support for heterogeneous data types using tagged unions.">
+	<meta name="twitter:image" content="https://syswraith.github.io/blog/og-image.svg">
+		
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	--font-family-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* Theme colors: gruvbox material soft dark */
+:root {
+	color-scheme: dark;
+
+	--color-bg-0: #32302f;
+	--color-bg-1: #3c3836;
+	--color-bg-2: #504945;
+	--color-gray-20: #504945;
+	--color-gray-50: #a89984;
+	--color-gray-90: #ebdbb2;
+
+	--color-green: #b8bb26;
+	--color-yellow: #fabd2f;
+	--color-blue: #83a598;
+	--color-purple: #d3869b;
+	--color-aqua: #8ec07c;
+	--color-red: #fb4934;
+
+	--background-color: var(--color-bg-0);
+
+	--text-color: var(--color-gray-90);
+	--color-link: #6cc5b3;
+	--color-link-visited: #c76b99;
+	--text-color-link: var(--color-link);
+	--text-color-link-active: var(--color-yellow);
+	--text-color-link-visited: var(--color-link-visited);
+
+	--syntax-tab-size: 2;
+}
+
+::selection {
+	background: var(--color-bg-2);
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden:not(:focus):not(:active) {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img{
+  display: block;
+  max-width: 100%;
+  margin: 1.5rem auto;
+  border-radius: 5px;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+footer {
+	border-top: 1px dashed var(--color-gray-20);
+}
+
+#skip-link {
+	text-decoration: none;
+	background: var(--background-color);
+	color: var(--text-color);
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--color-gray-90);
+	border-radius: 2px;
+}
+
+/* Prevent visually-hidden skip link fom pushing content around when focused */
+#skip-link.visually-hidden:focus {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	/* Ensure it is positioned on top of everything else when it is shown */
+	z-index: 999;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	flex-grow: 1;
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-50);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	padding: 0;
+	margin: 0;
+}
+.post-tags {
+	margin: .25em 0 0;
+}
+
+
+/* Gruvbox dark soft: content details */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	line-height: 1.25;
+}
+
+/* Heading text doubles as the deeplink (no “#” glyph) */
+a.heading-link {
+	color: inherit;
+	text-decoration: none;
+}
+:is(h1, h2, h3, h4, h5, h6):hover a.heading-link {
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+h1 {
+	color: var(--color-yellow);
+	margin-bottom: 0.25em;
+}
+h2 {
+	color: var(--color-green);
+}
+h3 {
+	color: var(--color-aqua);
+}
+h4 {
+	color: var(--color-blue);
+}
+h5 {
+	color: var(--color-purple);
+}
+h6 {
+	color: var(--color-gray-50);
+}
+
+blockquote {
+	margin: 1em 0;
+	padding: 0.25em 0 0.25em 1em;
+	border-left: 0.25em solid var(--color-green);
+	color: var(--color-gray-50);
+}
+
+hr {
+	border: 0;
+	border-top: 1px dashed var(--color-gray-20);
+	margin: 1.5em 0;
+}
+
+table {
+	border-collapse: collapse;
+}
+th,
+td {
+	border: 1px solid var(--color-gray-20);
+}
+th {
+	background: var(--color-bg-1);
+	font-weight: 700;
+}
+td,
+th {
+	padding: 0.35em 0.75em;
+}
+
+pre:not([class*="language-"]) {
+	background: var(--color-bg-1);
+	color: var(--color-gray-90);
+	padding: 0.75em 1em;
+	border: 1px solid var(--color-gray-20);
+	border-radius: 2px;
+}
+
+code {
+	background: var(--color-bg-1);
+	border-radius: 2px;
+	padding: 0.1em 0.3em;
+}
+pre code {
+	background: none;
+	padding: 0;
+}
+
+a[href]:not([class]) {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	text-decoration-thickness: 1px;
+}
+
+progress {
+ accent-color: var(--color-green);
+}
+
+input[type="checkbox"] {
+ accent-color: var(--color-green);
+}
+
+/* Obsidian-style wikilinks */
+a.wikilink {
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	text-underline-offset: 2px;
+}
+.wikilink-missing {
+	color: var(--color-red);
+	text-decoration: underline dotted;
+	text-underline-offset: 2px;
+}
+
+/* Section index lists */.section-list {
+	list-style: none;
+	padding: 0;
+	margin: 1em 0;
+}
+.section-list-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.75em;
+	margin-bottom: 0.6em;
+	line-height: 1.4;
+}
+.section-list-link {
+	font-weight: 700;
+	font-size: 1.0625em; /* 17px */
+	text-underline-offset: 2px;
+}
+.section-list-item time {
+	font-size: 0.8125em;
+	color: var(--color-gray-50);
+}
+
+/* YouTube embeds */
+.youtube-embed {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	border: 0;
+	border-radius: 2px;
+}
+
+/* Footer socials */
+.footer-socials {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25em 1.25em;
+	list-style: none;
+	padding: 0;
+	margin: 0 0 0.5em;
+}
+.footer-socials a {
+	text-underline-offset: 2px;
+}
+/* gruvbox bright for Prism */
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #ebdbb2;
+	background: #3c3836;
+	text-shadow: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	tab-size: 2;
+	hyphens: none;
+}
+
+pre[class*="language-"] {
+	overflow: auto;
+	padding: 0.75em 1em;
+	margin: 0.5em 0;
+	border: 1px solid #504945;
+	border-radius: 2px;
+	line-height: 1.4;
+}
+
+:not(pre) > code[class*="language-"] {
+	padding: 0.1em 0.3em;
+	border-radius: 2px;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #928374;
+	font-style: italic;
+}
+
+.token.punctuation {
+	color: #a89984;
+}
+
+.token.namespace {
+	opacity: 0.7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #fb4934;
+}
+
+.token.boolean,
+.token.number {
+	color: #d3869b;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #b8bb26;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #fe8019;
+	background: transparent;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #fabd2f;
+}
+
+.token.function,
+.token.class-name {
+	color: #8ec07c;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #fe8019;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.entity {
+	cursor: help;
+}</style>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+		
+	</head>
+	<body>
+		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/blog/" class="home-link">Syswraith&#39;s Holocron 🔮</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/blog/">Home</a></li>
+					<li class="nav-item"><a href="/blog/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/blog/tags/">Tags</a></li>
+					<li class="nav-item"><a href="/blog/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+<main id="main">
+		<heading-anchors content="">
+			<h1 id="dynamic-and-heterogeneous-vectors-in-c">Dynamic and Heterogeneous Vectors in C</h1>
+<p class="post-metadata"><time datetime="2026-08-11">11 August 2026</time></p>
+<p class="post-tags">Tags:
+	<a href="/blog/tags/c/" class="post-tag">c</a>
+	<a href="/blog/tags/vectors/" class="post-tag">vectors</a>
+	<a href="/blog/tags/tagged-unions/" class="post-tag">tagged-unions</a>
+	<a href="/blog/tags/dynamic-array/" class="post-tag">dynamic-array</a>
+	<a href="/blog/tags/data-structures/" class="post-tag">data-structures</a>
+	<a href="/blog/tags/systems-programming/" class="post-tag">systems-programming</a>
+	<a href="/blog/tags/memory-management/" class="post-tag">memory-management</a>
+</p>
+
+<p><code>std::vector</code> is a very useful container with dynamic resizing upon insertion and deletion. I wanted to understand how it worked better, so I decided to implement it in C. Furthermore, I wanted to make it so that I can store multiple data types, kind of like a <strong>Python List</strong>.</p>
+<p>TL;DR of how and what I implemented:</p>
+<ul>
+<li>Tagged union to handle different data types</li>
+<li>Realloc under the hood based on how big or small the vector is getting</li>
+<li>Searching and sorting with built-in <code>stdlib.h</code> functions</li>
+</ul>
+<h1 id="tagged-unions">Tagged unions</h1>
+<pre class="language-c" tabindex="0"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">enum</span> <span class="token class-name">tag</span> <span class="token punctuation">{</span>
+    BOOL<span class="token punctuation">,</span>
+    CHAR<span class="token punctuation">,</span>
+    INT<span class="token punctuation">,</span>
+    FLOAT<span class="token punctuation">,</span>
+    DOUBLE<span class="token punctuation">,</span>
+    STRING<span class="token punctuation">,</span>
+    ANY
+<span class="token punctuation">}</span> Tag<span class="token punctuation">;</span>
+
+<span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    <span class="token keyword">enum</span> <span class="token class-name">tag</span> tag<span class="token punctuation">;</span>
+    <span class="token keyword">union</span> <span class="token punctuation">{</span>
+        bool b<span class="token punctuation">;</span>
+        <span class="token keyword">char</span> c<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+        <span class="token keyword">float</span> f<span class="token punctuation">;</span>
+        <span class="token keyword">double</span> d<span class="token punctuation">;</span>
+        String s<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> value<span class="token punctuation">;</span>
+<span class="token punctuation">}</span> Dynamic<span class="token punctuation">;</span></code></pre>
+<p>(The <code>String</code> datatype is my implementation of <em>string views</em> following <a href="https://youtu.be/y8PLpDgZc0E">Tsoding's C strings stream</a>, but ignore that part. Just thought I'd mention it once since it may show up in the code later.)</p>
+<p>So a tagged union. It's a nice way to get dynamic typing in C if you're not strapped for memory.</p>
+<ul>
+<li>An enumeration is used to keep track of all the datatypes that we are using. If no value is specified, then the enumeration starts from 0 and continues incrementally.</li>
+<li>A union confuses a lot of people. Think of it as an instrument that is used to view content stored at a memory location through the lens of different datatypes.</li>
+<li>This means that we can view a piece of <code>n-bit signed</code> memory content as <code>n-bit unsigned</code> memory or even another different datatype.</li>
+<li>The size of the union is calculated by finding out the largest datatype listed in the union. This makes sure that we can store whichever datatype we want in the struct that we have just created.</li>
+<li>The memory of the struct is strictly defined by its enum value, and the value stored is strictly in the type of the data type defined. For example:</li>
+</ul>
+<pre class="language-c" tabindex="0"><code class="language-c">Dynamic integer <span class="token operator">=</span> <span class="token punctuation">(</span>Dynamic<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">.</span>tag <span class="token operator">=</span> INT<span class="token punctuation">,</span> <span class="token punctuation">.</span>value<span class="token punctuation">.</span>i <span class="token operator">=</span> <span class="token number">10.10</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token comment">// this will explicitly store 10 as an integer, ignoring the floating part</span>
+integer<span class="token punctuation">.</span>tag <span class="token operator">=</span> FLOAT<span class="token punctuation">;</span>
+<span class="token comment">// this will return 1092721050 when printed </span>
+<span class="token comment">// because the value was not stored as a float </span>
+<span class="token comment">// floats use IEEE 754 to store their values</span>
+<span class="token comment">// It tried to interpret the underlying memory as described in IEEE 754 and got this result</span></code></pre>
+<h2 id="1-printing-this-would-require-a-function-such-as-this">1. Printing this would require a function such as this</h2>
+<pre class="language-c" tabindex="0"><code class="language-c"><span class="token keyword">void</span> <span class="token function">Generic_printer</span><span class="token punctuation">(</span>Dynamic element<span class="token punctuation">)</span> 
+<span class="token punctuation">{</span>
+
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>element<span class="token punctuation">.</span>tag<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> BOOL<span class="token operator">:</span> 
+            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%s"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>element<span class="token punctuation">.</span>value<span class="token punctuation">.</span>b<span class="token punctuation">)</span><span class="token operator">?</span><span class="token string">"true"</span><span class="token operator">:</span><span class="token string">"false"</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> CHAR<span class="token operator">:</span>
+            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%c"</span><span class="token punctuation">,</span> element<span class="token punctuation">.</span>value<span class="token punctuation">.</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> FLOAT<span class="token operator">:</span> 
+            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%f"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>element<span class="token punctuation">.</span>value<span class="token punctuation">.</span>f<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> DOUBLE<span class="token operator">:</span>
+            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%lf"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>element<span class="token punctuation">.</span>value<span class="token punctuation">.</span>d<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> INT<span class="token operator">:</span> 
+            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%i"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>element<span class="token punctuation">.</span>value<span class="token punctuation">.</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> STRING<span class="token operator">:</span>
+            <span class="token function">String_print</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>element<span class="token punctuation">.</span>value<span class="token punctuation">.</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> ANY<span class="token operator">:</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+<span class="token punctuation">}</span></code></pre>
+<h2 id="2-comparer">2. Comparer</h2>
+<p>Now this is a strange function. But it's useful for a multitude of other functions that use it.
+All it does is:</p>
+<ul>
+<li>Take in <code>void</code> pointers to the elements whose types are not known.</li>
+<li>Cast them to <code>Dynamic</code> elements and copy them into <code>arg1</code> and <code>arg2</code>.</li>
+<li>Get the tags of the elements (since while passing the elements to this function, the elements are already <code>Dynamic</code> so the casting is more like encoding and decoding).</li>
+<li>Return <code>-1</code> if <code>arg1</code> is less than <code>arg2</code>, <code>1</code> if <code>arg1</code> is greater than <code>arg2</code>, else <code>0</code> if they are equal.</li>
+<li>Doesn't work on non-numeric types of data (yet).</li>
+</ul>
+<pre class="language-c" tabindex="0"><code class="language-c"><span class="token keyword">int</span> <span class="token function">Tagged_comparer</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">void</span> <span class="token operator">*</span>a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">void</span> <span class="token operator">*</span>b<span class="token punctuation">)</span> 
+<span class="token punctuation">{</span>
+    Dynamic arg1 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">const</span> Dynamic <span class="token operator">*</span><span class="token punctuation">)</span>a<span class="token punctuation">;</span>
+    Dynamic arg2 <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">const</span> Dynamic <span class="token operator">*</span><span class="token punctuation">)</span>b<span class="token punctuation">;</span>
+    Tag tag <span class="token operator">=</span> arg1<span class="token punctuation">.</span>tag<span class="token punctuation">;</span>
+    
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>tag<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> BOOL<span class="token operator">:</span> 
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>arg1<span class="token punctuation">.</span>value<span class="token punctuation">.</span>b <span class="token operator">&lt;</span> arg2<span class="token punctuation">.</span>value<span class="token punctuation">.</span>b<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>arg1<span class="token punctuation">.</span>value<span class="token punctuation">.</span>b <span class="token operator">></span> arg2<span class="token punctuation">.</span>value<span class="token punctuation">.</span>b<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> CHAR<span class="token operator">:</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>arg1<span class="token punctuation">.</span>value<span class="token punctuation">.</span>c <span class="token operator">&lt;</span> arg2<span class="token punctuation">.</span>value<span class="token punctuation">.</span>c<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>arg1<span class="token punctuation">.</span>value<span class="token punctuation">.</span>c <span class="token operator">></span> arg2<span class="token punctuation">.</span>value<span class="token punctuation">.</span>c<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> FLOAT<span class="token operator">:</span> 
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>arg1<span class="token punctuation">.</span>value<span class="token punctuation">.</span>f <span class="token operator">&lt;</span> arg2<span class="token punctuation">.</span>value<span class="token punctuation">.</span>f<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>arg1<span class="token punctuation">.</span>value<span class="token punctuation">.</span>f <span class="token operator">></span> arg2<span class="token punctuation">.</span>value<span class="token punctuation">.</span>f<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> DOUBLE<span class="token operator">:</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>arg1<span class="token punctuation">.</span>value<span class="token punctuation">.</span>d <span class="token operator">&lt;</span> arg2<span class="token punctuation">.</span>value<span class="token punctuation">.</span>d<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>arg1<span class="token punctuation">.</span>value<span class="token punctuation">.</span>d <span class="token operator">></span> arg2<span class="token punctuation">.</span>value<span class="token punctuation">.</span>d<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> INT<span class="token operator">:</span> 
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>arg1<span class="token punctuation">.</span>value<span class="token punctuation">.</span>i <span class="token operator">&lt;</span> arg2<span class="token punctuation">.</span>value<span class="token punctuation">.</span>i<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>arg1<span class="token punctuation">.</span>value<span class="token punctuation">.</span>i <span class="token operator">></span> arg2<span class="token punctuation">.</span>value<span class="token punctuation">.</span>i<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> STRING<span class="token operator">:</span>
+        <span class="token keyword">case</span> ANY<span class="token operator">:</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Now we have a dynamic typing system in place. Let's move on to making a vector!</p>
+<h1 id="vector">Vector</h1>
+<ul>
+<li>O(1) access to elements</li>
+<li>Automatic resizing of elements</li>
+<li>Push and pop from the end</li>
+<li>Sorting the vector</li>
+<li>Finding an element and its index</li>
+</ul>
+<pre class="language-C" tabindex="0"><code class="language-C">typedef struct vector {
+    Dynamic *vector;
+    size_t counter;
+    size_t size;
+    Tag type;
+    bool isSorted;
+} Vector;</code></pre>
+<ul>
+<li><code>vector</code> is a pointer to the start of the memory allocated</li>
+<li><code>counter</code> defines how many elements are actually present in the vector</li>
+<li><code>size</code> defines the total available size of the vector</li>
+<li><code>type</code> defines the type of the vector (can be any of the types from the tagged union)</li>
+<li><code>isSorted</code> checks if the vector is sorted</li>
+</ul>
+<h2 id="1-lets-create-and-free-the-vector-first">1. Let's create and free the vector first</h2>
+<pre class="language-c" tabindex="0"><code class="language-c">Vector <span class="token operator">*</span><span class="token function">Vector_create</span><span class="token punctuation">(</span><span class="token class-name">size_t</span> size<span class="token punctuation">,</span> Tag type<span class="token punctuation">)</span>
+<span class="token comment">// function returns a pointer to a Vector</span>
+<span class="token comment">// with the specific size and type</span>
+<span class="token punctuation">{</span>
+    Vector <span class="token operator">*</span>v <span class="token operator">=</span> <span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>Vector<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// allocate memory size of a vector</span>
+
+    v<span class="token operator">-></span>size <span class="token operator">=</span> size<span class="token punctuation">;</span>
+    <span class="token comment">// total size given by the user</span>
+    
+    v<span class="token operator">-></span>counter <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token comment">// since no places are filled</span>
+    
+    v<span class="token operator">-></span>type <span class="token operator">=</span> type<span class="token punctuation">;</span>
+    <span class="token comment">// type given by the user</span>
+    
+    v<span class="token operator">-></span>isSorted <span class="token operator">=</span> false<span class="token punctuation">;</span>
+    <span class="token comment">// is not sorted by default</span>
+    
+    v<span class="token operator">-></span>vector <span class="token operator">=</span> <span class="token function">calloc</span><span class="token punctuation">(</span>v<span class="token operator">-></span>size<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>Dynamic<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// allocates memory for v->size elements of type Dynamic</span>
+
+    <span class="token keyword">return</span> v<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token keyword">void</span> <span class="token function">Vector_dealloc</span><span class="token punctuation">(</span>Vector <span class="token operator">*</span>v<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token function">free</span><span class="token punctuation">(</span>v<span class="token operator">-></span>vector<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// free the allocated memory internally first</span>
+    
+    <span class="token function">free</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// free the vector</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="2-pushing-and-popping-elements-from-the-back">2. Pushing and popping elements from the back</h2>
+<pre class="language-c" tabindex="0"><code class="language-c"><span class="token keyword">void</span> <span class="token function">Vector_pushBack</span><span class="token punctuation">(</span>Vector <span class="token operator">*</span>v<span class="token punctuation">,</span> Dynamic element<span class="token punctuation">)</span> 
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token operator">-></span>type <span class="token operator">!=</span> element<span class="token punctuation">.</span>tag <span class="token operator">&amp;&amp;</span> v<span class="token operator">-></span>type <span class="token operator">!=</span> ANY<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"Tried inserting type %s in vector of type %s\n"</span><span class="token punctuation">,</span> <span class="token function">Tagged_string</span><span class="token punctuation">(</span>element<span class="token punctuation">.</span>tag<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">Tagged_string</span><span class="token punctuation">(</span>v<span class="token operator">-></span>type<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token operator">-></span>counter <span class="token operator">==</span> v<span class="token operator">-></span>size<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        v<span class="token operator">-></span>size <span class="token operator">+=</span> v<span class="token operator">-></span>size<span class="token punctuation">;</span>
+        v<span class="token operator">-></span>vector <span class="token operator">=</span> <span class="token function">realloc</span><span class="token punctuation">(</span>v<span class="token operator">-></span>vector<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>Dynamic<span class="token punctuation">)</span> <span class="token operator">*</span> v<span class="token operator">-></span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token operator">-></span>isSorted <span class="token operator">&amp;&amp;</span> v<span class="token operator">-></span>counter <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> <span class="token function">Tagged_comparer</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>v<span class="token operator">-></span>vector<span class="token punctuation">[</span>v<span class="token operator">-></span>counter <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>element<span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        v<span class="token operator">-></span>isSorted <span class="token operator">=</span> false<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    v<span class="token operator">-></span>vector<span class="token punctuation">[</span>v<span class="token operator">-></span>counter<span class="token punctuation">]</span> <span class="token operator">=</span> element<span class="token punctuation">;</span>
+    v<span class="token operator">-></span>counter<span class="token operator">++</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<ul>
+<li>If the type is not <code>ANY</code> and the type of the element to be inserted does not match the type of the vector, then throw an error.</li>
+<li>If the counter is the same as the size of the vector, then we are going to overwrite into memory that does not exist, which will lead to <em>undefined behavior</em>. So double the allocated memory and realloc it.</li>
+<li>Check if the vector was sorted first and the counter was greater than 0. Also check if the Tagged comparer returns 1. That way we know if the element is greater than or equal to the last element. If it wasn't, then on adding it to the end, the vector will no longer be sorted.</li>
+<li>Finally, assign the element to the counter position and increment the counter.</li>
+</ul>
+<pre class="language-c" tabindex="0"><code class="language-c">Dynamic <span class="token function">Vector_popBack</span><span class="token punctuation">(</span>Vector <span class="token operator">*</span>v<span class="token punctuation">)</span> 
+<span class="token punctuation">{</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token operator">-></span>counter <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"Vector underflow\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">exit</span><span class="token punctuation">(</span>EXIT_FAILURE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    v<span class="token operator">-></span>counter<span class="token operator">--</span><span class="token punctuation">;</span>
+    Dynamic element <span class="token operator">=</span> v<span class="token operator">-></span>vector<span class="token punctuation">[</span>v<span class="token operator">-></span>counter<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token operator">-></span>counter <span class="token operator">&lt;</span> <span class="token punctuation">(</span>v<span class="token operator">-></span>size <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        v<span class="token operator">-></span>size <span class="token operator">/=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+        v<span class="token operator">-></span>vector <span class="token operator">=</span> <span class="token function">realloc</span><span class="token punctuation">(</span>v<span class="token operator">-></span>vector<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>Dynamic<span class="token punctuation">)</span> <span class="token operator">*</span> v<span class="token operator">-></span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> element<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<ul>
+<li>Check for stack underflow. If it's happening, error and die.</li>
+<li>Decrease the counter and capture the element.</li>
+<li>Before returning the element, check if the counter is less than half the size of the vector. If it is, decrease the size of the vector by reallocating to the reduced size.</li>
+<li>Finally, return the element.</li>
+</ul>
+<h2 id="3-sorting-the-vector-and-finding-elements">3. Sorting the vector and finding elements</h2>
+<p>Believe it or not, <code>stdlib.h</code> has built-in Quick Sort and Binary Search. It is the reason why we had to write the <code>Tagged_comparer</code> in the first place.</p>
+<pre class="language-c" tabindex="0"><code class="language-c"><span class="token keyword">void</span> <span class="token function">Vector_sort</span><span class="token punctuation">(</span>Vector <span class="token operator">*</span>v<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token operator">-></span>type <span class="token operator">==</span> ANY <span class="token operator">||</span> v<span class="token operator">-></span>type <span class="token operator">==</span> STRING<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"Can't sort vector of type %s\n"</span><span class="token punctuation">,</span> <span class="token function">Tagged_string</span><span class="token punctuation">(</span>v<span class="token operator">-></span>type<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>v<span class="token operator">-></span>isSorted<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"Already sorted\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token function">qsort</span><span class="token punctuation">(</span>v<span class="token operator">-></span>vector<span class="token punctuation">,</span> v<span class="token operator">-></span>counter<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>Dynamic<span class="token punctuation">)</span><span class="token punctuation">,</span> Tagged_comparer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    v<span class="token operator">-></span>isSorted <span class="token operator">=</span> true<span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>And for the searching part</p>
+<pre class="language-c" tabindex="0"><code class="language-c">Dynamic <span class="token operator">*</span><span class="token function">Vector_findElement</span><span class="token punctuation">(</span>Vector <span class="token operator">*</span>v<span class="token punctuation">,</span> Dynamic target<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>v<span class="token operator">-></span>isSorted<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"Error: Vector must be sorted before performing binary search.\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">exit</span><span class="token punctuation">(</span>EXIT_FAILURE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// if null then doesn't exist</span>
+    <span class="token keyword">return</span> <span class="token function">bsearch</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>target<span class="token punctuation">,</span> v<span class="token operator">-></span>vector<span class="token punctuation">,</span> v<span class="token operator">-></span>counter<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>Dynamic<span class="token punctuation">)</span><span class="token punctuation">,</span> Tagged_comparer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">Vector_findIndex</span><span class="token punctuation">(</span>Vector <span class="token operator">*</span>v<span class="token punctuation">,</span> Dynamic target<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    Dynamic <span class="token operator">*</span>result <span class="token operator">=</span> <span class="token function">Vector_findElement</span><span class="token punctuation">(</span>v<span class="token punctuation">,</span> target<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>result <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// Calculate index using pointer arithmetic</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">(</span>result <span class="token operator">-</span> v<span class="token operator">-></span>vector<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>And there we have it.
+A dynamic, heterogeneous vector in C.</p>
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/ctfs/the-brochure/">The Brochure - TryHackMe Write-up</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/blogs/memory-management-with-pool-allocators/">Memory management with Pool Allocators</a></li>
+</ul>
+
+		</heading-anchors>
+	</main>
+
+		<footer>
+			<ul class="footer-socials">
+				<li><a href="https://github.com/syswraith/">GitHub</a></li>
+				<li><a href="https://www.youtube.com/@syswraith">YouTube</a></li>
+				<li><a href="https://x.com/syswraith">Twitter</a></li>
+				<li><a href="https://instagram.com/syswraith">Instagram</a></li>
+			</ul>
+			<p>© 2026 Syswraith</p>
+		</footer>
+
+		<!-- This page `/blogs/dynamic-and-heterogeneous-vectors-in-c/` was built on 2026-10-18T18:29:03.903Z -->
+		<script type="module" src="/blog/dist/VZzbzR9_xw.js"></script>
+		
+	</body>
+</html>

@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Watching</title>
+		<meta name="description" content="A running log of what I&#39;m watching — films, series, and the occasional documentary or podcast, with progress bars.">
+		<link rel="icon" href="/blog/blg/favicon.ico">
+		<link rel="alternate" href="/blog/feed/feed.xml" type="application/atom+xml" title="Syswraith&#39;s Holocron 🔮">
+		<link rel="alternate" href="/blog/index.xml" type="application/rss+xml" title="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:site_name" content="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:title" content="Watching">
+	<meta property="og:description" content="A running log of what I&#39;m watching — films, series, and the occasional documentary or podcast, with progress bars.">
+	
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="https://syswraith.github.io/blog/watching/">
+	<meta property="og:image" content="https://syswraith.github.io/blog/og-image.svg">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Watching">
+	<meta name="twitter:description" content="A running log of what I&#39;m watching — films, series, and the occasional documentary or podcast, with progress bars.">
+	<meta name="twitter:image" content="https://syswraith.github.io/blog/og-image.svg">
+		
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	--font-family-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* Theme colors: gruvbox material soft dark */
+:root {
+	color-scheme: dark;
+
+	--color-bg-0: #32302f;
+	--color-bg-1: #3c3836;
+	--color-bg-2: #504945;
+	--color-gray-20: #504945;
+	--color-gray-50: #a89984;
+	--color-gray-90: #ebdbb2;
+
+	--color-green: #b8bb26;
+	--color-yellow: #fabd2f;
+	--color-blue: #83a598;
+	--color-purple: #d3869b;
+	--color-aqua: #8ec07c;
+	--color-red: #fb4934;
+
+	--background-color: var(--color-bg-0);
+
+	--text-color: var(--color-gray-90);
+	--color-link: #6cc5b3;
+	--color-link-visited: #c76b99;
+	--text-color-link: var(--color-link);
+	--text-color-link-active: var(--color-yellow);
+	--text-color-link-visited: var(--color-link-visited);
+
+	--syntax-tab-size: 2;
+}
+
+::selection {
+	background: var(--color-bg-2);
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden:not(:focus):not(:active) {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img{
+  display: block;
+  max-width: 100%;
+  margin: 1.5rem auto;
+  border-radius: 5px;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+footer {
+	border-top: 1px dashed var(--color-gray-20);
+}
+
+#skip-link {
+	text-decoration: none;
+	background: var(--background-color);
+	color: var(--text-color);
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--color-gray-90);
+	border-radius: 2px;
+}
+
+/* Prevent visually-hidden skip link fom pushing content around when focused */
+#skip-link.visually-hidden:focus {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	/* Ensure it is positioned on top of everything else when it is shown */
+	z-index: 999;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	flex-grow: 1;
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-50);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	padding: 0;
+	margin: 0;
+}
+.post-tags {
+	margin: .25em 0 0;
+}
+
+
+/* Gruvbox dark soft: content details */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	line-height: 1.25;
+}
+
+/* Heading text doubles as the deeplink (no “#” glyph) */
+a.heading-link {
+	color: inherit;
+	text-decoration: none;
+}
+:is(h1, h2, h3, h4, h5, h6):hover a.heading-link {
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+h1 {
+	color: var(--color-yellow);
+	margin-bottom: 0.25em;
+}
+h2 {
+	color: var(--color-green);
+}
+h3 {
+	color: var(--color-aqua);
+}
+h4 {
+	color: var(--color-blue);
+}
+h5 {
+	color: var(--color-purple);
+}
+h6 {
+	color: var(--color-gray-50);
+}
+
+blockquote {
+	margin: 1em 0;
+	padding: 0.25em 0 0.25em 1em;
+	border-left: 0.25em solid var(--color-green);
+	color: var(--color-gray-50);
+}
+
+hr {
+	border: 0;
+	border-top: 1px dashed var(--color-gray-20);
+	margin: 1.5em 0;
+}
+
+table {
+	border-collapse: collapse;
+}
+th,
+td {
+	border: 1px solid var(--color-gray-20);
+}
+th {
+	background: var(--color-bg-1);
+	font-weight: 700;
+}
+td,
+th {
+	padding: 0.35em 0.75em;
+}
+
+pre:not([class*="language-"]) {
+	background: var(--color-bg-1);
+	color: var(--color-gray-90);
+	padding: 0.75em 1em;
+	border: 1px solid var(--color-gray-20);
+	border-radius: 2px;
+}
+
+code {
+	background: var(--color-bg-1);
+	border-radius: 2px;
+	padding: 0.1em 0.3em;
+}
+pre code {
+	background: none;
+	padding: 0;
+}
+
+a[href]:not([class]) {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	text-decoration-thickness: 1px;
+}
+
+progress {
+ accent-color: var(--color-green);
+}
+
+input[type="checkbox"] {
+ accent-color: var(--color-green);
+}
+
+/* Obsidian-style wikilinks */
+a.wikilink {
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	text-underline-offset: 2px;
+}
+.wikilink-missing {
+	color: var(--color-red);
+	text-decoration: underline dotted;
+	text-underline-offset: 2px;
+}
+
+/* Section index lists */.section-list {
+	list-style: none;
+	padding: 0;
+	margin: 1em 0;
+}
+.section-list-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.75em;
+	margin-bottom: 0.6em;
+	line-height: 1.4;
+}
+.section-list-link {
+	font-weight: 700;
+	font-size: 1.0625em; /* 17px */
+	text-underline-offset: 2px;
+}
+.section-list-item time {
+	font-size: 0.8125em;
+	color: var(--color-gray-50);
+}
+
+/* YouTube embeds */
+.youtube-embed {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	border: 0;
+	border-radius: 2px;
+}
+
+/* Footer socials */
+.footer-socials {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25em 1.25em;
+	list-style: none;
+	padding: 0;
+	margin: 0 0 0.5em;
+}
+.footer-socials a {
+	text-underline-offset: 2px;
+}
+/* gruvbox bright for Prism */
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #ebdbb2;
+	background: #3c3836;
+	text-shadow: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	tab-size: 2;
+	hyphens: none;
+}
+
+pre[class*="language-"] {
+	overflow: auto;
+	padding: 0.75em 1em;
+	margin: 0.5em 0;
+	border: 1px solid #504945;
+	border-radius: 2px;
+	line-height: 1.4;
+}
+
+:not(pre) > code[class*="language-"] {
+	padding: 0.1em 0.3em;
+	border-radius: 2px;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #928374;
+	font-style: italic;
+}
+
+.token.punctuation {
+	color: #a89984;
+}
+
+.token.namespace {
+	opacity: 0.7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #fb4934;
+}
+
+.token.boolean,
+.token.number {
+	color: #d3869b;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #b8bb26;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #fe8019;
+	background: transparent;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #fabd2f;
+}
+
+.token.function,
+.token.class-name {
+	color: #8ec07c;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #fe8019;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.entity {
+	cursor: help;
+}</style>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+		
+	</head>
+	<body>
+		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/blog/" class="home-link">Syswraith&#39;s Holocron 🔮</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/blog/">Home</a></li>
+					<li class="nav-item"><a href="/blog/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/blog/tags/">Tags</a></li>
+					<li class="nav-item"><a href="/blog/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+<main id="main">
+		<heading-anchors content="">
+			<h1 id="watching">Watching</h1>
+
+<h2 id="movies">Movies</h2>
+<ul>
+<li>(2025) TRON: Ares</li>
+<li>(2025) Nuremberg</li>
+<li>(2025) Now You See Me Now You Don't</li>
+<li>(2025) F1</li>
+<li>(2024) Turning Point: The Bomb and the Cold War</li>
+<li>(2024) The Ministry of Ungentlemanly Warfare</li>
+<li>(2024) The Lord of the Rings: The War of the Rohirrim</li>
+<li>(2024) The Fall Guy</li>
+<li>(2024) Dune: Part Two</li>
+<li>(2023) The Flash</li>
+<li>(2023) Spider-Man: Across the Spider-Verse</li>
+<li>(2023) Oppenheimer</li>
+<li>(2023) John Wick: Chapter 4</li>
+<li>(2023) Anyone But You</li>
+<li>(2023) Ant-Man and the Wasp: Quantumania</li>
+<li>(2023) A Haunting in Venice</li>
+<li>(2022) Thor: Love and Thunder</li>
+<li>(2022) The Batman</li>
+<li>(2022) Moon Knight</li>
+<li>(2022) Fantastic Beasts: The Secrets of Dumbledore</li>
+<li>(2022) Enola Holmes 2</li>
+<li>(2022) Doctor Strange in the Multiverse of Madness</li>
+<li>(2022) Death on the Nile</li>
+<li>(2022) Black Panther: Wakanda Forever</li>
+<li>(2022) Black Adam</li>
+<li>(2022) Avatar: The Way of Water</li>
+<li>(2021) Zack Snyder's Justice League</li>
+<li>(2021) WandaVision</li>
+<li>(2021) The Falcon and the Winter Soldier</li>
+<li>(2021) Spider-Man: No Way Home</li>
+<li>(2021) Shang-Chi and the Legend of the Ten Rings</li>
+<li>(2021) Loki</li>
+<li>(2021) Hawkeye</li>
+<li>(2021) Free Guy</li>
+<li>(2021) Evangelion: 3.0+1.0 Thrice Upon a Time</li>
+<li>(2021) Eternals</li>
+<li>(2021) Dune</li>
+<li>(2021) Black Widow</li>
+<li>(2020) Wonder Woman 1984</li>
+<li>(2020) The Courier</li>
+<li>(2020) Tenet</li>
+<li>(2020) Extraction</li>
+<li>(2020) Enola Holmes</li>
+<li>(2020) Birds of Prey (and the Fantabulous Emancipation of One Harley Quinn)</li>
+<li>(2020) A Quiet Place Part II</li>
+<li>(2019) Tolkien</li>
+<li>(2019) Star Wars: The Rise of Skywalker</li>
+<li>(2019) Spider-Man: Far From Home</li>
+<li>(2019) Shazam!</li>
+<li>(2019) Once Upon a Time... in Hollywood</li>
+<li>(2019) Knives Out</li>
+<li>(2019) Joker</li>
+<li>(2019) It Chapter Two</li>
+<li>(2019) Ford v Ferrari</li>
+<li>(2019) Chernobyl</li>
+<li>(2019) Captain Marvel</li>
+<li>(2019) Avengers: Endgame</li>
+<li>(2018) Spider-Man: Into the Spider-Verse</li>
+<li>(2018) Solo: A Star Wars Story</li>
+<li>(2018) Ready Player One</li>
+<li>(2018) Maze Runner: The Death Cure</li>
+<li>(2018) Little Italy</li>
+<li>(2018) First Man</li>
+<li>(2018) Fantastic Beasts: The Crimes of Grindelwald</li>
+<li>(2018) Black Panther</li>
+<li>(2018) Bird Box</li>
+<li>(2018) Avengers: Infinity War</li>
+<li>(2018) A Quiet Place</li>
+<li>(2018) Aquaman</li>
+<li>(2018) Ant-Man and the Wasp</li>
+<li>(2017) Wonder Woman</li>
+<li>(2017) Thor: Ragnarok</li>
+<li>(2017) Star Wars: The Last Jedi</li>
+<li>(2017) Spider-Man: Homecoming</li>
+<li>(2017) Murder on the Orient Express</li>
+<li>(2017) King Arthur: Legend of the Sword</li>
+<li>(2017) Justice League</li>
+<li>(2017) John Wick: Chapter 2</li>
+<li>(2017) It</li>
+<li>(2017) Guardians of the Galaxy Vol. 2</li>
+<li>(2017) Dunkirk</li>
+<li>(2017) Blade Runner 2049</li>
+<li>(2016) The Nice Guys</li>
+<li>(2016) Suicide Squad</li>
+<li>(2016) Snowden</li>
+<li>(2016) Rogue One: A Star Wars Story</li>
+<li>(2016) Now You See Me 2</li>
+<li>(2016) La La Land</li>
+<li>(2016) Hacksaw Ridge</li>
+<li>(2016) Fantastic Beasts and Where to Find Them</li>
+<li>(2016) Doctor Strange</li>
+<li>(2016) Batman v Superman: Dawn of Justice</li>
+<li>(2016) Batman: Bad Blood</li>
+<li>(2016) Batman: Bad Blood</li>
+<li>(2016) Arrival</li>
+<li>(2015) The Man from U.N.C.L.E.</li>
+<li>(2015) The Hunger Games: Mockingjay – Part 2</li>
+<li>(2015) Star Wars: The Force Awakens</li>
+<li>(2015) Minimalism: A Documentary About the Important Things</li>
+<li>(2015) Maze Runner: The Scorch Trials</li>
+<li>(2015) Justice League: Throne of Atlantis</li>
+<li>(2015) Justice League: Throne of Atlantis</li>
+<li>(2015) Batman vs. Robin</li>
+<li>(2015) Batman vs. Robin</li>
+<li>(2015) Avengers: Age of Ultron</li>
+<li>(2015) Ant-Man</li>
+<li>(2014) The Maze Runner</li>
+<li>(2014) The Imitation Game</li>
+<li>(2014) The Hobbit: The Battle of the Five Armies</li>
+<li>(2014) Son of Batman</li>
+<li>(2014) Son of Batman</li>
+<li>(2014) Justice League: War</li>
+<li>(2014) Justice League: War</li>
+<li>(2014) John Wick</li>
+<li>(2014) Interstellar</li>
+<li>(2014) Guardians of the Galaxy</li>
+<li>(2014) Fury</li>
+<li>(2014) Citizenfour</li>
+<li>(2014) Captain America: The Winter Soldier</li>
+<li>(2013) World War Z</li>
+<li>(2013) We Steal Secrets: The Story of WikiLeaks</li>
+<li>(2013) TPB AFK: The Pirate Bay - Away from Keyboard</li>
+<li>(2013) Thor: The Dark World</li>
+<li>(2013) The Hunger Games: Catching Fire</li>
+<li>(2013) The Hobbit: The Desolation of Smaug</li>
+<li>(2013) Now You See Me</li>
+<li>(2013) Man of Steel</li>
+<li>(2013) Justice League: The Flashpoint Paradox</li>
+<li>(2013) Justice League: The Flashpoint Paradox</li>
+<li>(2013) Iron Man 3</li>
+<li>(2012) Wrath of the Titans</li>
+<li>(2012) We Are Legion: The Story of the Hacktivists</li>
+<li>(2012) The Perks of Being a Wallflower</li>
+<li>(2012) The Hunger Games</li>
+<li>(2012) The Hobbit: An Unexpected Journey</li>
+<li>(2012) The Dark Knight Rises</li>
+<li>(2012) The Avengers</li>
+<li>(2012) Looper</li>
+<li>(2012) Evangelion: 3.0 You Can (Not) Redo</li>
+<li>(2012) Django Unchained</li>
+<li>(2011) Thor</li>
+<li>(2011) Sherlock Holmes: A Game of Shadows</li>
+<li>(2011) Immortals</li>
+<li>(2011) Harry Potter and the Deathly Hallows: Part 2</li>
+<li>(2011) Drive</li>
+<li>(2011) Captain America: The First Avenger</li>
+<li>(2011) Batman: Year One</li>
+<li>(2010) TRON: Legacy</li>
+<li>(2010) The Social Network</li>
+<li>(2010) Tangled</li>
+<li>(2010) Iron Man 2</li>
+<li>(2010) Inception</li>
+<li>(2010) Harry Potter and the Deathly Hallows: Part 1</li>
+<li>(2010) Clash of the Titans</li>
+<li>(2009) Wonder Woman</li>
+<li>(2009) Sherlock Holmes</li>
+<li>(2009) Inglourious Basterds</li>
+<li>(2009) Harry Potter and the Half-Blood Prince</li>
+<li>(2009) Evangelion: 2.0 You Can (Not) Advance</li>
+<li>(2009) Avatar</li>
+<li>(2008) The Incredible Hulk</li>
+<li>(2008) The Dark Knight</li>
+<li>(2008) The Chronicles of Narnia: Prince Caspian</li>
+<li>(2008) Kung Fu Panda</li>
+<li>(2008) Jumper</li>
+<li>(2008) Iron Man</li>
+<li>(2008) Batman: Gotham Knight</li>
+<li>(2007) Pirates of the Caribbean: At World's End</li>
+<li>(2007) My Blueberry Nights</li>
+<li>(2007) Harry Potter and the Order of the Phoenix</li>
+<li>(2007) Evangelion: 1.0 You Are (Not) Alone</li>
+<li>(2006) Pirates of the Caribbean: Dead Man's Chest</li>
+<li>(2005) V for Vendetta</li>
+<li>(2005) The Chronicles of Narnia: The Lion, the Witch and the Wardrobe</li>
+<li>(2005) Star Wars: Episode III – Revenge of the Sith</li>
+<li>(2005) Kingdom of Heaven</li>
+<li>(2005) Harry Potter and the Goblet of Fire</li>
+<li>(2005) Batman Begins</li>
+<li>(2004) Troy</li>
+<li>(2004) The Girl Next Door</li>
+<li>(2004) Harry Potter and the Prisoner of Azkaban</li>
+<li>(2004) Alexander</li>
+<li>(2003) The Lord of the Rings: The Return of the King</li>
+<li>(2003) Pirates of the Caribbean: The Curse of the Black Pearl</li>
+<li>(2002) The Lord of the Rings: The Two Towers</li>
+<li>(2002) Star Wars: Episode II – Attack of the Clones</li>
+<li>(2002) Harry Potter and the Chamber of Secrets</li>
+<li>(2002) 28 Days Later</li>
+<li>(2001) The Lord of the Rings: The Fellowship of the Ring</li>
+<li>(2001) Revolution OS</li>
+<li>(2001) Harry Potter and the Philosopher's Stone</li>
+<li>(2001) Cowboy Bebop: The Movie</li>
+<li>(2000) Vampire Hunter D: Bloodlust</li>
+<li>(2000) American Psycho</li>
+<li>(1999) Star Wars: Episode I – The Phantom Menace</li>
+<li>(1999) Fight Club</li>
+<li>(1999) 10 Things I Hate About You</li>
+<li>(1997) Neon Genesis Evangelion: The End of Evangelion</li>
+<li>(1997) Anastasia</li>
+<li>(1995) Se7en</li>
+<li>(1995) Neon Genesis Evangelion</li>
+<li>(1995) Hackers</li>
+<li>(1994) The Shawshank Redemption</li>
+<li>(1994) Pulp Fiction</li>
+<li>(1990) The Godfather Part III</li>
+<li>(1990) Pump Up the Volume</li>
+<li>(1989) Dead Poets Society</li>
+<li>(1988) Akira</li>
+<li>(1985) Vampire Hunter D</li>
+<li>(1983) WarGames</li>
+<li>(1983) Return of the Jedi</li>
+<li>(1982) Tron</li>
+<li>(1982) Blade Runner</li>
+<li>(1980) The Empire Strikes Back</li>
+<li>(1980) Return to the 36th Chamber</li>
+<li>(1978) The 36th Chamber of Shaolin</li>
+<li>(1977) Star Wars</li>
+<li>(1974) The Godfather Part II</li>
+<li>(1972) The Godfather</li>
+<li>(1968) 2001: A Space Odyssey</li>
+<li>(1964) Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb</li>
+</ul>
+<hr>
+<h1 id="series">Series</h1>
+<ul>
+<li>(2013–2023) Attack on Titan</li>
+<li>(2006–2007) Death Note</li>
+<li>(1998–1999) Cowboy Bebop</li>
+<li>(2005–2008) Ben 10</li>
+<li>(2008–2010) Ben 10: Alien Force</li>
+<li>(2010–2012) Ben 10: Ultimate Alien</li>
+</ul>
+<hr>
+<h1 id="other-stuff">Other stuff</h1>
+<ul>
+<li>The World at War <progress value="7" max="26"></progress> (1973–1974)</li>
+<li><a href="https://youtu.be/efs3QRr8LWw">Joe Rogan Experience #1368 - Edward Snowden</a></li>
+<li><a href="https://youtu.be/v8ZCX0eywXw">Joe Rogan Experience #1158 - Chuck Palahniuk</a></li>
+<li><a href="https://youtu.be/5XP-DQW_1gI">Joe Rogan Experience #919 - Neil deGrasse Tyson</a></li>
+<li><a href="https://youtu.be/vGc4mg5pul4">Joe Rogan Experience #1159 - Neil deGrasse Tyson</a></li>
+<li>Darknet Diaries <progress value="54" max="157"></progress> (2017–present)</li>
+</ul>
+
+
+		</heading-anchors>
+	</main>
+
+		<footer>
+			<ul class="footer-socials">
+				<li><a href="https://github.com/syswraith/">GitHub</a></li>
+				<li><a href="https://www.youtube.com/@syswraith">YouTube</a></li>
+				<li><a href="https://x.com/syswraith">Twitter</a></li>
+				<li><a href="https://instagram.com/syswraith">Instagram</a></li>
+			</ul>
+			<p>© 2026 Syswraith</p>
+		</footer>
+
+		<!-- This page `/watching/` was built on 2026-10-18T18:29:03.906Z -->
+		<script type="module" src="/blog/dist/VZzbzR9_xw.js"></script>
+		
+	</body>
+</html>

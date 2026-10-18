@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Implementing a Logo Interpreter - Part 1</title>
+		<meta name="description" content="Part 1 of building a Logo interpreter: a tokenizer, parser, AST design, and nested REPEAT handling using TypeScript and HTML5 Canvas.">
+		<link rel="icon" href="/blog/blg/favicon.ico">
+		<link rel="alternate" href="/blog/feed/feed.xml" type="application/atom+xml" title="Syswraith&#39;s Holocron 🔮">
+		<link rel="alternate" href="/blog/index.xml" type="application/rss+xml" title="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:site_name" content="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:title" content="Implementing a Logo Interpreter - Part 1">
+	<meta property="og:description" content="Part 1 of building a Logo interpreter: a tokenizer, parser, AST design, and nested REPEAT handling using TypeScript and HTML5 Canvas.">
+	
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="https://syswraith.github.io/blog/blogs/implementing-a-logo-interpreter-1/">
+	<meta property="og:image" content="https://syswraith.github.io/blog/og-image.svg">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Implementing a Logo Interpreter - Part 1">
+	<meta name="twitter:description" content="Part 1 of building a Logo interpreter: a tokenizer, parser, AST design, and nested REPEAT handling using TypeScript and HTML5 Canvas.">
+	<meta name="twitter:image" content="https://syswraith.github.io/blog/og-image.svg">
+		
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	--font-family-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* Theme colors: gruvbox material soft dark */
+:root {
+	color-scheme: dark;
+
+	--color-bg-0: #32302f;
+	--color-bg-1: #3c3836;
+	--color-bg-2: #504945;
+	--color-gray-20: #504945;
+	--color-gray-50: #a89984;
+	--color-gray-90: #ebdbb2;
+
+	--color-green: #b8bb26;
+	--color-yellow: #fabd2f;
+	--color-blue: #83a598;
+	--color-purple: #d3869b;
+	--color-aqua: #8ec07c;
+	--color-red: #fb4934;
+
+	--background-color: var(--color-bg-0);
+
+	--text-color: var(--color-gray-90);
+	--color-link: #6cc5b3;
+	--color-link-visited: #c76b99;
+	--text-color-link: var(--color-link);
+	--text-color-link-active: var(--color-yellow);
+	--text-color-link-visited: var(--color-link-visited);
+
+	--syntax-tab-size: 2;
+}
+
+::selection {
+	background: var(--color-bg-2);
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden:not(:focus):not(:active) {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img{
+  display: block;
+  max-width: 100%;
+  margin: 1.5rem auto;
+  border-radius: 5px;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+footer {
+	border-top: 1px dashed var(--color-gray-20);
+}
+
+#skip-link {
+	text-decoration: none;
+	background: var(--background-color);
+	color: var(--text-color);
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--color-gray-90);
+	border-radius: 2px;
+}
+
+/* Prevent visually-hidden skip link fom pushing content around when focused */
+#skip-link.visually-hidden:focus {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	/* Ensure it is positioned on top of everything else when it is shown */
+	z-index: 999;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	flex-grow: 1;
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-50);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	padding: 0;
+	margin: 0;
+}
+.post-tags {
+	margin: .25em 0 0;
+}
+
+
+/* Gruvbox dark soft: content details */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	line-height: 1.25;
+}
+
+/* Heading text doubles as the deeplink (no “#” glyph) */
+a.heading-link {
+	color: inherit;
+	text-decoration: none;
+}
+:is(h1, h2, h3, h4, h5, h6):hover a.heading-link {
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+h1 {
+	color: var(--color-yellow);
+	margin-bottom: 0.25em;
+}
+h2 {
+	color: var(--color-green);
+}
+h3 {
+	color: var(--color-aqua);
+}
+h4 {
+	color: var(--color-blue);
+}
+h5 {
+	color: var(--color-purple);
+}
+h6 {
+	color: var(--color-gray-50);
+}
+
+blockquote {
+	margin: 1em 0;
+	padding: 0.25em 0 0.25em 1em;
+	border-left: 0.25em solid var(--color-green);
+	color: var(--color-gray-50);
+}
+
+hr {
+	border: 0;
+	border-top: 1px dashed var(--color-gray-20);
+	margin: 1.5em 0;
+}
+
+table {
+	border-collapse: collapse;
+}
+th,
+td {
+	border: 1px solid var(--color-gray-20);
+}
+th {
+	background: var(--color-bg-1);
+	font-weight: 700;
+}
+td,
+th {
+	padding: 0.35em 0.75em;
+}
+
+pre:not([class*="language-"]) {
+	background: var(--color-bg-1);
+	color: var(--color-gray-90);
+	padding: 0.75em 1em;
+	border: 1px solid var(--color-gray-20);
+	border-radius: 2px;
+}
+
+code {
+	background: var(--color-bg-1);
+	border-radius: 2px;
+	padding: 0.1em 0.3em;
+}
+pre code {
+	background: none;
+	padding: 0;
+}
+
+a[href]:not([class]) {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	text-decoration-thickness: 1px;
+}
+
+progress {
+ accent-color: var(--color-green);
+}
+
+input[type="checkbox"] {
+ accent-color: var(--color-green);
+}
+
+/* Obsidian-style wikilinks */
+a.wikilink {
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	text-underline-offset: 2px;
+}
+.wikilink-missing {
+	color: var(--color-red);
+	text-decoration: underline dotted;
+	text-underline-offset: 2px;
+}
+
+/* Section index lists */.section-list {
+	list-style: none;
+	padding: 0;
+	margin: 1em 0;
+}
+.section-list-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.75em;
+	margin-bottom: 0.6em;
+	line-height: 1.4;
+}
+.section-list-link {
+	font-weight: 700;
+	font-size: 1.0625em; /* 17px */
+	text-underline-offset: 2px;
+}
+.section-list-item time {
+	font-size: 0.8125em;
+	color: var(--color-gray-50);
+}
+
+/* YouTube embeds */
+.youtube-embed {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	border: 0;
+	border-radius: 2px;
+}
+
+/* Footer socials */
+.footer-socials {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25em 1.25em;
+	list-style: none;
+	padding: 0;
+	margin: 0 0 0.5em;
+}
+.footer-socials a {
+	text-underline-offset: 2px;
+}
+/* gruvbox bright for Prism */
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #ebdbb2;
+	background: #3c3836;
+	text-shadow: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	tab-size: 2;
+	hyphens: none;
+}
+
+pre[class*="language-"] {
+	overflow: auto;
+	padding: 0.75em 1em;
+	margin: 0.5em 0;
+	border: 1px solid #504945;
+	border-radius: 2px;
+	line-height: 1.4;
+}
+
+:not(pre) > code[class*="language-"] {
+	padding: 0.1em 0.3em;
+	border-radius: 2px;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #928374;
+	font-style: italic;
+}
+
+.token.punctuation {
+	color: #a89984;
+}
+
+.token.namespace {
+	opacity: 0.7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #fb4934;
+}
+
+.token.boolean,
+.token.number {
+	color: #d3869b;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #b8bb26;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #fe8019;
+	background: transparent;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #fabd2f;
+}
+
+.token.function,
+.token.class-name {
+	color: #8ec07c;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #fe8019;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.entity {
+	cursor: help;
+}</style>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+		
+	</head>
+	<body>
+		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/blog/" class="home-link">Syswraith&#39;s Holocron 🔮</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/blog/">Home</a></li>
+					<li class="nav-item"><a href="/blog/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/blog/tags/">Tags</a></li>
+					<li class="nav-item"><a href="/blog/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+<main id="main">
+		<heading-anchors content="">
+			<h1 id="implementing-a-logo-interpreter-part-1">Implementing a Logo Interpreter - Part 1</h1>
+<p class="post-metadata"><time datetime="2025-12-02">02 December 2025</time></p>
+<p class="post-tags">Tags:
+	<a href="/blog/tags/typescript/" class="post-tag">typescript</a>
+	<a href="/blog/tags/logo/" class="post-tag">logo</a>
+	<a href="/blog/tags/parsing/" class="post-tag">parsing</a>
+	<a href="/blog/tags/tokenizer/" class="post-tag">tokenizer</a>
+	<a href="/blog/tags/parser/" class="post-tag">parser</a>
+	<a href="/blog/tags/abstract-syntax-tree/" class="post-tag">abstract-syntax-tree</a>
+	<a href="/blog/tags/ast/" class="post-tag">AST</a>
+	<a href="/blog/tags/compiler/" class="post-tag">compiler</a>
+	<a href="/blog/tags/interpreter/" class="post-tag">interpreter</a>
+	<a href="/blog/tags/repl/" class="post-tag">repl</a>
+</p>
+
+<p><img src="/blog/blogs/implementing-a-logo-interpreter-1/8FB5Z_xU1I-179.webp" alt="msw_logo.png" loading="lazy" decoding="async" width="179" height="181"></p>
+<p>One of my first experiences with programming was when I was in third grade, sitting in front of an old desktop, in my school's computer lab. The white triangle on the screen moved around when I typed in simple commands, leaving trails. Even with this simplicity, one would be able to draw complex shapes and beautiful patterns. As a tribute to that little guy who was initially scared of computers but then learned to love them, I'll be implementing a subset of Microsoft Logo.</p>
+<p><img src="/blog/blogs/implementing-a-logo-interpreter-1/97L5OvzgGs-600.webp" alt="logo_screen.png" loading="lazy" decoding="async" width="600" height="363"></p>
+<p>It is also high time I put aside my hate for modern web development and start building some stuff that is actually cool. My days of <a href="https://github.com/syswraith/javascript-projects/blob/main/collegedoors.js">scraping exam portals for answers</a> and <a href="https://github.com/syswraith/javascript-projects/blob/main/math_battle_telegram.js">hacking HTML5 games</a> with JavaScript are behind me (hopefully), and I will now move on to more interesting and type-safe programming languages and actually start building things.</p>
+<p>The goal of this project is to:</p>
+<ul>
+<li>Experiment with <strong>Typescript</strong></li>
+<li>Do some actual <strong>object-oriented programming</strong></li>
+<li>Mess around with <strong>HTML5 Canvas</strong></li>
+<li>Write a minimal, yet flexible <strong>tokenizer</strong> and <strong>parser</strong> without external <a href="https://en.wikipedia.org/wiki/Parsing_expression_grammar">PEG</a> libraries.</li>
+</ul>
+<blockquote>
+<p><em>We choose to go to the moon in this decade and do the other things, not because they are easy, but because they are hard!</em></p>
+</blockquote>
+<h1 id="tl-dr">TL;DR</h1>
+<p>Implemented a <strong>tokenizer</strong> and a <strong>parser</strong>. Source for both of these components:</p>
+<ul>
+<li><a href="https://github.com/syswraith/logo/blob/main/src/components/Tokenizer.ts">https://github.com/syswraith/logo/blob/main/src/components/Tokenizer.ts</a></li>
+<li><a href="https://github.com/syswraith/logo/blob/main/src/components/Parser.ts">https://github.com/syswraith/logo/blob/main/src/components/Parser.ts</a></li>
+</ul>
+<h1 id="tokenizer">Tokenizer</h1>
+<p>For those of you not familiar with the term, a tokenizer is a vital part of the compiler. Like the name suggests, a tokenizer analyzes each part of the program and converts it into a token.</p>
+<p>This will be better suited with an example. Say you have the following code in Python:</p>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Hello world!'</span><span class="token punctuation">,</span> end<span class="token operator">=</span><span class="token string">'\t'</span><span class="token punctuation">)</span></code></pre>
+<p>The tokenizer will break this line of code into the following parts:</p>
+<pre><code>print
+(
+'Hello world!'
+,
+end
+=
+'\t'
+)
+</code></pre>
+<p>By doing this, the tokenizer is converting the code into smaller bits of code, that can be checked sequentially for syntactical errors. A good example of this is when a tokenizer encounters an opening token i.e. <code>(</code> or <code>'</code> it has to see a <code>'</code> or <code>)</code>, or else you can expect an error.</p>
+<p>The tokenizer for logo was very simple to implement- just split by spaces, mostly. I went on and added split by <code>\n</code> and check for empty elements in the array. I won't go into the very gory details of the code but here's what's happening in short:</p>
+<ul>
+<li>Declare a buffer that will hold the whole string regardless of whether it has newlines or spaces.</li>
+<li>Split by <code>\n</code> and clear out the empty elements from the array.</li>
+<li>Tokenize them into strings by splitting by spaces.</li>
+<li>Convert the strings into their right types- <code>FD</code> is a string but the argument that follows it is <code>10</code> which is a number.</li>
+</ul>
+<p>We will encapsulate all of these steps as different methods, inside of a class; so we can instantiate the Tokenizer object and have access to all of them easily.</p>
+<p>Here's the source code for the <a href="https://github.com/syswraith/logo/blob/main/src/components/Tokenizer.ts">tokenizer</a>.</p>
+<h1 id="parser">Parser</h1>
+<p>A parser's job is subsequently process tokens produced by the tokenizer and arrange them in a meaningful way, so that it becomes easy for the next tool to consume and work them. For me, this was where the <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree (AST)</a> was created. Fancy tech term yes, but easily explained by an example.</p>
+<p>A script like this:</p>
+<pre><code>FD 90
+RT 90
+SOMECMD 10 10
+</code></pre>
+<p>Should be converted to something like this:</p>
+<pre class="language-json" tabindex="0"><code class="language-json"><span class="token punctuation">[</span>
+ <span class="token punctuation">[</span> <span class="token property">"FD"</span> <span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token number">90</span> <span class="token punctuation">]</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
+ <span class="token punctuation">[</span> <span class="token property">"RT"</span> <span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token number">90</span> <span class="token punctuation">]</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
+ <span class="token punctuation">[</span> <span class="token string">"SOMECMD"</span> <span class="token punctuation">]</span> <span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">10</span> <span class="token punctuation">]</span> <span class="token punctuation">]</span>
+<span class="token punctuation">]</span></code></pre>
+<p>Why I settled on this format despite its <em>torturous</em> implementation is because if a command takes multiple numeric arguments, then I can simply specify that in my command definitions instead of having to manually check the next token to see if its a command or a value (or even worse, a REPEAT block).</p>
+<pre class="language-json" tabindex="0"><code class="language-json"><span class="token punctuation">{</span> command_name<span class="token operator">:</span> <span class="token string">"FD"</span><span class="token punctuation">,</span> arguments_number<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> arguments_type<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"number"</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+<span class="token punctuation">{</span> command_name<span class="token operator">:</span> <span class="token string">"PU"</span><span class="token punctuation">,</span> arguments_number<span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> arguments_type<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+<span class="token punctuation">{</span> command_name<span class="token operator">:</span> <span class="token string">"SETPOS"</span><span class="token punctuation">,</span> arguments_number<span class="token operator">:</span> Infinity<span class="token punctuation">,</span> arguments_type<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"number"</span><span class="token punctuation">,</span> <span class="token string">"number"</span><span class="token punctuation">]</span> <span class="token punctuation">}</span></code></pre>
+<p>These are some of the command definitions. What was interesting to me is that Typescript natively supports <code>Infinity</code>, because if it didn't I'd have to rework the whole parser to support <code>SETPOS</code>.</p>
+<h2 id="repeats-and-nested-repeats">REPEATs and Nested REPEATs</h2>
+<blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">One problem I&#39;ve encountered while writing the LOGO parser is when implementing the REPEAT command. Constructing the AST is messy because you can call REPEAT inside another REPEAT. This means that I&#39;ll have to keep track of how deeply the REPEAT is nested. <a href="https://t.co/iXYEH5H1jL">pic.twitter.com/iXYEH5H1jL</a></p>&mdash; syswraith (@syswraith) <a href="https://twitter.com/syswraith/status/1978361432870690854?ref_src=twsrc%5Etfw">October 15, 2025</a></blockquote> <script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>Now this becomes a pain to implement since it doesn't fit the normal command description that I implemented above. I had to manually add an edge case that would check if the token is a <code>REPEAT</code> and if yes, then increment the depth counter. Not as simple as it sounds since there's a ton of places where I had to check for and throw errors, and a recursive function call that almost gave me cancer while implementing. Below is how it works on the surface.</p>
+<blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">It has to keep track of<br>n : the number of times the block has to be repeated <br>&#39;[&#39; : increment depth count if it sees that<br>&#39;]&#39; : decrement depth count if it sees that<br>&#39;cmd n cmd2 n n&#39;: all the commands in the middle of those two brackets should be valid</p>&mdash; syswraith (@syswraith) <a href="https://twitter.com/syswraith/status/1979180233778405660?ref_src=twsrc%5Etfw">October 17, 2025</a></blockquote> <script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>The actual implementation has comments which go into much deeper detail. Check out the <a href="https://github.com/syswraith/logo/blob/main/src/components/Parser.ts">source for the parser</a> if you want to understand how it works.</p>
+<p>Part 2 is available here <a href="/blog/blogs/implementing-a-logo-interpreter-2/" class="wikilink">Implementing a Logo Interpreter 2</a>.</p>
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/life-updates/life-update-28102025/">Life Update 28102025</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/blogs/implementing-a-logo-interpreter-2/">Implementing a Logo Interpreter — Part 2</a></li>
+</ul>
+
+		</heading-anchors>
+	</main>
+
+		<footer>
+			<ul class="footer-socials">
+				<li><a href="https://github.com/syswraith/">GitHub</a></li>
+				<li><a href="https://www.youtube.com/@syswraith">YouTube</a></li>
+				<li><a href="https://x.com/syswraith">Twitter</a></li>
+				<li><a href="https://instagram.com/syswraith">Instagram</a></li>
+			</ul>
+			<p>© 2026 Syswraith</p>
+		</footer>
+
+		<!-- This page `/blogs/implementing-a-logo-interpreter-1/` was built on 2026-10-18T18:29:03.903Z -->
+		<script type="module" src="/blog/dist/VZzbzR9_xw.js"></script>
+		
+	</body>
+</html>

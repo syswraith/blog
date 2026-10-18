@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Simplified alerts — Using Deepseek-r1 to summarize chats</title>
+		<meta name="description" content="Building a WhatsApp chat summariser using Deepseek-r1, Ollama, and whatsapp-web.js to generate concise, notification-friendly summaries.">
+		<link rel="icon" href="/blog/blg/favicon.ico">
+		<link rel="alternate" href="/blog/feed/feed.xml" type="application/atom+xml" title="Syswraith&#39;s Holocron 🔮">
+		<link rel="alternate" href="/blog/index.xml" type="application/rss+xml" title="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:site_name" content="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:title" content="Simplified alerts — Using Deepseek-r1 to summarize chats">
+	<meta property="og:description" content="Building a WhatsApp chat summariser using Deepseek-r1, Ollama, and whatsapp-web.js to generate concise, notification-friendly summaries.">
+	
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="https://syswraith.github.io/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/">
+	<meta property="og:image" content="https://syswraith.github.io/blog/og-image.svg">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Simplified alerts — Using Deepseek-r1 to summarize chats">
+	<meta name="twitter:description" content="Building a WhatsApp chat summariser using Deepseek-r1, Ollama, and whatsapp-web.js to generate concise, notification-friendly summaries.">
+	<meta name="twitter:image" content="https://syswraith.github.io/blog/og-image.svg">
+		
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	--font-family-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* Theme colors: gruvbox material soft dark */
+:root {
+	color-scheme: dark;
+
+	--color-bg-0: #32302f;
+	--color-bg-1: #3c3836;
+	--color-bg-2: #504945;
+	--color-gray-20: #504945;
+	--color-gray-50: #a89984;
+	--color-gray-90: #ebdbb2;
+
+	--color-green: #b8bb26;
+	--color-yellow: #fabd2f;
+	--color-blue: #83a598;
+	--color-purple: #d3869b;
+	--color-aqua: #8ec07c;
+	--color-red: #fb4934;
+
+	--background-color: var(--color-bg-0);
+
+	--text-color: var(--color-gray-90);
+	--color-link: #6cc5b3;
+	--color-link-visited: #c76b99;
+	--text-color-link: var(--color-link);
+	--text-color-link-active: var(--color-yellow);
+	--text-color-link-visited: var(--color-link-visited);
+
+	--syntax-tab-size: 2;
+}
+
+::selection {
+	background: var(--color-bg-2);
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden:not(:focus):not(:active) {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img{
+  display: block;
+  max-width: 100%;
+  margin: 1.5rem auto;
+  border-radius: 5px;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+footer {
+	border-top: 1px dashed var(--color-gray-20);
+}
+
+#skip-link {
+	text-decoration: none;
+	background: var(--background-color);
+	color: var(--text-color);
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--color-gray-90);
+	border-radius: 2px;
+}
+
+/* Prevent visually-hidden skip link fom pushing content around when focused */
+#skip-link.visually-hidden:focus {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	/* Ensure it is positioned on top of everything else when it is shown */
+	z-index: 999;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	flex-grow: 1;
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-50);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	padding: 0;
+	margin: 0;
+}
+.post-tags {
+	margin: .25em 0 0;
+}
+
+
+/* Gruvbox dark soft: content details */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	line-height: 1.25;
+}
+
+/* Heading text doubles as the deeplink (no “#” glyph) */
+a.heading-link {
+	color: inherit;
+	text-decoration: none;
+}
+:is(h1, h2, h3, h4, h5, h6):hover a.heading-link {
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+h1 {
+	color: var(--color-yellow);
+	margin-bottom: 0.25em;
+}
+h2 {
+	color: var(--color-green);
+}
+h3 {
+	color: var(--color-aqua);
+}
+h4 {
+	color: var(--color-blue);
+}
+h5 {
+	color: var(--color-purple);
+}
+h6 {
+	color: var(--color-gray-50);
+}
+
+blockquote {
+	margin: 1em 0;
+	padding: 0.25em 0 0.25em 1em;
+	border-left: 0.25em solid var(--color-green);
+	color: var(--color-gray-50);
+}
+
+hr {
+	border: 0;
+	border-top: 1px dashed var(--color-gray-20);
+	margin: 1.5em 0;
+}
+
+table {
+	border-collapse: collapse;
+}
+th,
+td {
+	border: 1px solid var(--color-gray-20);
+}
+th {
+	background: var(--color-bg-1);
+	font-weight: 700;
+}
+td,
+th {
+	padding: 0.35em 0.75em;
+}
+
+pre:not([class*="language-"]) {
+	background: var(--color-bg-1);
+	color: var(--color-gray-90);
+	padding: 0.75em 1em;
+	border: 1px solid var(--color-gray-20);
+	border-radius: 2px;
+}
+
+code {
+	background: var(--color-bg-1);
+	border-radius: 2px;
+	padding: 0.1em 0.3em;
+}
+pre code {
+	background: none;
+	padding: 0;
+}
+
+a[href]:not([class]) {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	text-decoration-thickness: 1px;
+}
+
+progress {
+ accent-color: var(--color-green);
+}
+
+input[type="checkbox"] {
+ accent-color: var(--color-green);
+}
+
+/* Obsidian-style wikilinks */
+a.wikilink {
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	text-underline-offset: 2px;
+}
+.wikilink-missing {
+	color: var(--color-red);
+	text-decoration: underline dotted;
+	text-underline-offset: 2px;
+}
+
+/* Section index lists */.section-list {
+	list-style: none;
+	padding: 0;
+	margin: 1em 0;
+}
+.section-list-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.75em;
+	margin-bottom: 0.6em;
+	line-height: 1.4;
+}
+.section-list-link {
+	font-weight: 700;
+	font-size: 1.0625em; /* 17px */
+	text-underline-offset: 2px;
+}
+.section-list-item time {
+	font-size: 0.8125em;
+	color: var(--color-gray-50);
+}
+
+/* YouTube embeds */
+.youtube-embed {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	border: 0;
+	border-radius: 2px;
+}
+
+/* Footer socials */
+.footer-socials {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25em 1.25em;
+	list-style: none;
+	padding: 0;
+	margin: 0 0 0.5em;
+}
+.footer-socials a {
+	text-underline-offset: 2px;
+}
+/* gruvbox bright for Prism */
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #ebdbb2;
+	background: #3c3836;
+	text-shadow: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	tab-size: 2;
+	hyphens: none;
+}
+
+pre[class*="language-"] {
+	overflow: auto;
+	padding: 0.75em 1em;
+	margin: 0.5em 0;
+	border: 1px solid #504945;
+	border-radius: 2px;
+	line-height: 1.4;
+}
+
+:not(pre) > code[class*="language-"] {
+	padding: 0.1em 0.3em;
+	border-radius: 2px;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #928374;
+	font-style: italic;
+}
+
+.token.punctuation {
+	color: #a89984;
+}
+
+.token.namespace {
+	opacity: 0.7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #fb4934;
+}
+
+.token.boolean,
+.token.number {
+	color: #d3869b;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #b8bb26;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #fe8019;
+	background: transparent;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #fabd2f;
+}
+
+.token.function,
+.token.class-name {
+	color: #8ec07c;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #fe8019;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.entity {
+	cursor: help;
+}</style>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+		
+	</head>
+	<body>
+		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/blog/" class="home-link">Syswraith&#39;s Holocron 🔮</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/blog/">Home</a></li>
+					<li class="nav-item"><a href="/blog/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/blog/tags/">Tags</a></li>
+					<li class="nav-item"><a href="/blog/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+<main id="main">
+		<heading-anchors content="">
+			<h1 id="simplified-alerts-using-deepseek-r1-to-summarize-chats">Simplified alerts — Using Deepseek-r1 to summarize chats</h1>
+<p class="post-metadata"><time datetime="2025-02-09">09 February 2025</time></p>
+<p class="post-tags">Tags:
+	<a href="/blog/tags/llm/" class="post-tag">llm</a>
+	<a href="/blog/tags/deepseek/" class="post-tag">deepseek</a>
+	<a href="/blog/tags/ollama/" class="post-tag">ollama</a>
+	<a href="/blog/tags/whatsapp/" class="post-tag">whatsapp</a>
+	<a href="/blog/tags/notifications/" class="post-tag">notifications</a>
+	<a href="/blog/tags/javascript/" class="post-tag">javascript</a>
+	<a href="/blog/tags/ai/" class="post-tag">ai</a>
+	<a href="/blog/tags/automation/" class="post-tag">automation</a>
+</p>
+
+<p><img src="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/FfsVJBc815-640.webp" alt="thumbnail.png" loading="lazy" decoding="async" width="960" height="540" srcset="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/FfsVJBc815-640.webp 640w, /blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/FfsVJBc815-960.webp 960w" sizes="auto"></p>
+<p>I'm going to be honest. I don't like JavaScript. Not one bit. <em>It's coarse and rough and irritating and it gets everywhere.</em> It was my first programming language, and my language of choice for web-scraping and other automation tasks for a long time. I came to realize the pros and cons of utilizing it in my workflow, and decided that it no longer aligned with the goals I had in mind. That's why I shifted towards more zen-like languages like Python and C.</p>
+<p>But for this particular project, I needed to interact with WhatsApp services, and I needed a quick and easy way that did not cost me money. I surveyed a few libraries and found <a href="https://github.com/pedroslopez/whatsapp-web.js">whatsapp-web.js by pedroslopez</a> to be the most feature-complete library which checked all of my prerequisites. So this project is done purely in JavaScript.</p>
+<p>That being said, there are a variety of topics this particular blog post is going to cover.
+So naturally, it's going to be a long one :)</p>
+<h1 id="the-idea">The Idea</h1>
+<p>Apple's latest iOS 18.3 update introduced Apple Intelligence, bringing long-awaited AI integration to the ecosystem. I don't use, nor encourage using Apple devices to anyone but creators, but what caught my attention were the funny tweets on X/Twitter that ultimately made Apple rollback their newly-released AI features. One of those features was a notification summariser that used AI. Here are some examples for your entertainment:</p>
+<p><img src="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/gkKId_fSeC-640.webp" alt="hiking.png" loading="lazy" decoding="async" width="1180" height="608" srcset="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/gkKId_fSeC-640.webp 640w, /blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/gkKId_fSeC-1180.webp 1180w" sizes="auto">
+<img src="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/BXqhCydfV3-640.webp" alt="pregwife.png" loading="lazy" decoding="async" width="1044" height="502" srcset="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/BXqhCydfV3-640.webp 640w, /blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/BXqhCydfV3-1044.webp 1044w" sizes="auto">
+<img src="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/nTtLMN3sCo-640.webp" alt="divorced.png" loading="lazy" decoding="async" width="640" height="181"></p>
+<p>After seeing this fiasco play out, I wanted to implement something similar for Android. Of course, not every notification needs to be summarized (and we're not dealing with reading phone notifications <strong>at all</strong> right now); but we're going to summarize individual WhatsApp chats, since that's where I think this feature will truly shine.</p>
+<h1 id="the-model">The Model</h1>
+<p>What I can gather from these snippets is that the model being used is not able to pick up the tone of the conversation. This can be improved upon by using a chain-of-thought model, along with a custom-designed <a href="https://csrc.nist.gov/glossary/term/system_prompt">system prompt</a>. The &quot;artificial misinformation&quot; might still persevere if we take this approach, but their error margins will be reduced significantly.</p>
+<p>Here's a simple explanation of how chain-of-thought processing works:</p>
+<p><img src="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/a8OT80Rkm4-432.webp" alt="Chain-of-thought processing loop" loading="lazy" decoding="async" width="432" height="1264"></p>
+<p>Anyone who's been keeping up with the tech news is probably aware that the <a href="https://youtu.be/Nl7aCUsWykg">new kid on the block</a> has all of Silicon Valley in a frenzy and most of the US-based Fortune 500 companies panicking. It's not every day that a small Chinese AI startup pokes a <a href="https://timesofindia.indiatimes.com/technology/tech-news/the-american-company-that-lost-more-than-500-billion-to-deepseek-has-these-words-for-the-chinese-startup/articleshow/117652155.cms">billion-dollar hole</a> in the valuation of the largest <a href="https://www.bbc.com/news/articles/cp8e970vn5vo">chipmaker</a> in the world. This raised many eyebrows and invited many comments. One such is listed below.</p>
+<blockquote>
+<p><em>&quot;China’s progress in algorithmic efficiency hasn't come out of nothing. When it comes to producing outstanding performers in math and science, China's secondary education system is superior to that of the West. It fosters fierce competition among students, a principle borrowed from the highly efficient Soviet model.&quot;</em></p>
+<p>Pavel Durov, CEO of Telegram
+<a href="https://t.me/durov/394">Source</a></p>
+</blockquote>
+<p>In addition to Deepseek outperforming its competitors at the time of release, it was also licensed under the MIT license. Technically it cannot be called <em>open-source</em>, since the datasets used to train this model may or may not have been open-sourced under a license. But for all our intents and purposes, it will suffice.</p>
+<p>The model was released on Ollama, which allows independent researchers/experimentalists (like me!) to download, run and interact with it locally. Here's a demo of it running on my machine.</p>
+<p><img src="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/bi5EfwipsI-640.webp" alt="terminal.png" loading="lazy" decoding="async" width="640" height="485"></p>
+<h1 id="the-script">The Script</h1>
+<p>Now that we have <code>Deepseek-r1:7b</code> set up locally, let's get to the more interesting part. The purpose of this script is simple-</p>
+<ol>
+<li>Login to our WhatsApp account</li>
+<li>Listen for all <code>Message</code> events</li>
+<li>If one of them meets a certain criteria (or in this case, begins with a <code>!summarise</code> directive) then perform actions based on them.</li>
+</ol>
+<p><img src="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/IBSiOFMQRB-336.webp" alt="Script message-flow overview" loading="lazy" decoding="async" width="336" height="800"></p>
+<p>Let's walk through this one by one.</p>
+<h2 id="authentication">Authentication</h2>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">import</span> pkg <span class="token keyword">from</span> <span class="token string">"whatsapp-web.js"</span>
+<span class="token keyword">import</span> qrcode <span class="token keyword">from</span> <span class="token string">"qrcode-terminal"</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">{</span> Client<span class="token punctuation">,</span> LocalAuth <span class="token punctuation">}</span> <span class="token operator">=</span> pkg
+
+<span class="token keyword">const</span> client <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Client</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token literal-property property">authStrategy</span><span class="token operator">:</span> <span class="token keyword">new</span> <span class="token class-name">LocalAuth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+client<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"ready"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"[STATUS] WhatsApp client is ready"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+client<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"qr"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">qr</span><span class="token punctuation">)</span> <span class="token operator">=></span> qrcode<span class="token punctuation">.</span><span class="token function">generate</span><span class="token punctuation">(</span>qr<span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token literal-property property">small</span><span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+client<span class="token punctuation">.</span><span class="token function">initialize</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>I'm using the <code>LocalAuth</code> strategy but feel free to use the others. This handles the authentication part. Remember to give the script some time to save your session locally (as this is something that takes time and cannot be checked)</p>
+<h2 id="listening-for-messages">Listening for messages</h2>
+<p>Suppose we get a command <code>!summarise 10</code>, then the script should fetch the last 10 messages. Similarly <code>!summarise 20</code> will fetch the last 20, and so on.</p>
+<p>When we fetch these messages, a <code>Message</code> object is returned. We extract useful information from it and concatenate it in a single line. We then add this line to an array and then stitch the array together with <code>\n</code>.</p>
+<p><strong>Note:</strong>
+The <code>pop()</code> method is called to remove the last message (which now is the <code>!summarise</code> command).</p>
+<pre class="language-js" tabindex="0"><code class="language-js">client<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'message_create'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">msg</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>msg<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"!summarise"</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> msg<span class="token punctuation">.</span>fromMe<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> message_collection <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> number_of_messages <span class="token operator">=</span> msg<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> chat <span class="token operator">=</span> <span class="token keyword">await</span> msg<span class="token punctuation">.</span><span class="token function">getChat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> asc_messages <span class="token operator">=</span> <span class="token keyword">await</span> chat<span class="token punctuation">.</span><span class="token function">fetchMessages</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">limit</span><span class="token operator">:</span> number_of_messages <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// Use a for ... of loop instead of forEach</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> message <span class="token keyword">of</span> asc_messages<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">let</span> contact <span class="token operator">=</span> <span class="token keyword">await</span> message<span class="token punctuation">.</span><span class="token function">getContact</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">let</span> contact_name <span class="token operator">=</span> contact<span class="token punctuation">.</span>name<span class="token punctuation">;</span>
+            message_collection<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>message<span class="token punctuation">.</span>author<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> aka </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>contact_name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> : </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>message<span class="token punctuation">.</span>body<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+ message_collection<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message_collection<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"[STATUS] Messages fetched and recorded"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h2 id="forwarding-messages-to-ai">Forwarding messages to AI</h2>
+<p>We have all the messages now. We just need to send it off to the <em>Deepseek-r1</em> model. Here, we will be using a wrapper around the Ollama API.</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">import</span> ollama <span class="token keyword">from</span> <span class="token string">"ollama"</span>
+
+<span class="token keyword">import</span> <span class="token punctuation">{</span> readFile <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"fs/promises"</span>
+
+<span class="token keyword">const</span> systemPrompt <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">readFile</span><span class="token punctuation">(</span><span class="token string">"./system_prompt.txt"</span><span class="token punctuation">,</span> <span class="token string">"utf-8"</span><span class="token punctuation">)</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"[STATUS] Sending messages to AI..."</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> ai_response <span class="token operator">=</span> <span class="token keyword">await</span> ollama<span class="token punctuation">.</span><span class="token function">generate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token literal-property property">model</span><span class="token operator">:</span> <span class="token string">"deepseek-r1"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">system</span><span class="token operator">:</span> systemPrompt<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">prompt</span><span class="token operator">:</span> message_collection<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>This code is pretty straightforward, but there is one thing that needs to be pointed out. At this point, we are going to need certain guidelines that will tell the model what kind of output we're expecting. We don't want it going on forever and ever, and we won't get good-quality results if we just say <em>&quot;Summarise this thing in 3 lines!&quot;</em>.</p>
+<p>So we will use a <a href="https://csrc.nist.gov/glossary/term/system_prompt">system prompt</a> to direct how the response will be generated.</p>
+<p>Writing this was a bit tricky because keeping the summary limited to a few lines and asking it NOT to output Markdown (like it's used to) is a bit difficult. I took inspiration from many of the patterns listed in <a href="https://github.com/danielmiessler/Fabric">Daniel Meissler's Fabric Framework</a>. Go check those out, they're really good prompts!</p>
+<pre class="language-system_prompt.txt" tabindex="0"><code class="language-system_prompt.txt"># IDENTITY and PURPOSE
+
+You are an expert AI who specialises at analysing complex debates, conversations, discussions and other forms of communication, and providing a concise one short paragraph summary of what's important.
+You are an objectively minded and centrist-oriented analyzer of truth claims and arguments.
+You specialize in analyzing and rating the truth claims made in the input, providing both evidence in support of those claims, as well as counter-arguments and counter-evidence that are relevant to those claims.
+As an organized, high-skill expert summariser, your role is to extract the most relevant topics from a conversation transcript and provide a structured summary.
+You take content in and output a phone notification-like summary. The purpose is to provide a concise and balanced view of the claims made in a given piece of input so that one can see the whole picture, using the format below.
+
+
+# GOAL
+
+To give a wholistic, unbiased view of the conversation that characterizes its overall purpose and goals.
+To provide a super concise summary of where the participants are disagreeing, what arguments they're making, and what evidence each would accept to change their mind.
+To provide all of the information in a strictly minimal notification format. Every character, space and punctuation that can be eliminated should be eliminated.
+
+Whatever summary you have made, you will:
+Read it 39 times as a user who is
+1. who is unaware of the conversation
+2. who is currently witnessing the conversation
+3. who is currently active in the conversation
+
+Spend 319 hours doing multiple read-throughs from various social, emotional, and alternative conversation-tone perspectives.
+Take a deep breath and think step by step about how to best accomplish this goal using the following steps.
+
+
+# How to summarise
+
+According to discussions on Reddit, the key techniques for summarizing information into a short paragraph include: identifying the main points, using keywords, paraphrasing, focusing on the most important details, omitting unnecessary information, and structuring your summary with a clear beginning, middle, and end; essentially, capturing the essence of the source material while keeping it concise.
+
+
+# OUTPUT CHECKS
+
+If you feel that some of these points do not add value to the context, remove them completely.
+Remember, the most MINIMAL notification is the BEST notification.
+Imagine yourself as a user reading this text. Is it something that you will find easy to read and digest? If yes, proceed. If not, try again.
+Keep each sentence very short. Bare-minimum. Give each a rating out of 1 to 3 on the scale of importance, 1 being very important and 3 being least important.
+Avoid using adjectives and do not start your sentences with "the conversation centers on", "the key takeaway is", and similar sounding sentences.
+
+FOR EXAMPLE
+
+Conversation context: Pros and cons of CJS and ESM
+Your response: One user prefers CJS for its widespread use while other advocates for ESM's modern features but acknowledges drawbacks.
+Preffered response: One user prefers CJS for widespread use, other prefers ESM but acknowledges drawbacks.
+
+Conversation context: Mom joking about how her long hike almost killed her.
+Your response: Attempted self-harm (this is not what's happened).
+Preffered response: Mom talking about her long hike.
+
+
+# OUTPUT INSTRUCTIONS
+
+Create the output using plain-text formatting.
+Output plain text.
+DO NOT use Markdown or similar syntax, only use linebreaks.
+DO NOT repeat items in the output sections.
+DO NOT start items with the same opening words.
+DO NOT output more than 3 sentences in the response.
+DO NOT use "*" or bullet-like marks.
+
+Your output is now a single sentence complete with all the information that is needed by the reader.
+
+
+# INPUT:
+
+INPUT:</code></pre>
+<h2 id="sending-notification">Sending notification</h2>
+<p>We use <a href="https://github.com/binwiederhier/ntfy">binwiederhier's ntfy.sh</a> pub-sub notification service to send notifications to our phone. All we need to do is perform a <code>POST</code> request to the endpoint (in this case <code>feychat</code>) and subscribe to it from our phone to receive notifications. We'll use <code>axios</code> over node-native POST. This is done purely for simplicity.</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token keyword">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> axios<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">"https://ntfy.sh/feychat"</span><span class="token punctuation">,</span> notif_content<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">headers</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token literal-property property">Title</span><span class="token operator">:</span> <span class="token string">"WhatsApp summary"</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">Priority</span><span class="token operator">:</span> <span class="token string">"high"</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"[STATUS] Notification sent: "</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span>data<span class="token punctuation">.</span>message<span class="token punctuation">)</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"[STATUS] Error sending notification: "</span><span class="token punctuation">,</span> error<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>And that's about it!</p>
+<h1 id="results">Results</h1>
+<p>In my testing, I can encounter mainly two types of conversations:</p>
+<ol>
+<li>Fact-rich conversations</li>
+<li>Emotion-heavy conversations
+(My friends advised me against including this conversation because it isn't <em>suited</em> for a blog-post, but I think its one of the best things I could have picked to test the capabilities of Deepseek!)
+Below are the examples of both of them, and their results. They're not real conversations (obviously) but rather simulated with regards to being as real as possible.</li>
+</ol>
+<h2 id="1-fact-rich-conversation">1. Fact-rich conversation</h2>
+<p><img src="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/3ivA08EP6z-640.webp" alt="cjs-vs-es6-chat.png" loading="lazy" decoding="async" width="905" height="4160" srcset="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/3ivA08EP6z-640.webp 640w, /blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/3ivA08EP6z-905.webp 905w" sizes="auto">
+<img src="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/Qvs3b4ZyP7-540.webp" alt="cjs-vs-es6-notif.png" loading="lazy" decoding="async" width="540" height="1230"></p>
+<h2 id="2-emotion-heavy-conversation">2. Emotion-heavy conversation</h2>
+<p><img src="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/rdJYqvWEot-640.webp" alt="bsf-chat.png" loading="lazy" decoding="async" width="640" height="1256">
+<img src="/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/LVGxMwzdFU-540.webp" alt="bsf-notif.png" loading="lazy" decoding="async" width="540" height="1230"></p>
+<h1 id="parting-thoughts">Parting thoughts</h1>
+<ul>
+<li>The <em><strong>system prompt</strong></em> needs to be improved. It's the only thing that can manipulate the output of the notification in a way that is well-suited for a short notification.</li>
+<li>The notification cannot be a single line. It needs to be big enough (but not too big!) to summarize the conversation in a way that might carry meaning.</li>
+<li>More testing on a wide variety of conversational tones- including sarcastic, ironic, satirical, assertive, and pessimistic- is needed. This will help to fine-tune the system prompt and improve the output notification.</li>
+</ul>
+<h3 id="things-to-keep-in-mind">Things to keep in mind</h3>
+<ul>
+<li>Running LLMs locally require a <strong>powerful</strong> GPU. The one that I have used in this project is a relatively low-powered and cheap one.</li>
+<li>The LLM model used here is a 7 billion parameter model.</li>
+</ul>
+<pre><code>Higher the parameter count
+= More factors controlling the LLM
+= Richer responses and results
+</code></pre>
+<ul>
+<li>A powerful GPU is able to run greater parameter models with speed and efficiency. However this is not something I have at disposal.</li>
+</ul>
+<h3 id="hardware-specifications">Hardware Specifications</h3>
+<ul>
+<li>Active internet connection with no funny DNS rules set.</li>
+<li>A computer running GNU/Linux-based operating system.</li>
+<li>Nvidia RTX 4050 minimum.</li>
+</ul>
+<h3 id="tools-used-in-this-project">Tools used in this project</h3>
+<ul>
+<li><a href="https://ollama.com/">Ollama</a> = An open-tool that facilitates testing of LLMs locally</li>
+<li><a href="https://www.deepseek.com/">Deepseek-r1:7b</a> = A modern chain-of-thought, open-source LLM model that's threatening US-based AI companies.</li>
+<li><a href="https://ntfy.sh/">ntfy.sh</a> = HTTP-based notification service utilizing a REST API</li>
+<li><a href="https://nodejs.org/">Node.js</a> = A well-established, industry-ready JavaScript runtime
+<ul>
+<li><a href="https://axios-http.com/">axios</a> = To make HTTP requests</li>
+<li><a href="https://wwebjs.dev/">whatsapp-web.js</a> = Unofficial WhatsApp Web client library for Node.js (an official API is available but is paid and for businesses only)</li>
+<li><a href="https://www.npmjs.com/package/ollama">ollama</a> = A library to interact with the Ollama API</li>
+</ul>
+</li>
+</ul>
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/blogs/dissecting-the-anatomy-of-a-botnet/">Dissecting the Anatomy of a Botnet</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/life-updates/life-update-09022025/">Life Update 09022025</a></li>
+</ul>
+
+		</heading-anchors>
+	</main>
+
+		<footer>
+			<ul class="footer-socials">
+				<li><a href="https://github.com/syswraith/">GitHub</a></li>
+				<li><a href="https://www.youtube.com/@syswraith">YouTube</a></li>
+				<li><a href="https://x.com/syswraith">Twitter</a></li>
+				<li><a href="https://instagram.com/syswraith">Instagram</a></li>
+			</ul>
+			<p>© 2026 Syswraith</p>
+		</footer>
+
+		<!-- This page `/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/` was built on 2026-10-18T18:29:03.904Z -->
+		<script type="module" src="/blog/dist/VZzbzR9_xw.js"></script>
+		
+	</body>
+</html>

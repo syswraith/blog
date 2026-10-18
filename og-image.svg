@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#32302f"/>
+  <text x="600" y="280" font-family="JetBrains Mono, monospace" font-size="64" font-weight="700" fill="#ebdbb2" text-anchor="middle">Syswraith's Holocron</text>
+  <text x="600" y="360" font-family="JetBrains Mono, monospace" font-size="24" fill="#a89984" text-anchor="middle">CTF writeups, systems programming, emulation & musings</text>
+  <text x="600" y="520" font-family="JetBrains Mono, monospace" font-size="18" fill="#6cc5b3" text-anchor="middle">syswraith.github.io/blog</text>
+</svg>

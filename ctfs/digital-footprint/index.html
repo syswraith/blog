@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Digital Footprint - TryHackMe Write-up</title>
+		<meta name="description" content="Write-up for the TryHackMe Digital Footprint room.">
+		<link rel="icon" href="/blog/blg/favicon.ico">
+		<link rel="alternate" href="/blog/feed/feed.xml" type="application/atom+xml" title="Syswraith&#39;s Holocron 🔮">
+		<link rel="alternate" href="/blog/index.xml" type="application/rss+xml" title="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:site_name" content="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:title" content="Digital Footprint - TryHackMe Write-up">
+	<meta property="og:description" content="Write-up for the TryHackMe Digital Footprint room.">
+	
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="https://syswraith.github.io/blog/ctfs/digital-footprint/">
+	<meta property="og:image" content="https://syswraith.github.io/blog/og-image.svg">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Digital Footprint - TryHackMe Write-up">
+	<meta name="twitter:description" content="Write-up for the TryHackMe Digital Footprint room.">
+	<meta name="twitter:image" content="https://syswraith.github.io/blog/og-image.svg">
+		
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	--font-family-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* Theme colors: gruvbox material soft dark */
+:root {
+	color-scheme: dark;
+
+	--color-bg-0: #32302f;
+	--color-bg-1: #3c3836;
+	--color-bg-2: #504945;
+	--color-gray-20: #504945;
+	--color-gray-50: #a89984;
+	--color-gray-90: #ebdbb2;
+
+	--color-green: #b8bb26;
+	--color-yellow: #fabd2f;
+	--color-blue: #83a598;
+	--color-purple: #d3869b;
+	--color-aqua: #8ec07c;
+	--color-red: #fb4934;
+
+	--background-color: var(--color-bg-0);
+
+	--text-color: var(--color-gray-90);
+	--color-link: #6cc5b3;
+	--color-link-visited: #c76b99;
+	--text-color-link: var(--color-link);
+	--text-color-link-active: var(--color-yellow);
+	--text-color-link-visited: var(--color-link-visited);
+
+	--syntax-tab-size: 2;
+}
+
+::selection {
+	background: var(--color-bg-2);
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden:not(:focus):not(:active) {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img{
+  display: block;
+  max-width: 100%;
+  margin: 1.5rem auto;
+  border-radius: 5px;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+footer {
+	border-top: 1px dashed var(--color-gray-20);
+}
+
+#skip-link {
+	text-decoration: none;
+	background: var(--background-color);
+	color: var(--text-color);
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--color-gray-90);
+	border-radius: 2px;
+}
+
+/* Prevent visually-hidden skip link fom pushing content around when focused */
+#skip-link.visually-hidden:focus {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	/* Ensure it is positioned on top of everything else when it is shown */
+	z-index: 999;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	flex-grow: 1;
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-50);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	padding: 0;
+	margin: 0;
+}
+.post-tags {
+	margin: .25em 0 0;
+}
+
+
+/* Gruvbox dark soft: content details */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	line-height: 1.25;
+}
+
+/* Heading text doubles as the deeplink (no “#” glyph) */
+a.heading-link {
+	color: inherit;
+	text-decoration: none;
+}
+:is(h1, h2, h3, h4, h5, h6):hover a.heading-link {
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+h1 {
+	color: var(--color-yellow);
+	margin-bottom: 0.25em;
+}
+h2 {
+	color: var(--color-green);
+}
+h3 {
+	color: var(--color-aqua);
+}
+h4 {
+	color: var(--color-blue);
+}
+h5 {
+	color: var(--color-purple);
+}
+h6 {
+	color: var(--color-gray-50);
+}
+
+blockquote {
+	margin: 1em 0;
+	padding: 0.25em 0 0.25em 1em;
+	border-left: 0.25em solid var(--color-green);
+	color: var(--color-gray-50);
+}
+
+hr {
+	border: 0;
+	border-top: 1px dashed var(--color-gray-20);
+	margin: 1.5em 0;
+}
+
+table {
+	border-collapse: collapse;
+}
+th,
+td {
+	border: 1px solid var(--color-gray-20);
+}
+th {
+	background: var(--color-bg-1);
+	font-weight: 700;
+}
+td,
+th {
+	padding: 0.35em 0.75em;
+}
+
+pre:not([class*="language-"]) {
+	background: var(--color-bg-1);
+	color: var(--color-gray-90);
+	padding: 0.75em 1em;
+	border: 1px solid var(--color-gray-20);
+	border-radius: 2px;
+}
+
+code {
+	background: var(--color-bg-1);
+	border-radius: 2px;
+	padding: 0.1em 0.3em;
+}
+pre code {
+	background: none;
+	padding: 0;
+}
+
+a[href]:not([class]) {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	text-decoration-thickness: 1px;
+}
+
+progress {
+ accent-color: var(--color-green);
+}
+
+input[type="checkbox"] {
+ accent-color: var(--color-green);
+}
+
+/* Obsidian-style wikilinks */
+a.wikilink {
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	text-underline-offset: 2px;
+}
+.wikilink-missing {
+	color: var(--color-red);
+	text-decoration: underline dotted;
+	text-underline-offset: 2px;
+}
+
+/* Section index lists */.section-list {
+	list-style: none;
+	padding: 0;
+	margin: 1em 0;
+}
+.section-list-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.75em;
+	margin-bottom: 0.6em;
+	line-height: 1.4;
+}
+.section-list-link {
+	font-weight: 700;
+	font-size: 1.0625em; /* 17px */
+	text-underline-offset: 2px;
+}
+.section-list-item time {
+	font-size: 0.8125em;
+	color: var(--color-gray-50);
+}
+
+/* YouTube embeds */
+.youtube-embed {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	border: 0;
+	border-radius: 2px;
+}
+
+/* Footer socials */
+.footer-socials {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25em 1.25em;
+	list-style: none;
+	padding: 0;
+	margin: 0 0 0.5em;
+}
+.footer-socials a {
+	text-underline-offset: 2px;
+}
+/* gruvbox bright for Prism */
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #ebdbb2;
+	background: #3c3836;
+	text-shadow: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	tab-size: 2;
+	hyphens: none;
+}
+
+pre[class*="language-"] {
+	overflow: auto;
+	padding: 0.75em 1em;
+	margin: 0.5em 0;
+	border: 1px solid #504945;
+	border-radius: 2px;
+	line-height: 1.4;
+}
+
+:not(pre) > code[class*="language-"] {
+	padding: 0.1em 0.3em;
+	border-radius: 2px;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #928374;
+	font-style: italic;
+}
+
+.token.punctuation {
+	color: #a89984;
+}
+
+.token.namespace {
+	opacity: 0.7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #fb4934;
+}
+
+.token.boolean,
+.token.number {
+	color: #d3869b;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #b8bb26;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #fe8019;
+	background: transparent;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #fabd2f;
+}
+
+.token.function,
+.token.class-name {
+	color: #8ec07c;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #fe8019;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.entity {
+	cursor: help;
+}</style>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+		
+	</head>
+	<body>
+		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/blog/" class="home-link">Syswraith&#39;s Holocron 🔮</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/blog/">Home</a></li>
+					<li class="nav-item"><a href="/blog/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/blog/tags/">Tags</a></li>
+					<li class="nav-item"><a href="/blog/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+<main id="main">
+		<heading-anchors content="">
+			<h1 id="digital-footprint-tryhackme-write-up">Digital Footprint - TryHackMe Write-up</h1>
+<p class="post-metadata"><time datetime="2026-02-10">10 February 2026</time></p>
+<p class="post-tags">Tags:
+	<a href="/blog/tags/ctf/" class="post-tag">ctf</a>
+	<a href="/blog/tags/tryhackme/" class="post-tag">tryhackme</a>
+	<a href="/blog/tags/writeup/" class="post-tag">writeup</a>
+	<a href="/blog/tags/osint/" class="post-tag">osint</a>
+	<a href="/blog/tags/exif/" class="post-tag">exif</a>
+	<a href="/blog/tags/wayback/" class="post-tag">wayback</a>
+	<a href="/blog/tags/maps/" class="post-tag">maps</a>
+</p>
+
+<p>This is a write-up for the room <strong><a href="https://tryhackme.com/room/osintchallengeiv">Digital Footprint</a></strong> on <a href="https://tryhackme.com/">TryHackMe</a></p>
+<h3 id="challenge-description">Challenge description:</h3>
+<p>Find the name of the city where the photo was taken in.</p>
+<p><img src="/blog/ctfs/digital-footprint/20TT9bpJeW-640.webp" alt="leaked photo.png" loading="lazy" decoding="async" width="1280" height="820" srcset="/blog/ctfs/digital-footprint/20TT9bpJeW-640.webp 640w, /blog/ctfs/digital-footprint/20TT9bpJeW-1280.webp 1280w" sizes="auto"></p>
+<p>First things first, let's check the EXIF data of the file with our trusted companion: <strong><a href="https://aperisolve.fr/">Aperi'Solve</a></strong>
+We can see that the image has the GPS data embedded in it.</p>
+<p><img src="/blog/ctfs/digital-footprint/T_9-pOSv24-640.webp" alt="latlong.png" loading="lazy" decoding="async" width="640" height="153"></p>
+<p>Converting this data into proper longitude and latitude coordinates, we get the following result:</p>
+<p><strong>Latitude:</strong> 26° 12' 14.76&quot; S
+<strong>Longitude:</strong> 28° 02' 50.28&quot; E</p>
+<p>The corresponding Google Maps link is this https://maps.app.goo.gl/WBR6aSFipPG7wGTR9. The city is <code>Johannesburg</code>.</p>
+<h3 id="challenge-description-2">Challenge description:</h3>
+<p>Find the founding date of the company.</p>
+<p>We're given a website <a href="https://warc-acme.com/jef/">warc-acme.com/jef/</a> which has died long ago. We need to find the founding date of the company.</p>
+<p>My first instinct is to check the wayback machine for any archived urls. But this did not return any results.</p>
+<p><img src="/blog/ctfs/digital-footprint/0E_3IeKw3K-640.webp" alt="waybackerr.png" loading="lazy" decoding="async" width="1280" height="720" srcset="/blog/ctfs/digital-footprint/0E_3IeKw3K-640.webp 640w, /blog/ctfs/digital-footprint/0E_3IeKw3K-1280.webp 1280w" sizes="auto"></p>
+<p>Then I just turned to the Internet Archive itself to check if anyone has uploaded any documents containing the URL, and tada.</p>
+<p><img src="/blog/ctfs/digital-footprint/mS9I3ormz8-640.webp" alt="archiveorg.png" loading="lazy" decoding="async" width="1280" height="720" srcset="/blog/ctfs/digital-footprint/mS9I3ormz8-640.webp 640w, /blog/ctfs/digital-footprint/mS9I3ormz8-1280.webp 1280w" sizes="auto"></p>
+<p>For context, WARC stand for Web Archive and is a file format that is used by organisations like the Internet Archive to snapshot a particular website at a particular point in time.</p>
+<p>https://archive.org/details/warc-acme.com-jef</p>
+<p>The first file date on this is <code>20160210224602</code> which is our required flag.</p>
+<h3 id="challenge-description-3">Challenge description:</h3>
+<p>Find the landmark from the image of the famous monument.</p>
+<p><img src="/blog/ctfs/digital-footprint/edZA7pbDeD-640.webp" alt="landmark-1763035881792.jpg" loading="lazy" decoding="async" width="1280" height="1706" srcset="/blog/ctfs/digital-footprint/edZA7pbDeD-640.webp 640w, /blog/ctfs/digital-footprint/edZA7pbDeD-1280.webp 1280w" sizes="auto"></p>
+<p>Doing a quick image search on this reveals it to be the <strong>Spire of Dublin</strong> (also known as the <strong>Millennium Spire</strong>). We can inspect this by checking the images and the street view.</p>
+<p><img src="/blog/ctfs/digital-footprint/OoKcKKrbR9-640.webp" alt="googlemaps.png" loading="lazy" decoding="async" width="640" height="435"></p>
+<p>The General Post Office is what we're looking for.</p>
+<h3 id="challenge-description-4">Challenge description:</h3>
+<p>Find the flag from the ODT file.</p>
+<p>My only experience with ODT files is when I'm desperate enough to use LibreOffice Writer. When I opened the file with that, I get the following text:</p>
+<pre><code>From: Mark
+To: Robin
+
+This document outlines recent updates made to the internal tracking system. I will be releasing a video very soon, I implore everyone to watch it!  
+  
+There have been multiple improvements we’ve made:  
+  
+- Optimised database queries
+- Improved user authentication logging
+- Minor bug fixes across the platform
+- More fixes mentioned but they’d be too long to list
+
+All developers are reminded not to share interal documentation externally.
+</code></pre>
+<p>That's not very helpful. A bit of research on the ODT file format lead me to this article.</p>
+<p>According to Wikipedia as mentioned <a href="https://en.wikipedia.org/wiki/OpenDocument">here</a></p>
+<blockquote>
+<p><strong>OpenDocument Format</strong> (<strong>ODF</strong>) <strong>for Office Applications</strong>, also known as <strong>OpenDocument</strong>, standardized as <strong>ISO 26300</strong>, is an <a href="https://en.wikipedia.org/wiki/Open_file_format" title="Open file format">open file format</a> for <a href="https://en.wikipedia.org/wiki/Word_processor" title="Word processor">word processing</a> documents, <a href="https://en.wikipedia.org/wiki/Spreadsheet" title="Spreadsheet">spreadsheets</a>, <a href="https://en.wikipedia.org/wiki/Presentation_program" title="Presentation program">presentations</a> and graphics using <a href="https://en.wikipedia.org/wiki/Zip_(file_format)" title="Zip (file format)">ZIP</a>-compressed<a href="https://en.wikipedia.org/wiki/OpenDocument#cite_note-6">[6]</a> <a href="https://en.wikipedia.org/wiki/XML" title="XML">XML</a> files. It was developed with the aim of providing an open, XML-based file format specification for office applications.</p>
+</blockquote>
+<p>Emphasis on ZIP-compressed format. We can just try unzipping the document.</p>
+<p><img src="/blog/ctfs/digital-footprint/iMR_I7y9_t-640.webp" alt="unzip.png" loading="lazy" decoding="async" width="1280" height="916" srcset="/blog/ctfs/digital-footprint/iMR_I7y9_t-640.webp 640w, /blog/ctfs/digital-footprint/iMR_I7y9_t-1280.webp 1280w" sizes="auto">
+Let's <code>grep</code> the word <code>mark</code> in all the XML files.</p>
+<p><img src="/blog/ctfs/digital-footprint/AfrUIAwe7V-640.webp" alt="grep.png" loading="lazy" decoding="async" width="1280" height="700" srcset="/blog/ctfs/digital-footprint/AfrUIAwe7V-640.webp 640w, /blog/ctfs/digital-footprint/AfrUIAwe7V-1280.webp 1280w" sizes="auto"></p>
+<p>Monkey see, monkey do. I tried entering the username as the flag but got rejected :(</p>
+<p>Now the document mentions that the developer is about to enter a demo video somewhere. We can try guessing the somewhere to be YouTube.</p>
+<p>https://www.youtube.com/@markwilliams7243</p>
+<p>And there's the flag!</p>
+<p><img src="/blog/ctfs/digital-footprint/KVQxqVuyAH-640.webp" alt="ytflag.png" loading="lazy" decoding="async" width="640" height="361"></p>
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/blogs/basic-concepts-of-hashing/">Basic concepts of Hashing</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/ctfs/hashcrack/">hashcrack - picoCTF Write-up</a></li>
+</ul>
+
+		</heading-anchors>
+	</main>
+
+		<footer>
+			<ul class="footer-socials">
+				<li><a href="https://github.com/syswraith/">GitHub</a></li>
+				<li><a href="https://www.youtube.com/@syswraith">YouTube</a></li>
+				<li><a href="https://x.com/syswraith">Twitter</a></li>
+				<li><a href="https://instagram.com/syswraith">Instagram</a></li>
+			</ul>
+			<p>© 2026 Syswraith</p>
+		</footer>
+
+		<!-- This page `/ctfs/digital-footprint/` was built on 2026-10-18T18:29:03.905Z -->
+		<script type="module" src="/blog/dist/VZzbzR9_xw.js"></script>
+		
+	</body>
+</html>

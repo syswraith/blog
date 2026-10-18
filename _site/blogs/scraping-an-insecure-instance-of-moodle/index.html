@@ -1,0 +1,997 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Scraping an insecure instance of Moodle</title>
+		<meta name="description" content="A proof-of-concept exploring data extraction and authentication handling on a private Moodle instance using Python and web scraping techniques.">
+		<link rel="icon" href="/blog/blg/favicon.ico">
+		<link rel="alternate" href="/blog/feed/feed.xml" type="application/atom+xml" title="Syswraith&#39;s Holocron 🔮">
+		<link rel="alternate" href="/blog/index.xml" type="application/rss+xml" title="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:site_name" content="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:title" content="Scraping an insecure instance of Moodle">
+	<meta property="og:description" content="A proof-of-concept exploring data extraction and authentication handling on a private Moodle instance using Python and web scraping techniques.">
+	
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="https://syswraith.github.io/blog/blogs/scraping-an-insecure-instance-of-moodle/">
+	<meta property="og:image" content="https://syswraith.github.io/blog/og-image.svg">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Scraping an insecure instance of Moodle">
+	<meta name="twitter:description" content="A proof-of-concept exploring data extraction and authentication handling on a private Moodle instance using Python and web scraping techniques.">
+	<meta name="twitter:image" content="https://syswraith.github.io/blog/og-image.svg">
+		
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	--font-family-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* Theme colors: gruvbox material soft dark */
+:root {
+	color-scheme: dark;
+
+	--color-bg-0: #32302f;
+	--color-bg-1: #3c3836;
+	--color-bg-2: #504945;
+	--color-gray-20: #504945;
+	--color-gray-50: #a89984;
+	--color-gray-90: #ebdbb2;
+
+	--color-green: #b8bb26;
+	--color-yellow: #fabd2f;
+	--color-blue: #83a598;
+	--color-purple: #d3869b;
+	--color-aqua: #8ec07c;
+	--color-red: #fb4934;
+
+	--background-color: var(--color-bg-0);
+
+	--text-color: var(--color-gray-90);
+	--color-link: #6cc5b3;
+	--color-link-visited: #c76b99;
+	--text-color-link: var(--color-link);
+	--text-color-link-active: var(--color-yellow);
+	--text-color-link-visited: var(--color-link-visited);
+
+	--syntax-tab-size: 2;
+}
+
+::selection {
+	background: var(--color-bg-2);
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden:not(:focus):not(:active) {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img{
+  display: block;
+  max-width: 100%;
+  margin: 1.5rem auto;
+  border-radius: 5px;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+footer {
+	border-top: 1px dashed var(--color-gray-20);
+}
+
+#skip-link {
+	text-decoration: none;
+	background: var(--background-color);
+	color: var(--text-color);
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--color-gray-90);
+	border-radius: 2px;
+}
+
+/* Prevent visually-hidden skip link fom pushing content around when focused */
+#skip-link.visually-hidden:focus {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	/* Ensure it is positioned on top of everything else when it is shown */
+	z-index: 999;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	flex-grow: 1;
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-50);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	padding: 0;
+	margin: 0;
+}
+.post-tags {
+	margin: .25em 0 0;
+}
+
+
+/* Gruvbox dark soft: content details */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	line-height: 1.25;
+}
+
+/* Heading text doubles as the deeplink (no “#” glyph) */
+a.heading-link {
+	color: inherit;
+	text-decoration: none;
+}
+:is(h1, h2, h3, h4, h5, h6):hover a.heading-link {
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+h1 {
+	color: var(--color-yellow);
+	margin-bottom: 0.25em;
+}
+h2 {
+	color: var(--color-green);
+}
+h3 {
+	color: var(--color-aqua);
+}
+h4 {
+	color: var(--color-blue);
+}
+h5 {
+	color: var(--color-purple);
+}
+h6 {
+	color: var(--color-gray-50);
+}
+
+blockquote {
+	margin: 1em 0;
+	padding: 0.25em 0 0.25em 1em;
+	border-left: 0.25em solid var(--color-green);
+	color: var(--color-gray-50);
+}
+
+hr {
+	border: 0;
+	border-top: 1px dashed var(--color-gray-20);
+	margin: 1.5em 0;
+}
+
+table {
+	border-collapse: collapse;
+}
+th,
+td {
+	border: 1px solid var(--color-gray-20);
+}
+th {
+	background: var(--color-bg-1);
+	font-weight: 700;
+}
+td,
+th {
+	padding: 0.35em 0.75em;
+}
+
+pre:not([class*="language-"]) {
+	background: var(--color-bg-1);
+	color: var(--color-gray-90);
+	padding: 0.75em 1em;
+	border: 1px solid var(--color-gray-20);
+	border-radius: 2px;
+}
+
+code {
+	background: var(--color-bg-1);
+	border-radius: 2px;
+	padding: 0.1em 0.3em;
+}
+pre code {
+	background: none;
+	padding: 0;
+}
+
+a[href]:not([class]) {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	text-decoration-thickness: 1px;
+}
+
+progress {
+ accent-color: var(--color-green);
+}
+
+input[type="checkbox"] {
+ accent-color: var(--color-green);
+}
+
+/* Obsidian-style wikilinks */
+a.wikilink {
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	text-underline-offset: 2px;
+}
+.wikilink-missing {
+	color: var(--color-red);
+	text-decoration: underline dotted;
+	text-underline-offset: 2px;
+}
+
+/* Section index lists */.section-list {
+	list-style: none;
+	padding: 0;
+	margin: 1em 0;
+}
+.section-list-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.75em;
+	margin-bottom: 0.6em;
+	line-height: 1.4;
+}
+.section-list-link {
+	font-weight: 700;
+	font-size: 1.0625em; /* 17px */
+	text-underline-offset: 2px;
+}
+.section-list-item time {
+	font-size: 0.8125em;
+	color: var(--color-gray-50);
+}
+
+/* YouTube embeds */
+.youtube-embed {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	border: 0;
+	border-radius: 2px;
+}
+
+/* Footer socials */
+.footer-socials {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25em 1.25em;
+	list-style: none;
+	padding: 0;
+	margin: 0 0 0.5em;
+}
+.footer-socials a {
+	text-underline-offset: 2px;
+}
+/* gruvbox bright for Prism */
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #ebdbb2;
+	background: #3c3836;
+	text-shadow: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	tab-size: 2;
+	hyphens: none;
+}
+
+pre[class*="language-"] {
+	overflow: auto;
+	padding: 0.75em 1em;
+	margin: 0.5em 0;
+	border: 1px solid #504945;
+	border-radius: 2px;
+	line-height: 1.4;
+}
+
+:not(pre) > code[class*="language-"] {
+	padding: 0.1em 0.3em;
+	border-radius: 2px;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #928374;
+	font-style: italic;
+}
+
+.token.punctuation {
+	color: #a89984;
+}
+
+.token.namespace {
+	opacity: 0.7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #fb4934;
+}
+
+.token.boolean,
+.token.number {
+	color: #d3869b;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #b8bb26;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #fe8019;
+	background: transparent;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #fabd2f;
+}
+
+.token.function,
+.token.class-name {
+	color: #8ec07c;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #fe8019;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.entity {
+	cursor: help;
+}</style>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+		
+	</head>
+	<body>
+		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/blog/" class="home-link">Syswraith&#39;s Holocron 🔮</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/blog/">Home</a></li>
+					<li class="nav-item"><a href="/blog/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/blog/tags/">Tags</a></li>
+					<li class="nav-item"><a href="/blog/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+<main id="main">
+		<heading-anchors content="">
+			<h1 id="scraping-an-insecure-instance-of-moodle">Scraping an insecure instance of Moodle</h1>
+<p class="post-metadata"><time datetime="2025-10-14">14 October 2025</time></p>
+<p class="post-tags">Tags:
+	<a href="/blog/tags/python/" class="post-tag">python</a>
+	<a href="/blog/tags/web-scraping/" class="post-tag">web-scraping</a>
+	<a href="/blog/tags/security/" class="post-tag">security</a>
+	<a href="/blog/tags/data-analysis/" class="post-tag">data-analysis</a>
+	<a href="/blog/tags/automation/" class="post-tag">automation</a>
+	<a href="/blog/tags/projects/" class="post-tag">projects</a>
+</p>
+
+<h1 id="synopsis">Synopsis</h1>
+<p>Been messing around with my college's Moodle instance for about 6 months. Found a few interesting data fields on people's profiles. It's been way too long since I've visited my web-scraping origins (I used to web scrape for a living at one point!) so this seems good as any opportunity.</p>
+<p>Please note that no data will be leaked in this quest, and any and all data shown for demonstration purposes will be censored for ensuring the privacy of their respective owners. This is a <strong>PROOF OF CONCEPT</strong> and not intended for offensive use.</p>
+<p>Moodle is an open-source learning platform written majorly in PHP and licensed under the GNU GPL 3.0 license.</p>
+<svg width="100%" height="auto" viewBox="0 0 700 400" preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="10" cy="70" r="6" fill="#4F5D95"></circle>
+  <text x="25" y="75" font-size="14" fill="#FFF" font-family="Arial, sans-serif">PHP (78.7%)</text>
+  <circle cx="10" cy="100" r="6" fill="#F7DF1E"></circle>
+  <text x="25" y="105" font-size="14" fill="#FFF" font-family="Arial, sans-serif">JS (14.0%)</text>
+  <circle cx="10" cy="130" r="6" fill="#5BDF5B"></circle>
+  <text x="25" y="135" font-size="14" fill="#FFF" font-family="Arial, sans-serif">Gherkin (3.5%)</text>
+  <circle cx="10" cy="160" r="6" fill="#2965F1"></circle>
+  <text x="25" y="165" font-size="14" fill="#FFF" font-family="Arial, sans-serif">CSS (1.7%)</text>
+  <circle cx="10" cy="190" r="6" fill="#F37C00"></circle>
+  <text x="25" y="195" font-size="14" fill="#FFF" font-family="Arial, sans-serif">Mustache (1.6%)</text>
+  <circle cx="10" cy="220" r="6" fill="#CF649A"></circle>
+  <text x="25" y="225" font-size="14" fill="#FFF" font-family="Arial, sans-serif">SCSS (0.4%)</text>
+  <circle cx="10" cy="250" r="6" fill="#CCCCCC"></circle>
+  <text x="25" y="255" font-size="14" fill="#FFF" font-family="Arial, sans-serif">Other (0.1%)</text>
+</svg>
+<p>I'm going to try and do some reconnaissance first on how the site handles authentication and how it serves the data I'm interested in- by observing the requests made and the cookies set. Then I'm going to build a scraper to extract the data that I'm interested in.</p>
+<h2 id="heres-everything-i-ll-be-using-in-this-post">Here's everything I'll be using in this post</h2>
+<ul>
+<li><a href="https://www.mozilla.org/en-US/firefox/">Firefox</a>: This is my preferred browser of choice.</li>
+<li><a href="https://cookie-editor.com/">Cookie editor extension</a>: This is technically redundant since the same thing can be achieved through the browser console, but I'm using it anyway.</li>
+<li><a href="https://sqlitebrowser.org/">DB4S</a>: A SQLite database browser GUI.</li>
+<li><a href="https://moodle.org/">Moodle</a>: A private, unhardened Moodle.</li>
+<li><a href="https://www.python.org/">python</a>: Version 3.13.1 at the time of writing.</li>
+<li><a href="https://requests.readthedocs.io/en/latest/">requests</a>: &quot;Industry standard&quot;.</li>
+<li><a href="https://lxml.de/">lxml</a>: Picking this over BeautifulSoup because of <code>css selector</code> support out of the box.</li>
+<li><a href="https://pypi.org/project/cssselect/">cssselect</a>: Companion library for lxml.
+Here's the <a href="http://github.com/syswraith/moodle-scraper">GitHub repository</a>
+Let's get started!</li>
+</ul>
+<h1 id="authentication">Authentication</h1>
+<p>First things that I notice right off the bat are:</p>
+<ul>
+<li>The LMS is written in PHP meaning majority of the operations might be handled without having to execute any JavaScript code. That's good.</li>
+<li>With the Cookie-Editor extension, I can see that a cookie named <code>MoodleSession</code> is being set to a random string of 26 alphanumeric characters. That's interesting.
+<img src="/blog/blogs/scraping-an-insecure-instance-of-moodle/ZxNxgNqkga-517.webp" alt="moodle_session_cookie.png" loading="lazy" decoding="async" width="517" height="339"></li>
+</ul>
+<p>Secondly, authenticating myself with a username and password makes the equivalent of the
+following cURL request:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">curl</span> <span class="token string">'https://lms.example.edu.in/login/index.php'</span>
+<span class="token parameter variable">-X</span> POST
+<span class="token parameter variable">-H</span> <span class="token string">'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:132.0) Gecko/20100101
+Firefox/132.0'</span>
+<span class="token parameter variable">-H</span> <span class="token string">'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'</span>
+<span class="token parameter variable">-H</span> <span class="token string">'Accept-Language: en-US,en;q=0.5'</span> <span class="token parameter variable">-H</span> <span class="token string">'Accept-Encoding: gzip, deflate, br,
+zstd'</span>
+<span class="token parameter variable">-H</span> <span class="token string">'Content-Type: application/x-www-form-urlencoded'</span>
+<span class="token parameter variable">-H</span> <span class="token string">'Origin: https://lms.example.edu.in'</span>
+<span class="token parameter variable">-H</span> <span class="token string">'Connection: keep-alive'</span>
+<span class="token parameter variable">-H</span> <span class="token string">'Referer: https://lms.example.edu.in/'</span>
+<span class="token parameter variable">-H</span> <span class="token string">'Cookie: MoodleSession=pb0nit3tf74c0b4tmkik6emac4'</span>
+<span class="token parameter variable">-H</span> <span class="token string">'Upgrade-Insecure-Requests: 1'</span>
+<span class="token parameter variable">-H</span> <span class="token string">'Sec-Fetch-Dest: document'</span>
+<span class="token parameter variable">-H</span> <span class="token string">'Sec-Fetch-Mode: navigate'</span>
+<span class="token parameter variable">-H</span> <span class="token string">'Sec-Fetch-Site: same-origin'</span>
+<span class="token parameter variable">-H</span> <span class="token string">'Sec-Fetch-User: ?1'</span>
+<span class="token parameter variable">-H</span> <span class="token string">'Priority: u=0, i'</span> --data-raw
+<span class="token string">'logintoken=3TnGvxtmc1PfYcLuWzk5MUfF7E9balQs&amp;username=username&amp;password=pass
+word-url-encoded'</span></code></pre>
+<ul>
+<li>This tells us that there are two <code>MoodleSession</code> cookies, one before authentication and one after authentication.</li>
+<li>Usernames and passwords are being URL-encoded and sent in plain-text over the HTTP POST request.</li>
+<li>It took me a few tries but i finally found <code>logintoken</code> sneakily nested inside the page's source code in the following way:
+<img src="/blog/blogs/scraping-an-insecure-instance-of-moodle/w4iEPgs-EQ-640.webp" alt="logintoken_nested.png" loading="lazy" decoding="async" width="913" height="355" srcset="/blog/blogs/scraping-an-insecure-instance-of-moodle/w4iEPgs-EQ-640.webp 640w, /blog/blogs/scraping-an-insecure-instance-of-moodle/w4iEPgs-EQ-913.webp 913w" sizes="auto"></li>
+</ul>
+<h1 id="writing-the-script">Writing the script</h1>
+<p>Now that we're done with some passive reconnaissance, let's get to the script!</p>
+<ol>
+<li>Going to create a file named <code>userpass.json</code> to store my credentials. This is useful because I can add it to the <code>.gitignore</code> file. The main file will read this file and get the credentials from it on each run.</li>
+</ol>
+<pre class="language-json" tabindex="0"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"username here"</span><span class="token punctuation">,</span>
+  <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"password here"</span>
+<span class="token punctuation">}</span></code></pre>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"userpass.json"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> auth_data<span class="token punctuation">:</span>
+    auth_creds <span class="token operator">=</span> json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>auth_data<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+uname <span class="token operator">=</span> auth_creds<span class="token punctuation">[</span><span class="token string">"username"</span><span class="token punctuation">]</span>
+upass <span class="token operator">=</span> auth_creds<span class="token punctuation">[</span><span class="token string">"password"</span><span class="token punctuation">]</span></code></pre>
+<ol start="2">
+<li>
+<p>We'll setup a <a href="https://requests.readthedocs.io/en/latest/api/#requests.Session">request.session</a> class for the following reasons:</p>
+<ul>
+<li>Persistent cookies</li>
+<li>Updating and passing cookies to requests made</li>
+<li>Persistent header and passing them in the requests</li>
+</ul>
+</li>
+<li>
+<p>The first request will be to the home page, which contains the <code>logintoken</code> that we need to extract from the DOM.</p>
+</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token comment"># Session setup</span>
+session <span class="token operator">=</span> requests<span class="token punctuation">.</span>Session<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Initial GET request</span>
+first_response <span class="token operator">=</span> session<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"https://lms.example.edu.in/"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Parse the login page to extract the login token</span>
+first_dom_tree <span class="token operator">=</span> html<span class="token punctuation">.</span>fromstring<span class="token punctuation">(</span>first_response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+login_token <span class="token operator">=</span> first_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">"#pre-login-form > input:nth-child(1)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"value"</span><span class="token punctuation">)</span></code></pre>
+<ol start="4">
+<li>Let's go ahead and authenticate ourselves. For this, we will make a <code>dict</code> of the required fields (see the curl command above). We will make a request with this data:</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token comment"># Data for login</span>
+data <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token string">"logintoken"</span><span class="token punctuation">:</span> login_token<span class="token punctuation">,</span>
+        <span class="token string">"username"</span><span class="token punctuation">:</span> uname<span class="token punctuation">,</span>
+        <span class="token string">"password"</span><span class="token punctuation">:</span> upass<span class="token punctuation">,</span>
+        <span class="token punctuation">}</span>
+
+<span class="token comment"># Send the POST request to login</span>
+second_response <span class="token operator">=</span> session<span class="token punctuation">.</span>post<span class="token punctuation">(</span>
+        <span class="token string">"https://lms.example.edu.in/login/index.php"</span><span class="token punctuation">,</span>
+        data<span class="token operator">=</span>data<span class="token punctuation">,</span>
+        allow_redirects<span class="token operator">=</span><span class="token boolean">True</span>
+        <span class="token punctuation">)</span></code></pre>
+<ol start="5">
+<li>
+<p>The next bit is tricky. We need to make a request to the <code>&quot;https://lms.example.edu.in/user/profile.php?id={x}&quot;</code> endpoint (where <code>x</code> is an <code>int</code>) in order to get the profile page. Certain CSS selectors are utilized to get the fields that we're interested in, and a <code>try-except</code> block to handle <code>IndexError</code> that is raised if the field does not exist (very possible that certain fields are not filled). We will also skip over the current iteration if the <code>name</code> selector returns nothing, since data is not of much use to us if we don't know who it belongs to.</p>
+<p>In this example we will only get fields like <code>name</code>, <code>local address</code>, <code>permanent address</code>, <code>phone number</code> and (most interesting of all!) <code>aadhar</code>. Read up on <a href="https://en.wikipedia.org/wiki/Aadhaar">Aadhar</a> here and see why its important to never disclose it publicly, like its been done here.</p>
+</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python">third_response <span class="token operator">=</span> session<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"https://lms.example.edu.in/user/profile.php?id=</span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+third_dom_tree <span class="token operator">=</span> html<span class="token punctuation">.</span>fromstring<span class="token punctuation">(</span>third_response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    name <span class="token operator">=</span> third_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">".fullname > span:nth-child(1)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+<span class="token keyword">except</span> IndexError<span class="token punctuation">:</span>
+    <span class="token keyword">continue</span>
+
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    laddr <span class="token operator">=</span> third_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">"li.contentnode:nth-child(3) > dl:nth-child(1) > dd:nth-child(2) > div:nth-child(1) > table:nth-child(2) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(1)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+<span class="token keyword">except</span> IndexError<span class="token punctuation">:</span>
+    laddr <span class="token operator">=</span> <span class="token string">""</span>
+
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    paddr <span class="token operator">=</span> third_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">".custom_field_CorrespondenceAddressPermanent > dl:nth-child(1) > dd:nth-child(2) > div:nth-child(1) > table:nth-child(2) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(1)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+<span class="token keyword">except</span> IndexError<span class="token punctuation">:</span>
+    paddr <span class="token operator">=</span> <span class="token string">""</span>
+
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    aadhar <span class="token operator">=</span> third_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">".custom_field_AaadharNo > dl:nth-child(1) > dd:nth-child(2)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+<span class="token keyword">except</span> IndexError<span class="token punctuation">:</span>
+    aadhar <span class="token operator">=</span> <span class="token string">''</span>
+
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    phone  <span class="token operator">=</span> third_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">".custom_field_ContactNumber > dl:nth-child(1) > dd:nth-child(2)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+<span class="token keyword">except</span> IndexError<span class="token punctuation">:</span>
+    phone <span class="token operator">=</span> <span class="token string">''</span></code></pre>
+<ol start="6">
+<li>Since we want to scrape a RANGE of integers, we will wrap this whole thing in a <code>for</code> loop.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token keyword">for</span> x <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">7000</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+    third_response <span class="token operator">=</span> session<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"https://lms.example.edu.in/user/profile.php?id=</span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    third_dom_tree <span class="token operator">=</span> html<span class="token punctuation">.</span>fromstring<span class="token punctuation">(</span>third_response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        name <span class="token operator">=</span> third_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">".fullname > span:nth-child(1)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span> IndexError<span class="token punctuation">:</span>
+        <span class="token keyword">continue</span>
+
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        laddr <span class="token operator">=</span> third_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">"li.contentnode:nth-child(3) > dl:nth-child(1) > dd:nth-child(2) > div:nth-child(1) > table:nth-child(2) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(1)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span> IndexError<span class="token punctuation">:</span>
+        laddr <span class="token operator">=</span> <span class="token string">""</span>
+
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        paddr <span class="token operator">=</span> third_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">".custom_field_CorrespondenceAddressPermanent > dl:nth-child(1) > dd:nth-child(2) > div:nth-child(1) > table:nth-child(2) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(1)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span> IndexError<span class="token punctuation">:</span>
+        paddr <span class="token operator">=</span> <span class="token string">""</span>
+
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        aadhar <span class="token operator">=</span> third_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">".custom_field_AaadharNo > dl:nth-child(1) > dd:nth-child(2)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span> IndexError<span class="token punctuation">:</span>
+        aadhar <span class="token operator">=</span> <span class="token string">''</span>
+
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        phone  <span class="token operator">=</span> third_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">".custom_field_ContactNumber > dl:nth-child(1) > dd:nth-child(2)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span> IndexError<span class="token punctuation">:</span>
+        phone <span class="token operator">=</span> <span class="token string">''</span>
+</code></pre>
+<ol start="7">
+<li>We have this extracted data. Now we need to perform operations on it. First one is obviously, printing it out to the console. The second one is a bit more interesting. Since we have this data, I thought it'd be fun to make a <code>SQLite</code> database and push all the data into it. Since we're performing multiple operations on this extracted data, we might as well create a <code>class</code> to make the whole thing a <em>bit</em> cleaner.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token comment"># Initialize database</span>
+conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"person_data.db"</span><span class="token punctuation">)</span>
+cursor <span class="token operator">=</span> conn<span class="token punctuation">.</span>cursor<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+cursor<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token triple-quoted-string string">"""
+CREATE TABLE IF NOT EXISTS persons (
+    uid INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    laddr TEXT,
+    paddr TEXT,
+    aadhar TEXT,
+    phone TEXT
+)
+"""</span><span class="token punctuation">)</span>
+conn<span class="token punctuation">.</span>commit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Person</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> name<span class="token punctuation">,</span> uid<span class="token punctuation">,</span> laddr<span class="token punctuation">,</span> paddr<span class="token punctuation">,</span> aadhar<span class="token punctuation">,</span> phone<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>name <span class="token operator">=</span> name
+        self<span class="token punctuation">.</span>uid <span class="token operator">=</span> uid
+        self<span class="token punctuation">.</span>laddr <span class="token operator">=</span> laddr
+        self<span class="token punctuation">.</span>paddr <span class="token operator">=</span> paddr
+        self<span class="token punctuation">.</span>aadhar <span class="token operator">=</span> aadhar
+        self<span class="token punctuation">.</span>phone <span class="token operator">=</span> phone
+
+    <span class="token keyword">def</span> <span class="token function">__str__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token string-interpolation"><span class="token string">f'"uid":"</span><span class="token interpolation"><span class="token punctuation">{</span>self<span class="token punctuation">.</span>uid<span class="token punctuation">}</span></span><span class="token string">",name":"</span><span class="token interpolation"><span class="token punctuation">{</span>self<span class="token punctuation">.</span>name<span class="token punctuation">}</span></span><span class="token string">","laddr":"</span><span class="token interpolation"><span class="token punctuation">{</span>self<span class="token punctuation">.</span>laddr<span class="token punctuation">}</span></span><span class="token string">","paddr":"</span><span class="token interpolation"><span class="token punctuation">{</span>self<span class="token punctuation">.</span>paddr<span class="token punctuation">}</span></span><span class="token string">","aadhar":"</span><span class="token interpolation"><span class="token punctuation">{</span>self<span class="token punctuation">.</span>aadhar<span class="token punctuation">}</span></span><span class="token string">","phone":"</span><span class="token interpolation"><span class="token punctuation">{</span>self<span class="token punctuation">.</span>phone<span class="token punctuation">}</span></span><span class="token string">"'</span></span>
+
+    <span class="token keyword">def</span> <span class="token function">save_to_db</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> connection<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        cursor <span class="token operator">=</span> connection<span class="token punctuation">.</span>cursor<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        cursor<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token triple-quoted-string string">"""
+        INSERT OR REPLACE INTO persons (uid, name, laddr, paddr, aadhar, phone)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>self<span class="token punctuation">.</span>uid<span class="token punctuation">,</span> self<span class="token punctuation">.</span>name<span class="token punctuation">,</span> self<span class="token punctuation">.</span>laddr<span class="token punctuation">,</span> self<span class="token punctuation">.</span>paddr<span class="token punctuation">,</span> self<span class="token punctuation">.</span>aadhar<span class="token punctuation">,</span> self<span class="token punctuation">.</span>phone<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        connection<span class="token punctuation">.</span>commit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<ol start="8">
+<li>Finally, we add these functions to the code so far. We will print out the data and push them into the database. Here's the full code:</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token keyword">import</span> sqlite3
+<span class="token keyword">import</span> json
+<span class="token keyword">import</span> requests
+<span class="token keyword">from</span> lxml <span class="token keyword">import</span> html
+
+<span class="token comment"># Data</span>
+<span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"userpass.json"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> auth_data<span class="token punctuation">:</span>
+    auth_creds <span class="token operator">=</span> json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>auth_data<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+uname <span class="token operator">=</span> auth_creds<span class="token punctuation">[</span><span class="token string">"username"</span><span class="token punctuation">]</span>
+upass <span class="token operator">=</span> auth_creds<span class="token punctuation">[</span><span class="token string">"password"</span><span class="token punctuation">]</span>
+
+<span class="token comment"># Session setup</span>
+session <span class="token operator">=</span> requests<span class="token punctuation">.</span>Session<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Initial GET request</span>
+first_response <span class="token operator">=</span> session<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"https://lms.example.edu.in/"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Parse the login page to extract the login token</span>
+first_dom_tree <span class="token operator">=</span> html<span class="token punctuation">.</span>fromstring<span class="token punctuation">(</span>first_response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+login_token <span class="token operator">=</span> first_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">"#pre-login-form > input:nth-child(1)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"value"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Data for login</span>
+data <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token string">"logintoken"</span><span class="token punctuation">:</span> login_token<span class="token punctuation">,</span>
+        <span class="token string">"username"</span><span class="token punctuation">:</span> uname<span class="token punctuation">,</span>
+        <span class="token string">"password"</span><span class="token punctuation">:</span> upass<span class="token punctuation">,</span>
+        <span class="token punctuation">}</span>
+
+<span class="token comment"># Send the POST request to login</span>
+second_response <span class="token operator">=</span> session<span class="token punctuation">.</span>post<span class="token punctuation">(</span>
+        <span class="token string">"https://lms.example.edu.in/login/index.php"</span><span class="token punctuation">,</span>
+        data<span class="token operator">=</span>data<span class="token punctuation">,</span>
+        allow_redirects<span class="token operator">=</span><span class="token boolean">True</span>
+        <span class="token punctuation">)</span>
+
+<span class="token comment"># Initialize database</span>
+conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"person_data.db"</span><span class="token punctuation">)</span>
+cursor <span class="token operator">=</span> conn<span class="token punctuation">.</span>cursor<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+cursor<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token triple-quoted-string string">"""
+CREATE TABLE IF NOT EXISTS persons (
+    uid INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    laddr TEXT,
+    paddr TEXT,
+    aadhar TEXT,
+    phone TEXT
+)
+"""</span><span class="token punctuation">)</span>
+conn<span class="token punctuation">.</span>commit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Person</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> name<span class="token punctuation">,</span> uid<span class="token punctuation">,</span> laddr<span class="token punctuation">,</span> paddr<span class="token punctuation">,</span> aadhar<span class="token punctuation">,</span> phone<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>name <span class="token operator">=</span> name
+        self<span class="token punctuation">.</span>uid <span class="token operator">=</span> uid
+        self<span class="token punctuation">.</span>laddr <span class="token operator">=</span> laddr
+        self<span class="token punctuation">.</span>paddr <span class="token operator">=</span> paddr
+        self<span class="token punctuation">.</span>aadhar <span class="token operator">=</span> aadhar
+        self<span class="token punctuation">.</span>phone <span class="token operator">=</span> phone
+
+    <span class="token keyword">def</span> <span class="token function">__str__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token string-interpolation"><span class="token string">f'"uid":"</span><span class="token interpolation"><span class="token punctuation">{</span>self<span class="token punctuation">.</span>uid<span class="token punctuation">}</span></span><span class="token string">",name":"</span><span class="token interpolation"><span class="token punctuation">{</span>self<span class="token punctuation">.</span>name<span class="token punctuation">}</span></span><span class="token string">","laddr":"</span><span class="token interpolation"><span class="token punctuation">{</span>self<span class="token punctuation">.</span>laddr<span class="token punctuation">}</span></span><span class="token string">","paddr":"</span><span class="token interpolation"><span class="token punctuation">{</span>self<span class="token punctuation">.</span>paddr<span class="token punctuation">}</span></span><span class="token string">","aadhar":"</span><span class="token interpolation"><span class="token punctuation">{</span>self<span class="token punctuation">.</span>aadhar<span class="token punctuation">}</span></span><span class="token string">","phone":"</span><span class="token interpolation"><span class="token punctuation">{</span>self<span class="token punctuation">.</span>phone<span class="token punctuation">}</span></span><span class="token string">"'</span></span>
+
+    <span class="token keyword">def</span> <span class="token function">save_to_db</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> connection<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        cursor <span class="token operator">=</span> connection<span class="token punctuation">.</span>cursor<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        cursor<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token triple-quoted-string string">"""
+        INSERT OR REPLACE INTO persons (uid, name, laddr, paddr, aadhar, phone)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>self<span class="token punctuation">.</span>uid<span class="token punctuation">,</span> self<span class="token punctuation">.</span>name<span class="token punctuation">,</span> self<span class="token punctuation">.</span>laddr<span class="token punctuation">,</span> self<span class="token punctuation">.</span>paddr<span class="token punctuation">,</span> self<span class="token punctuation">.</span>aadhar<span class="token punctuation">,</span> self<span class="token punctuation">.</span>phone<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        connection<span class="token punctuation">.</span>commit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+<span class="token keyword">for</span> x <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">15000</span><span class="token punctuation">,</span><span class="token number">26200</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    third_response <span class="token operator">=</span> session<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"https://lms.example.edu.in/user/profile.php?id=</span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    third_dom_tree <span class="token operator">=</span> html<span class="token punctuation">.</span>fromstring<span class="token punctuation">(</span>third_response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
+
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        name <span class="token operator">=</span> third_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">".fullname > span:nth-child(1)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span> IndexError<span class="token punctuation">:</span>
+        <span class="token keyword">continue</span>
+
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        laddr <span class="token operator">=</span> third_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">"li.contentnode:nth-child(3) > dl:nth-child(1) > dd:nth-child(2) > div:nth-child(1) > table:nth-child(2) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(1)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span> IndexError<span class="token punctuation">:</span>
+        laddr <span class="token operator">=</span> <span class="token string">""</span>
+
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        paddr <span class="token operator">=</span> third_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">".custom_field_CorrespondenceAddressPermanent > dl:nth-child(1) > dd:nth-child(2) > div:nth-child(1) > table:nth-child(2) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(1)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span> IndexError<span class="token punctuation">:</span>
+        paddr <span class="token operator">=</span> <span class="token string">""</span>
+
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        aadhar <span class="token operator">=</span> third_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">".custom_field_AaadharNo > dl:nth-child(1) > dd:nth-child(2)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span> IndexError<span class="token punctuation">:</span>
+        aadhar <span class="token operator">=</span> <span class="token string">''</span>
+
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        phone  <span class="token operator">=</span> third_dom_tree<span class="token punctuation">.</span>cssselect<span class="token punctuation">(</span><span class="token string">".custom_field_ContactNumber > dl:nth-child(1) > dd:nth-child(2)"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>text<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span> IndexError<span class="token punctuation">:</span>
+        phone <span class="token operator">=</span> <span class="token string">''</span>
+
+    person <span class="token operator">=</span> Person<span class="token punctuation">(</span>name<span class="token punctuation">,</span> x<span class="token punctuation">,</span> laddr<span class="token punctuation">,</span> paddr<span class="token punctuation">,</span> aadhar<span class="token punctuation">,</span> phone<span class="token punctuation">)</span>
+    person<span class="token punctuation">.</span>save_to_db<span class="token punctuation">(</span>conn<span class="token punctuation">)</span>  <span class="token comment"># Save each person to the database</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>person<span class="token punctuation">)</span>
+
+<span class="token comment"># Close the connection</span>
+conn<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<h1 id="output">Output</h1>
+<p>Scraped data output from the console:</p>
+<p><img src="/blog/blogs/scraping-an-insecure-instance-of-moodle/eHAcrz_Le5-640.webp" alt="scraped_data_console.png" loading="lazy" decoding="async" width="866" height="113" srcset="/blog/blogs/scraping-an-insecure-instance-of-moodle/eHAcrz_Le5-640.webp 640w, /blog/blogs/scraping-an-insecure-instance-of-moodle/eHAcrz_Le5-866.webp 866w" sizes="auto"></p>
+<p>Scraped data from the database:</p>
+<p><img src="/blog/blogs/scraping-an-insecure-instance-of-moodle/mGPPR3__n--640.webp" alt="scraped_data_db.jpg" loading="lazy" decoding="async" width="1088" height="344" srcset="/blog/blogs/scraping-an-insecure-instance-of-moodle/mGPPR3__n--640.webp 640w, /blog/blogs/scraping-an-insecure-instance-of-moodle/mGPPR3__n--1088.webp 1088w" sizes="auto"></p>
+<h1 id="parting-thoughts">Parting thoughts</h1>
+<blockquote>
+<p>”In God we trust. All others must bring data.” ~ W. Edwards Deming</p>
+</blockquote>
+<p>Keep yours safe :)</p>
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/life-updates/life-update-21062025/">Life Update 21062025</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/blogs/life-on-the-command-line/">Life on the command line</a></li>
+</ul>
+
+		</heading-anchors>
+	</main>
+
+		<footer>
+			<ul class="footer-socials">
+				<li><a href="https://github.com/syswraith/">GitHub</a></li>
+				<li><a href="https://www.youtube.com/@syswraith">YouTube</a></li>
+				<li><a href="https://x.com/syswraith">Twitter</a></li>
+				<li><a href="https://instagram.com/syswraith">Instagram</a></li>
+			</ul>
+			<p>© 2026 Syswraith</p>
+		</footer>
+
+		<!-- This page `/blogs/scraping-an-insecure-instance-of-moodle/` was built on 2026-10-18T18:29:03.903Z -->
+		<script type="module" src="/blog/dist/VZzbzR9_xw.js"></script>
+		
+	</body>
+</html>

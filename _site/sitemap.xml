@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/blogs/dissecting-the-anatomy-of-a-botnet/</loc>
+			<lastmod>2025-01-17</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/blogs/simplified-alerts--using-deepseek-r1-to-summarize-chats/</loc>
+			<lastmod>2025-02-09</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/life-updates/life-update-09022025/</loc>
+			<lastmod>2025-02-09</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/life-updates/life-update-15042025/</loc>
+			<lastmod>2025-04-15</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/blogs/homebrewing-a-custom-wordlist-generator/</loc>
+			<lastmod>2025-06-06</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/life-updates/life-update-21062025/</loc>
+			<lastmod>2025-06-21</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/blogs/scraping-an-insecure-instance-of-moodle/</loc>
+			<lastmod>2025-10-14</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/blogs/life-on-the-command-line/</loc>
+			<lastmod>2025-10-21</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/blogs/breaking-a-substitution-cipher-with-cryptanalysis/</loc>
+			<lastmod>2025-10-27</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/life-updates/life-update-28102025/</loc>
+			<lastmod>2025-10-28</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/blogs/implementing-a-logo-interpreter-1/</loc>
+			<lastmod>2025-12-02</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/blogs/implementing-a-logo-interpreter-2/</loc>
+			<lastmod>2025-12-02</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/life-updates/life-update-13122025/</loc>
+			<lastmod>2025-12-13</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/blogs/basic-concepts-of-hashing/</loc>
+			<lastmod>2025-12-31</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/ctfs/digital-footprint/</loc>
+			<lastmod>2026-02-10</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/ctfs/0x41haz/</loc>
+			<lastmod>2026-02-11</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/ctfs/big-zip/</loc>
+			<lastmod>2026-02-11</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/ctfs/</loc>
+			<lastmod>2026-02-11</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/ctfs/commitment-issues/</loc>
+			<lastmod>2026-02-11</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/ctfs/disko-1/</loc>
+			<lastmod>2026-02-11</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/ctfs/matchtheregex/</loc>
+			<lastmod>2026-02-11</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/ctfs/ssti1/</loc>
+			<lastmod>2026-02-11</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/ctfs/time-machine/</loc>
+			<lastmod>2026-02-11</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/ctfs/hashcrack/</loc>
+			<lastmod>2026-02-11</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/ctfs/crackme1/</loc>
+			<lastmod>2026-03-08</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/ctfs/overthewire-leviathan/</loc>
+			<lastmod>2026-05-26</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/blogs/some-more-pointer-magic-with-memory-arenas/</loc>
+			<lastmod>2026-05-28</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/blogs/inside-the-chip-8-virtual-machine/</loc>
+			<lastmod>2026-07-05</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/ctfs/flag-hunters/</loc>
+			<lastmod>2026-07-05</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/ctfs/pie-time/</loc>
+			<lastmod>2026-07-05</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/blogs/implementing-ndarrays-in-c/</loc>
+			<lastmod>2026-07-22</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/ctfs/the-brochure/</loc>
+			<lastmod>2026-07-25</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/blogs/dynamic-and-heterogeneous-vectors-in-c/</loc>
+			<lastmod>2026-08-11</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/blogs/memory-management-with-pool-allocators/</loc>
+			<lastmod>2026-09-15</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/blogs/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/bombthebase/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/cakemake/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/dlfee/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/lastlevels/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/lockdraw/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/luckyfr/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/minipizza/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/missp/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/mxled/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/nec/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/palindrcheck/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/passorfail/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/passwd/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/rectsq/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/selfdef/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/subscribe_/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/twostr/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/twovsten/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/watercooler2/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/wcc/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codechef/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/1030a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/110a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/112a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/116a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/141a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/155a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/1742a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/1903a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/1a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/2065a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/2065b/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/2093a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/236a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/263a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/266a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/271a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/281a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/282a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/339a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/344a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/41a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/467a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/486a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/50a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/520a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/546a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/59a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/617a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/705a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/734a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/791a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/977a/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/codeforces/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/leetcode/1260/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/leetcode/14/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/leetcode/1629/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/leetcode/1903/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/leetcode/2190/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/leetcode/2465/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/leetcode/3622/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/leetcode/3718/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/leetcode/3731/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/leetcode/3834/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/leetcode/66/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/leetcode/744/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/leetcode/860/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/braindev/leetcode/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/life-updates/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/reading/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/useful/useful-bash-commands/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/useful/useful-c++-snippets/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/useful/useful-extensions/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/useful/useful-nmap-commands/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/useful/useful-react-snippets/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/useful/useful-sql-injections/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/useful/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/watching/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/archive/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/tags/</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/feed/feed.xml</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+	
+		
+		<url>
+			<loc>https://syswraith.github.io/blog/index.xml</loc>
+			<lastmod>2026-10-18</lastmod>
+		</url>
+	
+</urlset>

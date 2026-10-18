@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Inside the CHIP-8 Virtual Machine</title>
+		<meta name="description" content="Implementing a CHIP-8 emulator from scratch in C, covering opcode decoding, the display pipeline, and a custom hack for playing Bad Apple.">
+		<link rel="icon" href="/blog/blg/favicon.ico">
+		<link rel="alternate" href="/blog/feed/feed.xml" type="application/atom+xml" title="Syswraith&#39;s Holocron 🔮">
+		<link rel="alternate" href="/blog/index.xml" type="application/rss+xml" title="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:site_name" content="Syswraith&#39;s Holocron 🔮">
+	<meta property="og:title" content="Inside the CHIP-8 Virtual Machine">
+	<meta property="og:description" content="Implementing a CHIP-8 emulator from scratch in C, covering opcode decoding, the display pipeline, and a custom hack for playing Bad Apple.">
+	
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="https://syswraith.github.io/blog/blogs/inside-the-chip-8-virtual-machine/">
+	<meta property="og:image" content="https://syswraith.github.io/blog/og-image.svg">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Inside the CHIP-8 Virtual Machine">
+	<meta name="twitter:description" content="Implementing a CHIP-8 emulator from scratch in C, covering opcode decoding, the display pipeline, and a custom hack for playing Bad Apple.">
+	<meta name="twitter:image" content="https://syswraith.github.io/blog/og-image.svg">
+		
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	--font-family-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* Theme colors: gruvbox material soft dark */
+:root {
+	color-scheme: dark;
+
+	--color-bg-0: #32302f;
+	--color-bg-1: #3c3836;
+	--color-bg-2: #504945;
+	--color-gray-20: #504945;
+	--color-gray-50: #a89984;
+	--color-gray-90: #ebdbb2;
+
+	--color-green: #b8bb26;
+	--color-yellow: #fabd2f;
+	--color-blue: #83a598;
+	--color-purple: #d3869b;
+	--color-aqua: #8ec07c;
+	--color-red: #fb4934;
+
+	--background-color: var(--color-bg-0);
+
+	--text-color: var(--color-gray-90);
+	--color-link: #6cc5b3;
+	--color-link-visited: #c76b99;
+	--text-color-link: var(--color-link);
+	--text-color-link-active: var(--color-yellow);
+	--text-color-link-visited: var(--color-link-visited);
+
+	--syntax-tab-size: 2;
+}
+
+::selection {
+	background: var(--color-bg-2);
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden:not(:focus):not(:active) {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img{
+  display: block;
+  max-width: 100%;
+  margin: 1.5rem auto;
+  border-radius: 5px;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+footer {
+	border-top: 1px dashed var(--color-gray-20);
+}
+
+#skip-link {
+	text-decoration: none;
+	background: var(--background-color);
+	color: var(--text-color);
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--color-gray-90);
+	border-radius: 2px;
+}
+
+/* Prevent visually-hidden skip link fom pushing content around when focused */
+#skip-link.visually-hidden:focus {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	/* Ensure it is positioned on top of everything else when it is shown */
+	z-index: 999;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	flex-grow: 1;
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-50);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	padding: 0;
+	margin: 0;
+}
+.post-tags {
+	margin: .25em 0 0;
+}
+
+
+/* Gruvbox dark soft: content details */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	line-height: 1.25;
+}
+
+/* Heading text doubles as the deeplink (no “#” glyph) */
+a.heading-link {
+	color: inherit;
+	text-decoration: none;
+}
+:is(h1, h2, h3, h4, h5, h6):hover a.heading-link {
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+h1 {
+	color: var(--color-yellow);
+	margin-bottom: 0.25em;
+}
+h2 {
+	color: var(--color-green);
+}
+h3 {
+	color: var(--color-aqua);
+}
+h4 {
+	color: var(--color-blue);
+}
+h5 {
+	color: var(--color-purple);
+}
+h6 {
+	color: var(--color-gray-50);
+}
+
+blockquote {
+	margin: 1em 0;
+	padding: 0.25em 0 0.25em 1em;
+	border-left: 0.25em solid var(--color-green);
+	color: var(--color-gray-50);
+}
+
+hr {
+	border: 0;
+	border-top: 1px dashed var(--color-gray-20);
+	margin: 1.5em 0;
+}
+
+table {
+	border-collapse: collapse;
+}
+th,
+td {
+	border: 1px solid var(--color-gray-20);
+}
+th {
+	background: var(--color-bg-1);
+	font-weight: 700;
+}
+td,
+th {
+	padding: 0.35em 0.75em;
+}
+
+pre:not([class*="language-"]) {
+	background: var(--color-bg-1);
+	color: var(--color-gray-90);
+	padding: 0.75em 1em;
+	border: 1px solid var(--color-gray-20);
+	border-radius: 2px;
+}
+
+code {
+	background: var(--color-bg-1);
+	border-radius: 2px;
+	padding: 0.1em 0.3em;
+}
+pre code {
+	background: none;
+	padding: 0;
+}
+
+a[href]:not([class]) {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	text-decoration-thickness: 1px;
+}
+
+progress {
+ accent-color: var(--color-green);
+}
+
+input[type="checkbox"] {
+ accent-color: var(--color-green);
+}
+
+/* Obsidian-style wikilinks */
+a.wikilink {
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	text-underline-offset: 2px;
+}
+.wikilink-missing {
+	color: var(--color-red);
+	text-decoration: underline dotted;
+	text-underline-offset: 2px;
+}
+
+/* Section index lists */.section-list {
+	list-style: none;
+	padding: 0;
+	margin: 1em 0;
+}
+.section-list-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.75em;
+	margin-bottom: 0.6em;
+	line-height: 1.4;
+}
+.section-list-link {
+	font-weight: 700;
+	font-size: 1.0625em; /* 17px */
+	text-underline-offset: 2px;
+}
+.section-list-item time {
+	font-size: 0.8125em;
+	color: var(--color-gray-50);
+}
+
+/* YouTube embeds */
+.youtube-embed {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	border: 0;
+	border-radius: 2px;
+}
+
+/* Footer socials */
+.footer-socials {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25em 1.25em;
+	list-style: none;
+	padding: 0;
+	margin: 0 0 0.5em;
+}
+.footer-socials a {
+	text-underline-offset: 2px;
+}
+/* gruvbox bright for Prism */
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #ebdbb2;
+	background: #3c3836;
+	text-shadow: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	tab-size: 2;
+	hyphens: none;
+}
+
+pre[class*="language-"] {
+	overflow: auto;
+	padding: 0.75em 1em;
+	margin: 0.5em 0;
+	border: 1px solid #504945;
+	border-radius: 2px;
+	line-height: 1.4;
+}
+
+:not(pre) > code[class*="language-"] {
+	padding: 0.1em 0.3em;
+	border-radius: 2px;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #928374;
+	font-style: italic;
+}
+
+.token.punctuation {
+	color: #a89984;
+}
+
+.token.namespace {
+	opacity: 0.7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #fb4934;
+}
+
+.token.boolean,
+.token.number {
+	color: #d3869b;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #b8bb26;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #fe8019;
+	background: transparent;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #fabd2f;
+}
+
+.token.function,
+.token.class-name {
+	color: #8ec07c;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #fe8019;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.entity {
+	cursor: help;
+}</style>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+		
+	</head>
+	<body>
+		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/blog/" class="home-link">Syswraith&#39;s Holocron 🔮</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/blog/">Home</a></li>
+					<li class="nav-item"><a href="/blog/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/blog/tags/">Tags</a></li>
+					<li class="nav-item"><a href="/blog/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+<main id="main">
+		<heading-anchors content="">
+			<h1 id="inside-the-chip-8-virtual-machine">Inside the CHIP-8 Virtual Machine</h1>
+<p class="post-metadata"><time datetime="2026-07-05">05 July 2026</time></p>
+<p class="post-tags">Tags:
+	<a href="/blog/tags/chip-8/" class="post-tag">chip-8</a>
+	<a href="/blog/tags/emulation/" class="post-tag">emulation</a>
+	<a href="/blog/tags/c/" class="post-tag">c</a>
+	<a href="/blog/tags/raylib/" class="post-tag">raylib</a>
+	<a href="/blog/tags/systems-programming/" class="post-tag">systems-programming</a>
+	<a href="/blog/tags/retro-computing/" class="post-tag">retro-computing</a>
+	<a href="/blog/tags/reverse-engineering/" class="post-tag">reverse-engineering</a>
+</p>
+
+<iframe class="youtube-embed" src="https://www.youtube.com/embed/m19BBzCtBEE" title="CHIP-8 demo" loading="lazy" allowfullscreen=""></iframe>
+<h1 id="context">Context</h1>
+<p>Late last year, while surfing Reddit, I came across <a href="https://www.reddit.com/r/EmuDev/">r/EmuDev</a>, which (you guessed it!) is a subreddit for emulator development. On reading some of the posts and poking around, I saw a lot of people recommending <a href="https://en.wikipedia.org/wiki/CHIP-8">CHIP-8</a> as a beginner project to learn emulation. I tried to make it a couple of times, but the motivation wasn't simply there.</p>
+<p>This semester however, the idea stuck (mainly because I had Computer Organisation and Microprocessor as one of my subjects), and I decided that it was high time to prioritise it. So I kept working on it on and off. And now its finally gotten to a stage that I can showcase it.</p>
+<p>While classifications such as RISC or CISC did not appear until the late 80s, the concepts existed. CHIP-8 has a simple, RISC-like instruction set that runs on it virtual machine. It was developed by <a href="https://en.wikipedia.org/wiki/Joseph_Weisbecker" title="Joseph Weisbecker">Joseph Weisbecker</a> in 1977 and ran on computers such as the <a href="https://en.wikipedia.org/wiki/COSMAC_VIP" title="COSMAC VIP">COSMAC VIP</a> and <a href="https://en.wikipedia.org/wiki/Telmac_1800" title="Telmac 1800">Telmac 1800</a>.</p>
+<h1 id="specifications">Specifications</h1>
+<ul>
+<li><strong>Memory:</strong> 4 KB RAM</li>
+<li><strong>Display:</strong> 64 × 32 monochrome pixels</li>
+<li><strong>Program Counter (PC):</strong> Points to the current instruction</li>
+<li><strong>Index Register (I):</strong> 16-bit memory address register</li>
+<li><strong>Stack:</strong> Stores return addresses for subroutines</li>
+<li><strong>Delay Timer:</strong> 8-bit timer, decrements at 60 Hz</li>
+<li><strong>Sound Timer:</strong> 8-bit timer, beeps while non-zero</li>
+<li><strong>Registers:</strong> 16 general-purpose 8-bit registers (V0-VF)</li>
+<li><strong>VF:</strong> Also used as a flag register (e.g. carry/borrow)</li>
+</ul>
+<p>In addition to this, I'll be using <a href="https://www.raylib.com/">raylib</a> to handle the graphics aspect of the program, as it's simple and fun to work with.</p>
+<h2 id="registers">Registers</h2>
+<pre class="language-c" tabindex="0"><code class="language-c"><span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    <span class="token class-name">uint8_t</span> display<span class="token punctuation">[</span><span class="token number">64</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">32</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token class-name">uint8_t</span> memory<span class="token punctuation">[</span><span class="token number">4096</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token class-name">uint8_t</span> keypad<span class="token punctuation">[</span><span class="token number">16</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token class-name">uint8_t</span> v<span class="token punctuation">[</span><span class="token number">16</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token class-name">uint16_t</span> pc<span class="token punctuation">;</span>
+    <span class="token class-name">uint16_t</span> index<span class="token punctuation">;</span>
+    <span class="token class-name">uint16_t</span> stack<span class="token punctuation">[</span><span class="token number">256</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token class-name">uint8_t</span> sound<span class="token punctuation">;</span>
+    <span class="token class-name">uint8_t</span> delay<span class="token punctuation">;</span>
+    <span class="token class-name">uint8_t</span> sp<span class="token punctuation">;</span>
+<span class="token punctuation">}</span> Chip8<span class="token punctuation">;</span></code></pre>
+<p>Another thing that I realised while declaring structs was that in some cases they take up less space if <a href="https://www.w3schools.com/c/c_structs_padding.php">arranged in a specific way</a>, so keep that in mind.</p>
+<h2 id="opcodes">Opcodes</h2>
+<ul>
+<li>
+<p><strong>Fixed Size:</strong> Every instruction is exactly 16 bits (2 bytes).</p>
+</li>
+<li>
+<p><strong>Embedded Registers:</strong> Hex variables inside the opcode (usually <code>X</code> and <code>Y</code>) identify which of the 16 general-purpose registers (<code>V0</code> to <code>VF</code>) to read from or write to.</p>
+</li>
+<li>
+<p>Your predefined opcode table will store an array of structures, where each entry contains:</p>
+<ol>
+<li><strong>Pattern:</strong> The base hexadecimal template of the instruction with variables zeroed out (e.g., <code>0x8001</code>).</li>
+<li><strong>Mask:</strong> A bitmask to isolate the static identifier bits and ignore the variable register bits (e.g., <code>0xF00F</code>).</li>
+<li><strong>Function Pointer:</strong> A direct reference to the function that executes that specific instruction.</li>
+</ol>
+</li>
+<li>
+<p>The Formula for  Lookup &amp; Execution Workflow is Step through the table and find the matching instruction using bitwise operations:
+$$\text{Match} = (\text{Fetched Opcode} \ &amp; \ \text{Mask}) == \text{Pattern}$$</p>
+</li>
+<li>
+<p>Loop over each opcode and check which one is matching</p>
+</li>
+</ul>
+<h2 id="display">Display</h2>
+<ul>
+<li>Memory / ROMs</li>
+</ul>
+<h2 id="breakout">Breakout</h2>
+<p><img src="images/inside-the-chip-8-virtual-machine/breakout.webp" alt="Breakout running on the CHIP-8 interpreter"></p>
+<h2 id="tetris">Tetris</h2>
+<p><img src="images/inside-the-chip-8-virtual-machine/tetris.webp" alt="Tetris running on the CHIP-8 interpreter"></p>
+<h2 id="maze">Maze</h2>
+<p><img src="images/inside-the-chip-8-virtual-machine/maze.webp" alt="Maze demo running on the CHIP-8 interpreter"></p>
+<h2 id="sirpinski">Sirpinski</h2>
+<p><img src="images/inside-the-chip-8-virtual-machine/sierpski.webp" alt="Sierpinski triangle drawn by the CHIP-8 interpreter"></p>
+<h2 id="bad-apple">Bad Apple</h2>
+<p><img src="images/inside-the-chip-8-virtual-machine/badapple.webp" alt="Bad Apple video playback on the CHIP-8 interpreter"></p>
+<p>CHIP-8 was never designed for video playback. Its normal display pipeline works by drawing sprites onto the screen using XOR operations, one 8-pixel-wide row at a time. That's fine for games, but for a 30fps video it's way too slow and cumbersome to work with.</p>
+<p>So I cheated a little.</p>
+<h3 id="getting-the-video">Getting the video</h3>
+<p>First, grab the video with yt-dlp:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">yt-dlp https://www.youtube.com/watch?v<span class="token operator">=</span>FtutLA63Cp8 <span class="token parameter variable">-o</span> badapple.mp4</code></pre>
+<p>Then downscale it to 64×32 and convert it to grayscale with ffmpeg, outputting raw frames:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash">ffmpeg <span class="token parameter variable">-i</span> badapple.mp4 <span class="token punctuation">\</span>
+  <span class="token parameter variable">-vf</span> <span class="token string">"scale=64:32,format=gray"</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">-r</span> <span class="token number">30</span> <span class="token punctuation">\</span>
+  frames/%04d.png</code></pre>
+<p>Make sure the <code>frames/</code> directory exists before running. This gives you a numbered sequence of PNG images, one per frame, each exactly 64×32 pixels.</p>
+<h3 id="the-vid-format">The .vid format</h3>
+<p>The format is dead simple: just frames packed back to back, where each frame is exactly 2048 bytes (64×32 pixels, one byte per pixel, either 0 or 1). No header, no compression, no delta encoding.</p>
+<p>A small Python script converts the frames into this binary format:</p>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token keyword">from</span> PIL <span class="token keyword">import</span> Image
+<span class="token keyword">import</span> os
+
+THRESHOLD <span class="token operator">=</span> <span class="token number">128</span>
+frames_dir <span class="token operator">=</span> <span class="token string">"frames"</span>
+output_path <span class="token operator">=</span> <span class="token string">"badapple.vid"</span>
+
+<span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>output_path<span class="token punctuation">,</span> <span class="token string">"wb"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> out<span class="token punctuation">:</span>
+    <span class="token keyword">for</span> filename <span class="token keyword">in</span> <span class="token builtin">sorted</span><span class="token punctuation">(</span>os<span class="token punctuation">.</span>listdir<span class="token punctuation">(</span>frames_dir<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> <span class="token keyword">not</span> filename<span class="token punctuation">.</span>endswith<span class="token punctuation">(</span><span class="token string">".png"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">continue</span>
+
+        img <span class="token operator">=</span> Image<span class="token punctuation">.</span><span class="token builtin">open</span><span class="token punctuation">(</span>os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>frames_dir<span class="token punctuation">,</span> filename<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>convert<span class="token punctuation">(</span><span class="token string">"L"</span><span class="token punctuation">)</span>
+        pixels <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span>img<span class="token punctuation">.</span>getdata<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        out<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token builtin">bytes</span><span class="token punctuation">(</span><span class="token number">1</span> <span class="token keyword">if</span> p <span class="token operator">>=</span> THRESHOLD <span class="token keyword">else</span> <span class="token number">0</span> <span class="token keyword">for</span> p <span class="token keyword">in</span> pixels<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Done. Written to </span><span class="token interpolation"><span class="token punctuation">{</span>output_path<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span></code></pre>
+<p>Each pixel gets thresholded to either 0 or 1 — anything above 128 brightness is on, anything below is off. This gives you the 1-bit display that CHIP-8 expects.</p>
+<p>When the ROM loads, <code>load_rom</code> automatically looks for a matching <code>.vid</code> file alongside the <code>.ch8</code>:</p>
+<pre class="language-c" tabindex="0"><code class="language-c"><span class="token keyword">char</span> <span class="token operator">*</span>dot <span class="token operator">=</span> <span class="token function">strrchr</span><span class="token punctuation">(</span>video_path<span class="token punctuation">,</span> <span class="token char">'.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>dot<span class="token punctuation">)</span> <span class="token function">strcpy</span><span class="token punctuation">(</span>dot<span class="token punctuation">,</span> <span class="token string">".vid"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+chip<span class="token punctuation">.</span>video <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span>video_path<span class="token punctuation">,</span> <span class="token string">"rb"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>So <code>badapple.ch8</code> just needs <code>badapple.vid</code> sitting next to it.</p>
+<h3 id="the-custom-opcode">The custom opcode</h3>
+<p>I added a custom opcode — <code>F0F0</code> — that doesn't exist in the CHIP-8 spec at all. When the emulator encounters it, instead of drawing sprites, it blasts the next frame directly into <code>chip.display</code>:</p>
+<pre class="language-c" tabindex="0"><code class="language-c"><span class="token function">fread</span><span class="token punctuation">(</span>chip<span class="token punctuation">.</span>display<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>chip<span class="token punctuation">.</span>display<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> chip<span class="token punctuation">.</span>video<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>That's it. One <code>fread</code> call overwrites the entire display buffer with the next frame. On EOF it rewinds and loops. The ROM itself is then just an infinite loop that keeps emitting <code>F0F0</code>, and the rate limiter inside the handler controls playback speed.</p>
+<h3 id="why-this-works">Why this works</h3>
+<p><code>chip.display</code> is just a flat array of bytes. <code>platform_render</code> doesn't care how those bytes got there — it just draws a rectangle for every non-zero pixel. So whether the display was updated by a normal <code>DXYN</code> sprite draw or by a raw <code>fread</code>, the renderer is none the wiser.</p>
+<p>The whole thing is a bit of a hack, but it works, and it was a good reminder that at the end of the day an emulator is just software — you can bend the rules when you're the one implementing them.</p>
+<hr>
+<h1 id="conclusion">Conclusion</h1>
+<p>Overall, this was a really fun project. It gave me a solid introduction to how emulators and virtual machines work, and I ended up learning a lot more than I expected. Along the way, I got a much better understanding of things like bit masking, bit shifting, conditional and unconditional jumps, computer architecture, and how instructions are actually executed.</p>
+<p>If you're looking to get into emulator development, I'd definitely recommend building a CHIP-8 emulator. It's small enough to be manageable, but teaches you a lot of concepts that show up everywhere else.</p>
+<h2 id="useful-links">Useful links</h2>
+<ul>
+<li><a href="https://tobiasvl.github.io/blog/write-a-chip-8-emulator/">Guide to making a CHIP-8 emulator by Tobias V. I. Langhoff</a></li>
+<li><a href="https://chip8.gulrak.net/">CHIP-8 Variant Opcode Table by Steffen Schümann</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLT7NbkyNWaqbyBMzdySdqjnfUFxt8rnU_">CHIP-8 development playlist by Queso Fuego</a></li>
+<li><a href="https://en.wikipedia.org/wiki/CHIP-8">Wikipedia entry on CHIP-8</a></li>
+</ul>
+
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/blogs/some-more-pointer-magic-with-memory-arenas/">Some more pointer magic with Memory Arenas</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/ctfs/flag-hunters/">Flag Hunters - picoCTF Write-up</a></li>
+</ul>
+
+		</heading-anchors>
+	</main>
+
+		<footer>
+			<ul class="footer-socials">
+				<li><a href="https://github.com/syswraith/">GitHub</a></li>
+				<li><a href="https://www.youtube.com/@syswraith">YouTube</a></li>
+				<li><a href="https://x.com/syswraith">Twitter</a></li>
+				<li><a href="https://instagram.com/syswraith">Instagram</a></li>
+			</ul>
+			<p>© 2026 Syswraith</p>
+		</footer>
+
+		<!-- This page `/blogs/inside-the-chip-8-virtual-machine/` was built on 2026-10-18T18:29:03.903Z -->
+		<script type="module" src="/blog/dist/VZzbzR9_xw.js"></script>
+		
+	</body>
+</html>
