@@ -218,9 +218,19 @@ export default async function(eleventyConfig) {
 				.replace(/\/[^/]+\.html$/, "");
 			const pageBaseUrl = `https://syswraith.github.io${pathPrefix}/${pageDir}/`;
 			
+			// Helper to check if a file is likely animated (GIF or animated WebP)
+			function isAnimatedImage(src) {
+				const ext = src.toLowerCase().split('.').pop();
+				return ext === 'gif' || (ext === 'webp' && src.includes('badapple') || src.includes('sierpski') || src.includes('maze') || src.includes('tetris') || src.includes('breakout'));
+			}
+
 			return content.replace(/src="([^"]+\.(?:webp|png|jpg|jpeg|gif|svg))"/g, (match, src) => {
 				// Skip external URLs, data URIs
 				if (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:")) {
+					return match;
+				}
+				// Skip animated images - don't use wsrv.nl for them
+				if (isAnimatedImage(src)) {
 					return match;
 				}
 				// Handle absolute paths starting with /blog/ - convert to full URL
