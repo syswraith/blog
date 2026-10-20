@@ -23,6 +23,8 @@ What I'm up to currently is
 
 # What's new
 
+* [[The Subtle Art of Self-Hosting]]
+    > A year-long journey of building a homelab on a Raspberry Pi, from CGNAT struggles to a full media stack, powered by Tailscale, Docker, and pure spite.
 * [[Memory management with Pool Allocators]]
     > Memory management without fragmentation using fixed-size block pool allocators.
 * [[Dynamic and Heterogeneous Vectors in C]]
@@ -50,3 +52,4 @@ What I'm up to currently is
 * [[Implementing Ndarrays in C]]
 * [[Dynamic and Heterogeneous Vectors in C]]
 * [[Memory management with Pool Allocators]]
+* [[The Subtle Art of Self-Hosting]]

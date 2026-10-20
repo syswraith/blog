@@ -162,6 +162,74 @@ export default async function(eleventyConfig) {
 		},
 	});
 
+	// Tweet cards: expand <tweet-card id="..."> placeholders by fetching tweet
+	// data from the FxTwitter API at build time (text, date, media).
+	const tweetCache = new Map();
+	const escapeHtml = (s) => String(s)
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;");
+	const xLogoSvg = '<svg class="tweet-logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>';
+	// markdown-it renders the placeholder as inline HTML inside a paragraph
+	const tweetCardRe = /<p>?<tweet-card\s+id="(\d+)"\s*><\/tweet-card><\/p>?/g;
+
+	async function fetchTweet(id) {
+		if (tweetCache.has(id)) {
+			return tweetCache.get(id);
+		}
+		let tweet = null;
+		try {
+			const res = await fetch(`https://api.fxtwitter.com/syswraith/status/${id}`);
+			if (res.ok) {
+				const json = await res.json();
+				if (json.code === 200 && json.tweet) {
+					tweet = json.tweet;
+				}
+			}
+		} catch {}
+		if (!tweet) {
+			console.warn(`[tweet-cards] failed to fetch tweet ${id}, rendering fallback link`);
+		}
+		tweetCache.set(id, tweet);
+		return tweet;
+	}
+
+	function renderTweetCard(id, tweet) {
+		if (!tweet) {
+			return `<a class="tweet" href="https://x.com/i/status/${id}" target="_blank" rel="noopener noreferrer"><div class="tweet-text">View post on X</div></a>`;
+		}
+		const author = tweet.author || {};
+		const name = escapeHtml(author.name || "syswraith");
+		const handle = escapeHtml(author.screen_name || "syswraith");
+		const text = escapeHtml(tweet.text || "").replace(/\r?\n/g, "<br>\n");
+		const media = (tweet.media?.all || [])
+			.filter((m) => m.type === "photo")
+			.map((m) => `<img class="tweet-media" src="${escapeHtml(m.url)}" alt="" width="${m.width}" height="${m.height}" loading="lazy" decoding="async">`)
+			.join("\n");
+		const created = new Date(tweet.created_at || (tweet.created_timestamp ? tweet.created_timestamp * 1000 : Date.now()));
+		const dateLabel = created.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+		const mediaBlock = media ? `\n${media}` : "";
+		return `<a class="tweet" href="${escapeHtml(tweet.url)}" target="_blank" rel="noopener noreferrer">
+<div class="tweet-header">
+<span class="tweet-author">${name} <span class="tweet-handle">@${handle}</span></span>
+${xLogoSvg}
+</div>
+<div class="tweet-text">${text}</div>${mediaBlock}
+<time class="tweet-date" datetime="${created.toISOString()}">${dateLabel}</time>
+</a>`;
+	}
+
+	eleventyConfig.addTransform("tweet-cards", async (content, outputPath) => {
+		if (!outputPath.endsWith(".html")) return content;
+		const ids = [...content.matchAll(tweetCardRe)].map((match) => match[1]);
+		if (!ids.length) {
+			return content;
+		}
+		await Promise.all([...new Set(ids)].map(fetchTweet));
+		return content.replace(tweetCardRe, (match, id) => renderTweetCard(id, tweetCache.get(id)));
+	});
+
 	// Filters
 	eleventyConfig.addPlugin(pluginFilters);
 

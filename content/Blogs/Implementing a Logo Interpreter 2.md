@@ -93,9 +93,7 @@ $$
 
 However only one of these was needed. This is because (X, Y) remain constant throughout and the direction may or may not change. And the Canvas primarily works on Cartesian coordinates.
 
-<center>
-<blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">I think I might have the drawing part figured out for simple commands. Thought of storing the coordinates in polar form first but since I&#39;ll have to recalculate them each time, decided to go with cartesian instead. <br><br>This is fun! <a href="https://t.co/uxZcx2itmY">pic.twitter.com/uxZcx2itmY</a></p>&mdash; syswraith (@syswraith) <a href="https://twitter.com/syswraith/status/1978749007724748813?ref_src=twsrc%5Etfw">October 16, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-</center>
+<tweet-card id="1978749007724748813"></tweet-card>
 
 ## Functions and their explanation
 

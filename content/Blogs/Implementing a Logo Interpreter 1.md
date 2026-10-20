@@ -128,11 +128,11 @@ These are some of the command definitions. What was interesting to me is that Ty
 
 ## REPEATs and Nested REPEATs
 
-<blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">One problem I&#39;ve encountered while writing the LOGO parser is when implementing the REPEAT command. Constructing the AST is messy because you can call REPEAT inside another REPEAT. This means that I&#39;ll have to keep track of how deeply the REPEAT is nested. <a href="https://t.co/iXYEH5H1jL">pic.twitter.com/iXYEH5H1jL</a></p>&mdash; syswraith (@syswraith) <a href="https://twitter.com/syswraith/status/1978361432870690854?ref_src=twsrc%5Etfw">October 15, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<tweet-card id="1978361432870690854"></tweet-card>
 
 Now this becomes a pain to implement since it doesn't fit the normal command description that I implemented above. I had to manually add an edge case that would check if the token is a `REPEAT` and if yes, then increment the depth counter. Not as simple as it sounds since there's a ton of places where I had to check for and throw errors, and a recursive function call that almost gave me cancer while implementing. Below is how it works on the surface.
 
-<blockquote class="twitter-tweet" data-theme="dark"><p lang="en" dir="ltr">It has to keep track of<br>n : the number of times the block has to be repeated <br>&#39;[&#39; : increment depth count if it sees that<br>&#39;]&#39; : decrement depth count if it sees that<br>&#39;cmd n cmd2 n n&#39;: all the commands in the middle of those two brackets should be valid</p>&mdash; syswraith (@syswraith) <a href="https://twitter.com/syswraith/status/1979180233778405660?ref_src=twsrc%5Etfw">October 17, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<tweet-card id="1979180233778405660"></tweet-card>
 
 The actual implementation has comments which go into much deeper detail. Check out the [source for the parser](https://github.com/syswraith/logo/blob/main/src/components/Parser.ts) if you want to understand how it works.
 

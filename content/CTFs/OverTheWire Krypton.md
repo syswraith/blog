@@ -3,7 +3,6 @@ title: OverTheWire Krypton - Write-up
 description: Write-up for the OverTheWire Krypton wargame levels.
 lang: en
 publish: false
-draft: true
 enableToc: true
 tags:
 - ctf
