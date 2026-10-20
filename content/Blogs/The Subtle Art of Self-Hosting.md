@@ -92,11 +92,12 @@ Like Tailscale, Cloudflare Tunnels doesn't care about CGNAT. The `cloudflared` d
 
 I initially had my [Jellyfin](https://jellyfin.org/) server exposed through the tunnel so I could stream from outside home. Turns out that's against their [community standards](https://jellyfin.org/docs/general/community-standards/), so I pulled it down.
 
+![cloudflare-tunnels](images/homelab/cloudflare-tunnels.png)
+
 Now I'm just hosting a simple, private URL shortener that powers *https://u.syswraith.com*.
 
 I manage the whole thing through the Cloudflare dashboard rather than copy-pasting configs around. It's more intuitive that way: click, add a public hostname, pick a service, done.
 
-![cloudflare-tunnels](images/homelab/cloudflare-tunnels.png)
 
 ## [Syncthing](https://syncthing.net/)
 
@@ -106,8 +107,8 @@ Continuous file sync between my devices, hosted by me. I didn't want to rely on 
 
 Right now it just keeps two folders in sync between Silena and Luke:
 
-- `silena:///home/syswraith/Downloads <-> luke:///storage/emulated/0/Download`
-- `silena:///home/syswraith/Documents <-> luke:///storage/emulated/0/Documents`
+`silena:///home/syswraith/Downloads <-> luke:///storage/emulated/0/Download`
+`silena:///home/syswraith/Documents <-> luke:///storage/emulated/0/Documents`
 
 Chiron isn't part of this. The Pi is always on and hosting services, but my personal files don't need to live there.
 
