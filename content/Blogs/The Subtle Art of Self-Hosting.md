@@ -108,6 +108,7 @@ Continuous file sync between my devices, hosted by me. I didn't want to rely on 
 Right now it just keeps two folders in sync between Silena and Luke:
 
 `silena:///home/syswraith/Downloads <-> luke:///storage/emulated/0/Download`
+
 `silena:///home/syswraith/Documents <-> luke:///storage/emulated/0/Documents`
 
 Chiron isn't part of this. The Pi is always on and hosting services, but my personal files don't need to live there.
