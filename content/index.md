@@ -31,7 +31,7 @@ What I'm up to currently is
     > Python Lists, but in God's Programming language!
 * [[Implementing Ndarrays in C]]
     > Jumping around in higher dimensions inside arrays is so not fun.
-* [[Inside the CHIP-8 Virtual Machine]]
+* [[Bad Apple!! but its running on my CHIP-8 emulator]]
     > Virtual machines are a nice level of abstraction between software and the hardware. This project helped me appreciate decoupled architecture that modern programming languages use to keep code reusable.
 * [[Some more pointer magic with Memory Arenas]]
     > Memory management is torture. Smart pointers are complicated. Memory arenas sit somewhere right in between.
@@ -48,7 +48,7 @@ What I'm up to currently is
 * [[Basic concepts of Hashing]]
 * [[Implementing a Logo Interpreter 2]]
 * [[Some more pointer magic with Memory Arenas]]
-* [[Inside the CHIP-8 Virtual Machine]]
+* [[Bad Apple!! but its running on my CHIP-8 emulator]]
 * [[Implementing Ndarrays in C]]
 * [[Dynamic and Heterogeneous Vectors in C]]
 * [[Memory management with Pool Allocators]]
