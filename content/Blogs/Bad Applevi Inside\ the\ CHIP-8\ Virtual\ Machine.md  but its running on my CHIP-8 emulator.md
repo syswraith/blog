@@ -1,5 +1,5 @@
 ---
-title: Inside the CHIP-8 Virtual Machine
+title: Bad Apple!! but its running on my CHIP-8 emulator
 description: Implementing a CHIP-8 emulator from scratch in C, covering opcode decoding, the display pipeline, and a custom hack for playing Bad Apple.
 lang: en
 publish: true
@@ -31,12 +31,12 @@ publishDate: 2026-07-05
 
 # Context
 
-Late last year, while surfing Reddit, I came across [r/EmuDev](https://www.reddit.com/r/EmuDev/), which (you guessed it!) is a subreddit for emulator development. On reading some of the posts and poking around, I saw a lot of people recommending [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8) as a beginner project to learn emulation. I tried to make it a couple of times, but the motivation wasn't simply there. 
+Late last year, while surfing Reddit, I came across [r/EmuDev](https://www.reddit.com/r/EmuDev/), which (you guessed it!) is a subreddit for emulator development. On reading some of the posts and poking around, I saw a lot of people recommending [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8) as a beginner project to learn emulation. I tried to make it a couple of times, but the motivation wasn't simply there.
 
 This semester however, the idea stuck (mainly because I had Computer Organisation and Microprocessor as one of my subjects), and I decided that it was high time to prioritise it. So I kept working on it on and off. And now its finally gotten to a stage that I can showcase it.
 
 While classifications such as RISC or CISC did not appear until the late 80s, the concepts existed. CHIP-8 has a simple, RISC-like instruction set that runs on it virtual machine. It was developed by [Joseph Weisbecker](https://en.wikipedia.org/wiki/Joseph_Weisbecker "Joseph Weisbecker") in 1977 and ran on computers such as the [COSMAC VIP](https://en.wikipedia.org/wiki/COSMAC_VIP "COSMAC VIP") and [Telmac 1800](https://en.wikipedia.org/wiki/Telmac_1800 "Telmac 1800").
- 
+
 # Specifications
 * **Memory:** 4 KB RAM
 * **Display:** 64 × 32 monochrome pixels
@@ -188,7 +188,7 @@ The whole thing is a bit of a hack, but it works, and it was a good reminder tha
 ---
 # Conclusion
 
-Overall, this was a really fun project. It gave me a solid introduction to how emulators and virtual machines work, and I ended up learning a lot more than I expected. Along the way, I got a much better understanding of things like bit masking, bit shifting, conditional and unconditional jumps, computer architecture, and how instructions are actually executed. 
+Overall, this was a really fun project. It gave me a solid introduction to how emulators and virtual machines work, and I ended up learning a lot more than I expected. Along the way, I got a much better understanding of things like bit masking, bit shifting, conditional and unconditional jumps, computer architecture, and how instructions are actually executed.
 
 If you're looking to get into emulator development, I'd definitely recommend building a CHIP-8 emulator. It's small enough to be manageable, but teaches you a lot of concepts that show up everywhere else.
 
