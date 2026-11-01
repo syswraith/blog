@@ -31,9 +31,9 @@ export default async function(eleventyConfig) {
 			"./public/": "/"
 		})
 		.addPassthroughCopy("./content/feed/pretty-atom-feed.xsl")
-		.addPassthroughCopy({
-			"content/Blogs/images/inside-the-chip-8-virtual-machine/": "blogs/inside-the-chip-8-virtual-machine/images/inside-the-chip-8-virtual-machine/"
-		});
+.addPassthroughCopy({
+	"content/Blogs/images/inside-the-chip-8-virtual-machine/": "blogs/bad-apple!!-but-its-running-on-my-chip-8-emulator/images/inside-the-chip-8-virtual-machine/"
+});
 
 	// Run Eleventy when these files change:
 	// https://www.11ty.dev/docs/watch-serve/#add-your-own-watch-targets
@@ -276,7 +276,7 @@ ${xLogoSvg}
 	if (process.env.ELEVENTY_RUN_MODE === "build") {
 		eleventyConfig.addTransform("wsrv-images", async (content, outputPath) => {
 			if (!outputPath.endsWith(".html")) return content;
-			
+
 			// Compute the page's base URL (directory) for resolving relative image paths
 			const pathPrefix = "/blog";
 			// Remove _site prefix and file name to get the page's directory path
@@ -285,7 +285,7 @@ ${xLogoSvg}
 				.replace(/\/index\.html$/, "")
 				.replace(/\/[^/]+\.html$/, "");
 			const pageBaseUrl = `https://syswraith.github.io${pathPrefix}/${pageDir}/`;
-			
+
 			// Helper to check if a file is likely animated (GIF or animated WebP)
 			function isAnimatedImage(src) {
 				const ext = src.toLowerCase().split('.').pop();
