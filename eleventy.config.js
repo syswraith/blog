@@ -6,6 +6,7 @@ import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import markdownIt from "markdown-it";
 import taskLists from "markdown-it-task-lists";
 import markdownItAttrs from "markdown-it-attrs";
+import { katex } from "@mdit/plugin-katex";
 
 import pluginFilters from "./_config/filters.js";
 import wikilinkPlugin from "./_config/wikilinks.js";
@@ -31,9 +32,13 @@ export default async function(eleventyConfig) {
 			"./public/": "/"
 		})
 		.addPassthroughCopy("./content/feed/pretty-atom-feed.xsl")
-.addPassthroughCopy({
-	"content/Blogs/images/inside-the-chip-8-virtual-machine/": "blogs/bad-apple!!-but-its-running-on-my-chip-8-emulator/images/inside-the-chip-8-virtual-machine/"
-});
+		.addPassthroughCopy({
+			"content/Blogs/images/inside-the-chip-8-virtual-machine/": "blogs/bad-apple!!-but-its-running-on-my-chip-8-emulator/images/inside-the-chip-8-virtual-machine/"
+		})
+		.addPassthroughCopy({
+			"node_modules/katex/dist/katex.min.css": "css/katex.min.css",
+			"node_modules/katex/dist/fonts": "css/fonts"
+		});
 
 	// Run Eleventy when these files change:
 	// https://www.11ty.dev/docs/watch-serve/#add-your-own-watch-targets
@@ -66,6 +71,7 @@ export default async function(eleventyConfig) {
 		slugify = eleventyConfig.getFilter("slugify");
 	} catch {}
 	const mdLib = markdownIt({ html: true })
+		.use(katex, { throwOnError: false })
 		.use(taskLists)
 		.use(markdownItAttrs)
 		.use(wikilinkPlugin, { slugify });

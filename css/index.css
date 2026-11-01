@@ -503,6 +503,20 @@ a.tweet:hover {
 	border-radius: 2px;
 }
 
+/* KaTeX: keep formulas readable on the dark theme */
+.katex {
+	font-size: 1.1em;
+	color: var(--text-color);
+}
+.katex-display {
+	margin: 1em 0;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+:is(h1, h2, h3, h4, h5, h6) .katex {
+	color: inherit;
+}
+
 /* Footer socials */
 .footer-socials {
 	display: flex;

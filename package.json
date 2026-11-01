@@ -24,6 +24,8 @@
 		"@11ty/eleventy-navigation": "^1.0.5",
 		"@11ty/eleventy-plugin-rss": "^3.0.0",
 		"@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
+		"@mdit/plugin-katex": "^1.1.4",
+		"katex": "^0.19.1",
 		"luxon": "^3.7.2",
 		"markdown-it-attrs": "^5.0.1",
 		"markdown-it-task-lists": "^2.1.1",

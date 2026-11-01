@@ -81,14 +81,12 @@ As we can see, we need the (X, Y) coordinates for the lines. We also need an ang
 Initial experiments with the Canvas API revealed some interesting findings. I was convinced that I needed to convert polar coordinates to cartesian coordinates and vice versa every time I wanted to execute a drawing function.
 
 $$
-\\begin{aligned}
+\begin{aligned}
 x &= r \cdot \cos(\theta) \\
 y &= r \cdot \sin(\theta) \\
-
 r &= \sqrt{x^2 + y^2} \\
-\\theta &= \tan^{-1}\left(\frac{y}{x}\right)
-
-\\end{aligned}
+\theta &= \tan^{-1}\left(\frac{y}{x}\right)
+\end{aligned}
 $$
 
 However only one of these was needed. This is because (X, Y) remain constant throughout and the direction may or may not change. And the Canvas primarily works on Cartesian coordinates.
